@@ -172,8 +172,8 @@ Expliquez pourquoi, lors de la commande `rl tata`, rien ne semble affiché.
 > la taille en octet du fichier pointé est zéro; \
 > lorsque nous entrons cette valeur dans "readlink()"
 > #### readlink(argv[1], link, st.st_size);
-> la taille st.st_size venue de "stat()" offre la grandeur maximal du nombre de chars dans link. \
-> > la taille maximale est zéro char, alors rien ne va s'écrire dans la variable "link" même si elle possède (sizeof(char) * 10).
+> la taille st.st_size venue de "stat()" offre le nombre de chars à placer dans link. \
+> > le nombre de chars à placer est zéro char, alors rien ne va s'écrire dans la variable "link" même si elle possède (sizeof(char) * 10).
 
 
 ### Q5
@@ -261,20 +261,22 @@ Dans `rl2`, à quoi correspond `argv[0]` en général et quelle en est la valeur
 
 Pourquoi le programme `readlink` est correctement identifié, chargé et exécuté par le `execvp` malgré la valeur inattendue de `argv[0]`?
 
-> #### le programme readlink distingue les bons arguments des mauvais tandis que execvp execute readlink une fois l'executable trouvé, peu importe les arguments passés à readlink
-> readlink kawbrwrfgljwfglw wekjfbwkej **toto** wekbfwekfb erbgos akrejbgkaej **tata** \
-> **bonjour** \
-> **hello**
-> #### readlink retournera -1, le cas d'échec si aucun des arguments n'a fonctionné
+> le programme **readlink distingue les bons arguments des mauvais** \
+> Voici un exemple avec readlink(1) 
+> #### readlink kawbrwrfgljwfglw wekjfbwkej **toto** wekbfwekfb erbgos akrejbgkaej **tata** 
+> bonjour \
+> hello
 
 
 ### Q10
 
-Pourquoi le programme de l'ami n'affiche pas le message d'erreur dans le cas du `rl2 tata` ?
+Pourquoi le programme de l'ami n'affiche pas le message d'erreur dans le cas du `rl2 titi` ?
 
-> execve("/home/guib/.local/bin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = -1 ENOENT (No such file or directory)
-> execve("/usr/local/sbin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = -1 ENOENT (No such file or directory)
-> execve("/usr/local/bin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = -1 ENOENT (No such file or directory)
-> execve("/usr/sbin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = -1 ENOENT (No such file or directory)
-### execve("/usr/bin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = 0
+> execve("/home/guib/.local/bin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory) \
+> execve("/usr/local/sbin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory) \
+> execve("/usr/local/bin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory) \
+> execve("/usr/sbin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory)
+> ### execve("/usr/bin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = 0
 > Nous n'entrons pas dans la condition d'erreur du programme car la **fonction execvp() est un succès**
+> ### readlink("titi", 0x55b54fc08440, 64) = -1 EINVAL (Invalid argument)
+> readlink retourne -1, le cas d'échec à vérifier n'est pas au bon endroit
