@@ -71,8 +71,16 @@ int main(int argc, char * argv[]) {
         }
     }
 
-    strftime(Date_modification, 30, "%b %e %H:%M", localtime( & statbuf.st_mtime));
+    unsigned int sticky = statbuf.st_mode & 07000;
+    if (sticky == 04000)
+        droits[2] = 's';
+    else if (sticky == 02000)
+        droits[5] = 's';
+    else if (sticky == 01000)
+        droits[8] = 't';
 
+    strftime(Date_modification, 30, "%b %e %H:%M", localtime( & statbuf.st_mtime));
+//    retour_stat = lstat(argv[1], & statbuf);
     printf("| Numéro inode | Type                 | Droits      | Nombre de lien durs | uid      | gid      | Taille      | Dernière modification \n");
     printf("| %-12ld | %-20s | %-11s | %-19ld | %-8d | %-8d | %-11ld | %-29s \n", statbuf.st_ino, type, droits, statbuf.st_nlink, statbuf.st_uid, statbuf.st_gid, statbuf.st_size, Date_modification);
 
