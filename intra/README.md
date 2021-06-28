@@ -261,6 +261,7 @@ Pourquoi le programme `readlink` est correctement identifié, chargé et exécut
 
 > ### execve(), à essais/erreurs, trouve l'executable "readlink", voir question 10
 > le programme **readlink distingue les bons arguments des mauvais** \
+> la fonction execve() ne fait que passer les arguments à la fonction readlink()
 > Voici un exemple avec readlink(1) 
 > #### readlink kawbrwrfgljwfglw wekjfbwkej **toto** wekbfwekfb erbgos akrejbgkaej **tata** 
 > bonjour \
@@ -271,11 +272,11 @@ Pourquoi le programme `readlink` est correctement identifié, chargé et exécut
 
 Pourquoi le programme de l'ami n'affiche pas le message d'erreur dans le cas du `rl2 titi` ?
 
-> execve("/home/guib/.local/bin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory) \
-> execve("/usr/local/sbin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory) \
-> execve("/usr/local/bin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory) \
-> execve("/usr/sbin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory)
-> ### execve("/usr/bin/readlink", ["./ami", "titi"], 0x7ffc6917e030 /* 54 vars */) = 0
+> execve("/home/guib/.local/bin/readlink", ["./rl2", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory) \
+> execve("/usr/local/sbin/readlink", ["./rl2", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory) \
+> execve("/usr/local/bin/readlink", ["./rl2", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory) \
+> execve("/usr/sbin/readlink", ["./rl2", "titi"], 0x7ffc6917e030 /* 54 vars */) = -1 ENOENT (No such file or directory)
+> ### execve("/usr/bin/readlink", ["./rl2", "titi"], 0x7ffc6917e030 /* 54 vars */) = 0
 > Nous n'entrons pas dans la condition d'erreur du programme car la **fonction execvp() est un succès**
 > ### readlink("titi", 0x55b54fc08440, 64) = -1 EINVAL (Invalid argument)
 > readlink retourne -1, le cas d'échec à vérifier n'est pas au bon endroit
