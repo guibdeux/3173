@@ -172,7 +172,7 @@ Expliquez pourquoi, lors de la commande `rl tata`, rien ne semble affiché.
 > la taille en octet du fichier pointé est zéro; \
 > lorsque nous entrons cette valeur dans "readlink()"
 > #### readlink(argv[1], link, st.st_size);
-> la taille st.st_size venue de "stat()" offre la grandeur maximal du nombre de chars dans link.
+> la taille st.st_size venue de "stat()" offre la grandeur maximal du nombre de chars dans link. \
 > > la taille maximale est zéro char, alors rien ne va s'écrire dans la variable "link" même si elle possède (sizeof(char) * 10).
 
 
@@ -184,9 +184,9 @@ En vous adressant au programmeur distrait, indiquez et expliquez les nombreux pr
 > Enlever le **magic number** pour la variable **link** \
 > Faire une **allocation dynamique** \
 > Utiliser le **retour** de readlink() \
-> Vérifier l'**échec** de la fonction **readlink()**, au lieu d'une condition mal exécutée /
-> sinon échanger **if (st.st_mode | S_IFLNK) {** par **if ((st.st_mode & S_IFMT) == S_IFLNK) {**
-> Ne pas oublier le **retour** de fonction **main**
+> Vérifier l'**échec** de la fonction **readlink()**, au lieu d'une condition mal exécutée \
+> sinon échanger **if (st.st_mode | S_IFLNK) {** par **if ((st.st_mode & S_IFMT) == S_IFLNK) {** \
+> Ne pas oublier le **retour** de fonction **main** \
 > Échanger le mot **"dur"** par **"symbolique"**
 
 
@@ -217,8 +217,8 @@ int main(int argc, char **argv) {
 
 Trouvez et justifiez une situation qui fait potentiellement crasher le programme `rl` (avec une erreur de segmentation par exemple).
 
-> lorsque **st.st_size >= 10**, lorsque la taille du fichier dans la struct stat sera plus grande ou égale à 10.
-> *** stack smashing detected ***: terminated Aborted (core dumped)
+> lorsque **st.st_size >= 10**, lorsque la taille du fichier dans la struct stat sera plus grande ou égale à 10. \
+> *** stack smashing detected ***: terminated Aborted (core dumped) \
 > En effet, on essait d'**utiliser plus de mémoire que disponible** dans la variable **link**
 
 
@@ -254,29 +254,27 @@ $
 
 Dans `rl2`, à quoi correspond `argv[0]` en général et quelle en est la valeur dans les trois exemples ci-dessus (toto, tata, titi) ?
 
->
->
->
->
-
+> en général, argv[0] correspond au chemin relatif du programme rl2, c'est-à-dire, **./rl2** \
+> dans les trois exemples, la valeur de argv[0] sera toujours **./rl2**, même dans l'exécution de la fonction execvp()
 
 ### Q9
 
 Pourquoi le programme `readlink` est correctement identifié, chargé et exécuté par le `execvp` malgré la valeur inattendue de `argv[0]`?
 
->
->
->
->
->
+> #### le programme readlink distingue les bons arguments des mauvais tandis que execvp execute readlink une fois l'executable trouvé, peu importe les arguments passés à readlink
+> readlink kawbrwrfgljwfglw wekjfbwkej **toto** wekbfwekfb erbgos akrejbgkaej **tata** \
+> **bonjour** \
+> **hello**
+> #### readlink retournera -1, le cas d'échec si aucun des arguments n'a fonctionné
 
 
 ### Q10
 
 Pourquoi le programme de l'ami n'affiche pas le message d'erreur dans le cas du `rl2 tata` ?
 
->
->
->
->
->
+> execve("/home/guib/.local/bin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = -1 ENOENT (No such file or directory)
+> execve("/usr/local/sbin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = -1 ENOENT (No such file or directory)
+> execve("/usr/local/bin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = -1 ENOENT (No such file or directory)
+> execve("/usr/sbin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = -1 ENOENT (No such file or directory)
+### execve("/usr/bin/readlink", ["./ami", "tata"], 0x7ffeb3715670 /* 54 vars */) = 0
+> Nous n'entrons pas dans la condition d'erreur du programme car la **fonction execvp() est un succès**
