@@ -203,12 +203,10 @@ int main(int argc, char **argv) {
         link[len] = '\0';
         printf("%s\n", link);
     } else {
-        free(link);
-        perror("ce n'est un lien mou"); 
-        exit(1);
+        perror("ce n'est un lien mou");
+        free(link); exit(1);
     }
-    free(link);
-    return 0;
+    free(link); return 0;
 }
 ```
 
