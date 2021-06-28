@@ -9,14 +9,15 @@
 #include <sys/stat.h>
 
 int main(int argc, char **argv) {
-    char link[10] = "";
-    struct stat st;
-    stat(argv[1], &st);
-    if (st.st_mode | S_IFLNK) {
-        readlink(argv[1], link, st.st_size);
-        printf(link);
-        printf("\n");
+    struct stat st; ssize_t len;
+    lstat(argv[1], &st);
+    char* link = malloc(sizeof(char) * (st.st_size + 1));
+    if ((len = readlink(argv[1], link, (st.st_size + 1))) != -1) {
+        link[len] = '\0';
+        printf("%s\n", link);
     } else {
-        printf("C'est pas un lien dur.\n");
+        perror("ce n'est un lien mou");
+        free(link); exit(1);
     }
+    free(link); return 0;
 }

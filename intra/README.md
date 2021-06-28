@@ -259,6 +259,7 @@ Dans `rl2`, à quoi correspond `argv[0]` en général et quelle en est la valeur
 
 Pourquoi le programme `readlink` est correctement identifié, chargé et exécuté par le `execvp` malgré la valeur inattendue de `argv[0]`?
 
+> ### execve(), à essais/erreurs, trouve l'executable "readlink", voir question 10
 > le programme **readlink distingue les bons arguments des mauvais** \
 > Voici un exemple avec readlink(1) 
 > #### readlink kawbrwrfgljwfglw wekjfbwkej **toto** wekbfwekfb erbgos akrejbgkaej **tata** 
