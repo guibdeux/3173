@@ -217,6 +217,10 @@ int main(int argc, char **argv) {
 
 Trouvez et justifiez une situation qui fait potentiellement crasher le programme `rl` (avec une erreur de segmentation par exemple).
 
+> lorsque **st.st_size >= 10**, lorsque la taille du fichier dans la struct stat sera plus grande ou égale à 10.
+> *** stack smashing detected ***: terminated Aborted (core dumped)
+> En effet, on essait d'**utiliser plus de mémoire que disponible** dans la variable **link**
+
 
 ## Eh l'ami
 
