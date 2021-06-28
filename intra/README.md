@@ -254,7 +254,7 @@ $
 
 Dans `rl2`, à quoi correspond `argv[0]` en général et quelle en est la valeur dans les trois exemples ci-dessus (toto, tata, titi) ?
 
-> en général, argv[0] correspond au chemin relatif du programme rl2, c'est-à-dire, **./rl2** \
+> en général, argv[0] correspond au chemin relatif du programme en exécution, c'est-à-dire, **./rl2** \
 > dans les trois exemples, la valeur de argv[0] sera toujours **./rl2**, même dans l'exécution de la fonction execvp()
 
 ### Q9

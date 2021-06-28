@@ -172,8 +172,8 @@ Expliquez pourquoi, lors de la commande `rl tata`, rien ne semble affiché.
 > la taille en octet du fichier pointé est zéro; \
 > lorsque nous entrons cette valeur dans "readlink()"
 > #### readlink(argv[1], link, st.st_size);
-> la taille st.st_size venue de "stat()" offre la grandeur maximal du nombre de chars dans link. \
-> > la taille maximale est zéro char, alors rien ne va s'écrire dans la variable "link" même si elle possède (sizeof(char) * 10).
+> la taille st.st_size venue de "stat()" offre le nombre de chars à placer dans link. \
+> > le nombre de chars à placer est zéro char, alors rien ne va s'écrire dans la variable "link" même si elle possède (sizeof(char) * 10).
 
 
 ### Q5
@@ -254,7 +254,7 @@ $
 
 Dans `rl2`, à quoi correspond `argv[0]` en général et quelle en est la valeur dans les trois exemples ci-dessus (toto, tata, titi) ?
 
-> en général, argv[0] correspond au chemin relatif du programme rl2, c'est-à-dire, **./rl2** \
+> en général, argv[0] correspond au chemin relatif du programme en exécution, c'est-à-dire, **./rl2** \
 > dans les trois exemples, la valeur de argv[0] sera toujours **./rl2**, même dans l'exécution de la fonction execvp()
 
 ### Q9
