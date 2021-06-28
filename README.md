@@ -18,9 +18,9 @@ date: du 28 au 29 juin 2021
 
 ## Identification des étudiants
 
-* Nom:
-* Prénom:
-* Code permanent:
+* Nom: Blouin
+* Prénom: Guillaume
+* Code permanent: BLOG09079006
 
 Note: Vérifiez que votre code permanent est correct.
 
@@ -42,7 +42,27 @@ La fonction retourne le pid du processus enfant au processus parent, le pid du p
 
 ```c
 pid_t fork2(void) {
-	// TODO
+    pid_t pid = fork();
+    pid_t pid_2;
+
+    switch (pid) {
+        case -1: // error code
+            perror("fork error: ");
+            return EXIT_FAILURE;
+        case 0: // first child code
+            pid_2 = fork();
+            switch (pid_2) {
+                case -1: // first child error code
+                    perror(" child fork error: ");
+                    return EXIT_FAILURE;
+                case 0: // second child code
+                    return 0;
+                default: // first child code
+                    return pid_2;
+            }
+        default: // parent code
+            return pid;
+    }
 }
 ```
 
@@ -51,9 +71,11 @@ pid_t fork2(void) {
 
 Comment l'utilisateur de la fonction `fork2` pourrait faire pour savoir s'il est dans le cas du processus parent, du processus enfant, ou du processus petit-enfant?
 
->
->
->
+> Faire "pid_t pere = getpid()" avant l'appel de la fonction fork2().\
+> Faire des conditions avant les prochaines instructions.\
+> Si le retour de fork2() est 0, nous sommes dans le petit-fils.\
+> Si le retour de fork2() est (pere + 1), nous sommes dans le père.\
+> Si le retour de fork2() est (père + 2), nous sommes dans fils.
 
 
 ## Symbolique
@@ -105,35 +127,67 @@ $
 Indiquez quels sont les appels systèmes `execve` (ou variations), `exit` (ou `exit_group`), `fork` (ou `clone`), `read`, `readlink`, `stat` (ou autre \*stat), `wait` et `write` exécutés lors de la commande `rl toto` de l'exemple.
 Indiquez et expliquez également, la valeur et l'origine des arguments ainsi que la justification de la valeur de retour.
 
->
->
->
->
->
->
->
+> ### fstat(3, {st_mode=S_IFREG|0644, st_size=119770, ...}) = 0 
+> S_IFREG = regular file \
+> Argument1: int fd, (descripteur cible) \
+> Argument2: struct stat* statbuf, st_mode contient le type du fichier et les droits, st_size contient en octets la taille du fichier pointé \
+> Retour: int retour, valeur de succès/échec \
+> ### fstat(3, {st_mode=S_IFREG|0755, st_size=2029224, ...}) = 0 
+> S_IFREG = regular file \
+> Argument1: int fd, (descripteur cible) \
+> Argument2: struct stat* statbuf, st_mode contient le type du fichier et les droits, st_size contient en octets la taille du fichier pointé \
+> Retour: int retour, valeur de succès/échec \
+> ### stat("toto", {st_mode=S_IFREG|0644, st_size=29, ...}) = 0 
+> S_IFREG = regular file \
+> Argument1: char*, (fichier cible, ici c'est le symlink) \
+> Argument2: struct stat* statbuf, st_mode contient le type du fichier et les droits, st_size contient en octets la taille du fichier pointé \
+> Retour: int retour, valeur de succès/échec \
+> ### readlink("toto", "bonjour", 29) = 7 
+> Argument1: const char *pathname, (symlink) \
+> Argument2: char *buf, (nom du fichier pointé), (variable link) \
+> Argument3: size_t bufsiz, (taille maximale du nom du fichier pointé selon readlink, mais le chiffre est égal à la taille du fichier bonjour de 29 octets selon stat(1)) \
+> Retour: int retour, nombre d'octets placés dans char *buf (Argument 2) \
+> ### fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0), ...}) = 0 
+> S_IFCHR = character device \
+> Argument1: int fd, (descripteur cible) \
+> Argument2: struct stat* statbuf, st_mode contient le type du fichier et les droits, st_size contient en octets la taille du fichier pointé\
+> Retour: int retour, valeur de succès/échec \
+> ### write(1, "bonjour\n", 8bonjour) = 8 
+> Argument1: int fd, descripteur cible, où écrire, sortie standard
+> Argument2: const void *buf, est la variable "link" du premier printf() \
+> Argument2 (suite): char "\n" du deuxieme printf() \
+> Argument3: size_t count, taille d'écriture en nombre de chars ainsi que les chars \
+> Retour: int retour, retourne le nombre de chars écrits \
+> ### exit_group(0) = ? 
+> Argument1: int status, status de fin du processus (retourné au processus parent)
+> Retour: la fonction ne retourne rien
 
 
 ### Q4
 
 Expliquez pourquoi, lors de la commande `rl tata`, rien ne semble affiché.
 
->
->
->
->
+> lorsque le processus lance "stat()" nous obtenons: 
+> #### stat("tata", {st_mode=S_IFREG|0644, st_size=0, ...}) = 0 
+> la taille en octet du fichier pointé est zéro; \
+> lorsque nous entrons cette valeur dans "readlink()"
+> #### readlink(argv[1], link, st.st_size);
+> la taille st.st_size venue de "stat()" offre la grandeur maximal du nombre de chars dans link.
+> > la taille maximale est zéro char, alors rien ne va s'écrire dans la variable "link" même si elle possède (sizeof(char) * 10).
 
 
 ### Q5
 
 En vous adressant au programmeur distrait, indiquez et expliquez les nombreux problèmes dans son code ainsi que ce qui aurait dû être fait.
 
->
->
->
->
->
->
+> Commencer le programme avec la fonction **lstat()** \
+> Enlever le **magic number** pour la variable **link** \
+> Faire une **allocation dynamique** \
+> Utiliser le **retour** de readlink() \
+> Vérifier l'**échec** de la fonction **readlink()**, au lieu d'une condition mal exécutée /
+> sinon échanger **if (st.st_mode | S_IFLNK) {** par **if ((st.st_mode & S_IFMT) == S_IFLNK) {**
+> Ne pas oublier le **retour** de fonction **main**
+> Échanger le mot **"dur"** par **"symbolique"**
 
 
 ### Q6
@@ -141,7 +195,21 @@ En vous adressant au programmeur distrait, indiquez et expliquez les nombreux pr
 En appliquant vos indications de la question précédente, proposez une version corrigée et fonctionnelle du programme `rl.c` (vous devez bien sûr conserver l'appel système `readlink`).
 
 ```c
-// TODO
+int main(int argc, char **argv) {
+    struct stat st; ssize_t len;
+    lstat(argv[1], &st);
+    char* link = malloc(sizeof(char) * (st.st_size + 1));
+    if ((len = readlink(argv[1], link, (st.st_size + 1))) != -1) {
+        link[len] = '\0';
+        printf("%s\n", link);
+    } else {
+        free(link);
+        perror("ce n'est un lien mou"); 
+        exit(1);
+    }
+    free(link);
+    return 0;
+}
 ```
 
 
