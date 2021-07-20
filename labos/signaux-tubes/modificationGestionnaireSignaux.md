@@ -11,7 +11,7 @@ Gestion directe du signal avec un affichage:
 
 void gere(int sig) {
 printf("Réception du signal SIGINT\n");
-exit(1);
+exit(1);    
 }
 
 int main(void) {
@@ -61,6 +61,8 @@ sigaction(SIGINT, &action, NULL);
 pause();
 return 0 ;
 }
+```
+```c
 En traitant deux fois le signal, puis de revenir au traitement du signal par défaut:
 #include<stdlib.h>
 #include<stdio.h>
