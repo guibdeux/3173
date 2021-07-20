@@ -1,4 +1,5 @@
-Mise en bouche
+#### Mise en bouche
+```c
 #include<stdlib.h>
 #include<stdio.h>
 #include<unistd.h>
@@ -20,8 +21,10 @@ int main(){
 		perror("Echec du fork");
 	}
 }
-Multiple fils
-Programme p1.c
+```
+#### Multiple fils
+#### Programme p1.c
+```c
 #include<stdlib.h>
 #include<stdio.h>
 #include<unistd.h>
@@ -41,7 +44,9 @@ int main() {
 	}
 	return 0;
 }
-Programme p1 avec getchar
+```
+#### Programme p1 avec getchar
+```c
 #include<stdlib.h>
 #include<stdio.h>
 #include<unistd.h>
@@ -62,8 +67,10 @@ int main() {
 	getchar();
 	return 0;
 }
-Même si un processus fils termine son execution, il garde son entrée dans la table des processus jusqu’à ce que le processus père termine ou fait un appel waitpid, entre temps le processus fils prend l’état zombie, on peut le visualiser en éxecutant la commande ps -al, l’option -l permet d’afficher l’état des processus.
-Programme p1 avec waitpid
+```
+#### Même si un processus fils termine son execution, il garde son entrée dans la table des processus jusqu’à ce que le processus père termine ou fait un appel waitpid, entre temps le processus fils prend l’état zombie, on peut le visualiser en éxecutant la commande ps -al, l’option -l permet d’afficher l’état des processus.
+#### Programme p1 avec waitpid
+```C
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -99,11 +106,13 @@ int main() {
 	getchar();
 	return 0;
 }
-L’appel système waitpid nous a permis de suspendre l’execution du programme père et d’attendre jusqu’à ce que le processus fils termine son execution, et aussi de libérer ses ressources et de l’enlever de la table des processus.
-Remarque. L’appel système waitpid(-1 &wstatus, 0) attend la fin de n’importe lequel des fils du processus appelant (comportement dû entre autre à la valeur -1 du paramètre pid), noter qu’on aurait très bien pu utiliser l’appel système wait à la place (wait(&wstatus)) qui a exactement le même comportement).
+```
+#### L’appel système waitpid nous a permis de suspendre l’execution du programme père et d’attendre jusqu’à ce que le processus fils termine son execution, et aussi de libérer ses ressources et de l’enlever de la table des processus.
+#### Remarque. L’appel système waitpid(-1 &wstatus, 0) attend la fin de n’importe lequel des fils du processus appelant (comportement dû entre autre à la valeur -1 du paramètre pid), noter qu’on aurait très bien pu utiliser l’appel système wait à la place (wait(&wstatus)) qui a exactement le même comportement).
 
-Hiérarchie de processus
-Programme pchaine.c
+#### Hiérarchie de processus
+#### Programme pchaine.c
+```c
 #include<stdlib.h>
 #include<stdio.h>
 #include<unistd.h>
@@ -141,7 +150,9 @@ int main(int argc, char *argv[]) {
 	}
 	return 0;
 }
-Programme parbre.c
+```
+#### Programme parbre.c
+```c
 #include<stdlib.h>
 #include<stdio.h>
 #include<unistd.h>
@@ -185,12 +196,14 @@ int main(int argc, char *argv[]) {
 
 	return 0;
 }
-Programme mystère
-On a un processus père et 10 processus fils
-Hiérarchie des processus :
+```
+#### Programme mystère
+#### On a un processus père et 10 processus fils
+#### Hiérarchie des processus :
 
 
-Programme mystere.c avec affichage du PID et du PID parent
+#### Programme mystere.c avec affichage du PID et du PID parent
+```c
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/wait.h>
@@ -207,7 +220,9 @@ int main(void) {
     while(waitpid(-1,&wstatus,0) != -1);
     return 0;
 }
-Programme mystere.c avec output en format graphviz
+```
+#### Programme mystere.c avec output en format graphviz
+```c
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/wait.h>
@@ -237,9 +252,11 @@ int main(void) {
     }
     return 0;
 }
-Recouvrement
-L’intérpreteur de commandes est un programme executé par un processus, lorsqu’on lance la commande exec, elle va écraser la zone mémoire de ce processus(où il y a le segment de code de l’intérpreteur) par celui de la commande ps. Donc, l’interpreteur se ferme vue qu’il n y a plus de programme qui va l’exécuter.
-Programme exec0.c
+```
+#### Recouvrement
+#### L’intérpreteur de commandes est un programme executé par un processus, lorsqu’on lance la commande exec, elle va écraser la zone mémoire de ce processus(où il y a le segment de code de l’intérpreteur) par celui de la commande ps. Donc, l’interpreteur se ferme vue qu’il n y a plus de programme qui va l’exécuter.
+#### Programme exec0.c
+```c
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -267,7 +284,9 @@ void main(int argc, char **argv) {
 	perror("La commande ne peut pas être exécutée");
 	exit(EXIT_FAILURE);
 }
-Programme exec0 avec affichage de la fin de l’exécution
+```
+#### Programme exec0 avec affichage de la fin de l’exécution
+```c
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -306,7 +325,9 @@ int main(int argc, char **argv) {
 
 	exit(exit_statut);
 }
-Programme exec0.c avec execv
+```
+#### Programme exec0.c avec execv
+```c
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -364,7 +385,9 @@ int main(int argc, char **argv) {
 	}
 	exit(exit_statut);
 }
-Programme exec5.c
+```
+#### Programme exec5.c
+```c
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -397,3 +420,4 @@ int main(int argc, char **argv) {
 	}
 	return 0;
 }
+```
