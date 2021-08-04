@@ -1,10 +1,3 @@
-Ça permet de mentionner à l’éditeur de lien que nous allons faire appel à la bibliothèque maths. Pour plus d’information man 3 sqrt
-ldd fichier permet de voir où sont les bibliothèques d’un exécutable. Les bibliothèques avec l’extension .a sont des bibliothèques statiques, et les bibliothèques avec l’extension .so sont des bibliothèques dynamiques. ldd ./prime
-La fonction sqrt() n’est pas un appel système, car elle ne nécessite pas le mode noyau pour s’exécuter. Pour approcher la racine carrée d’un nombre, il y a plusieurs méthodes : méthode de Newton, méthode de dichotomie, …etc, et souvent sqrt est fourni par les processeurs (avec leurs propres techniques d’approximation).
-Remarque. Les appels système sont liés à un système d’exploitation précis. Il y a plusieurs systèmes d’exploitation et ils viennent en plusieurs versions. Les standards comme POSIX ne sont pas toujours implémentés et peuvent aussi être étendus. De manière générale, pour savoir si une fonction est un appel système, faut intéroger l’OS en question. Sous Linux man syscalls va lister tous les appels système supportés.
-
-Strace
-Babel
 Programme “Hello, World!” en C
 ```c
 #include <stdio.h>
@@ -51,7 +44,8 @@ l’appel système write utilisé pour afficher le Hello, World!.
 strace -e trace=write python ./Hello_World_python.py
 ````
 
-### Conclusion : il y a nécessairement des appels système effectués pour réussir à afficher Hello, World!, il n’y a pas de passe-droits ou de contournement possible, peu importe le langage de programmation utilisé.
+### Conclusion : il y a nécessairement des appels système effectués pour réussir à afficher Hello, World! 
+### Il n’y a pas de passe-droits ou de contournement possible, peu importe le langage de programmation utilisé.
 #### Tubes et redirections
 ````
 strace ./Hello_World_c > fichier
@@ -91,4 +85,5 @@ strace -c mpv mamusique.mp3 affiche 7763 appels système pour mpv mamusique.mp3 
 ````
 mpv mamusique.mp3 fait plus de calcul que d’entrées-sorties
 Les appels système les plus utilisés sont : “futex” et “getpid”
-### Les programmes interactifs qui utilisent beaucoup d’entrées-sorties font beaucoup d’appels systèmes contrairement au programme prime qui fait beaucoup de calcul et utilise peu d’appels système, et aussi la commande sleep qui ne fait ni calcul ni entrées-sorties.
+### Les programmes interactifs qui utilisent beaucoup d’entrées-sorties font beaucoup d’appels systèmes
+### Programme prime fait beaucoup de calcul et utilise peu d’appels système, et aussi la commande sleep qui ne fait ni calcul ni entrées-sorties.
