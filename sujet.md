@@ -18,9 +18,9 @@ date: du 16 au 17 aout 2021
 
 # Identification des étudiants
 
-* Nom:
-* Prénom:
-* Code permanent:
+* Nom: Blouin
+* Prénom: Guillaume
+* Code permanent: BLOG09079006
 
 Note: Vérifiez que votre code permanent est correct.
 
