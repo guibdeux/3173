@@ -1,6 +1,7 @@
 programmeP: p.c
 	gcc -g -o p p.c
 
-.PHONY: clean./p
+.PHONY: clean
 
-clean: rm -f p
+clean: 
+	@rm -f p
