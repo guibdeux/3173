@@ -106,11 +106,8 @@ Note: il est possible que sur votre machine vous n'observiez pas ce comportement
 Quels sont les processus créés ou manipulés par ce programme?
 Détaillez et justifiez votre réponse en indiquant, entre autres, pour chaque processus où dans le programme celui-ci est créé et quel est son processus parent.
 
->
->
->
->
->
+> `pid_t f = fork()` appel système crée un processus clone indépendant; le parent est "p" \
+> `system("rev")` fonction de bibliothèque, gérant un processus clone indépendant, exécutant une commande; le parent est l'enfant de "p"
 
 ### Q2
 
