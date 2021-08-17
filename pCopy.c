@@ -23,14 +23,24 @@ void reverse_Write_With_Stars () {
             _exit(1);
         } else {
             total_nbytes += nbytes;
-            buf[nbytes] = 0x00;
-            write(1, buf, strlen(buf));
+            buf[nbytes] = 0x00; // place '\0' dans buf, au bon indice
+            if ((write(1, buf, strlen(buf))) == -1) {
+                perror("write buf");
+                _exit(1);
+            } // STDOUT
             // Write a "*" every 10 bytes
-            if (total_nbytes % 10 == 0) write(1, etoile, strlen(etoile));
+            if (total_nbytes % 10 == 0)
+                if ((write(1, etoile, strlen(etoile))) == -1) {
+                    perror("write chariot");
+                    _exit(1);
+                }
         }
     }
     // Rendre le code propre ajoutant un retour chariot
-    write(1, chariot, strlen(chariot));
+    if ((write(1, chariot, strlen(chariot))) == -1) {
+        perror("write chariot");
+        _exit(1);
+    }
     if (close(0) == -1) { // Close READ_ONLY (pipe)
         perror("\nparent close descriptor \"0\" containing pipe");
         _exit(1);

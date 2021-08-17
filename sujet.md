@@ -344,7 +344,7 @@ En vous adressant à l'étudiant distrait, indiquez et expliquez les nombreux pr
 >         while(read(0, buf, 10) > 0) {     // Lire le pipe caractère par caractère
 >                 write(1, buf, 10);        // S'assurer de ne plus avoir d'écrivains sur le pipe 
 >                 write(1, "*", 1);         // Écrire l'étoile seulement si 10 caractères sont écris sur STDOUT
->         }                                 // Utiliser le retour de la fonction read pour vérifier la condition et changer l'opérateur pour != 0, permettra de vérifier l'erreur lorsque le retour de read(2) == -1
+>         }                                 // Utiliser le retour de la fonction read pour vérifier la condition et changer l'opération pour: "!= 0", cela permettra de vérifier l'erreur lorsque le retour de read(2) == -1
 > }                                         // Ne pas oublier le retour de la fonction main "return 0"
 > ```
 
@@ -371,7 +371,7 @@ ssize_t total_nbytes = 0;
         perror("\nmalloc");
         _exit(1);
     } // allocating dynamically buf
-    while (nbytes == 1) { // going to read the pipe char by char
+    while(nbytes == 1) { // going to read the pipe char by char
         nbytes = read(0, buf, 1);
         if  (nbytes == -1 ) {
             perror("\nread");
@@ -379,13 +379,23 @@ ssize_t total_nbytes = 0;
         } else {
             total_nbytes += nbytes;
             buf[nbytes] = 0x00; // place '\0' dans buf, au bon indice
-            write(1, buf, strlen(buf)); // STDOUT
+            if ((write(1, buf, strlen(buf))) == -1) {
+                perror("write buf");
+                _exit(1);
+            } // STDOUT
             // Write a "*" every 10 bytes
-            if (total_nbytes % 10 == 0) write(1, etoile, strlen(etoile));
+            if (total_nbytes % 10 == 0)
+                if ((write(1, etoile, strlen(etoile))) == -1) {
+                    perror("write chariot");
+                    _exit(1);
+                }
         }
     }
     // Rendre le code propre ajoutant un retour chariot
-    write(1, chariot, strlen(chariot));
+    if ((write(1, chariot, strlen(chariot))) == -1) {
+        perror("write chariot");
+        _exit(1);
+    }
     if (close(0) == -1) { // Close READ_ONLY (pipe)
         perror("\nparent close descriptor \"0\" containing pipe");
         _exit(1);
