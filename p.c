@@ -11,6 +11,7 @@ int main() {
     if (f == 0) {
         dup2(p[1], 1);
         system("rev");
+//        _exit(0);
     }
 
     close(p[1]);

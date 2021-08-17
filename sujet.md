@@ -106,18 +106,49 @@ Note: il est possible que sur votre machine vous n'observiez pas ce comportement
 Quels sont les processus créés ou manipulés par ce programme?
 Détaillez et justifiez votre réponse en indiquant, entre autres, pour chaque processus où dans le programme celui-ci est créé et quel est son processus parent.
 
-> `pid_t f = fork()` appel système crée un processus clone indépendant; le parent est "p" \
-> `system("rev")` fonction de bibliothèque, gérant un processus clone indépendant, exécutant une commande; le parent est l'enfant de "p"
-
+> `pid_t f = fork();` c'est un appel système, crée un processus clone indépendant; appelons ce dernier: "enfant_1"; le parent est le programme "p" \
+> `system("rev");` c'est une fonction bibliothèque, gère un processus clone indépendant grâce à `fork(2)`; appelons ce dernier: "enfant_2"; le parent est "enfant_1" \
+> `system("rev");` gère aussi un processus clone indépendant grâce à `execl(2)` exécutant la commande `rev(1)`; 
+> "enfant2" devient l'exécutable `"/usr/bin/rev"` et conserve "enfant1" comme parent
+> Finalement, les processus créés ou manipulés sont `"enfant1"`, `"enfant2"` et `"/usr/bin/rev"`
 ### Q2
 
 Dans l'expérience, expliquez pourquoi le programme affiche deux fois « `el !edno*` » ?
 Justifiez votre réponse.
 
->
->
->
->
+> ------------------------------------------------------------------------
+> 1  [master] guib [~/3173] \
+> 2  $ `strace -f ./p < exemple.txt 2>&1 | grep "read(0\|write"` \
+> 3  [pid  8191] read(0,  <unfinished ...> \
+> 4  [pid  8194] read(0, "Hello, World!\nBonjour\nle\nmonde!", 4096) = 31 \
+> 5  [pid  8194] read(0, "", 4096)           = 0 \
+> 6  [pid  8194] write(1, "!dlroW ,olleH\nru", 16) = 16 \
+> 7  [pid  8194] write(1, "ojnoB\nel\n!ednom", 15 <unfinished ...> \
+> 8  [pid  8191] write(1, "!dlroW ,ol", 10!dlroW ,ol <unfinished ...> \
+> 9  [pid  8194] <... write resumed>)        = 15 \
+> 10 [pid  8191] <... write resumed>)        = 10 \
+> 11 [pid  8191] write(1, "*", 1* <unfinished ...> \
+> 12 [pid  8191] <... write resumed>)        = 1 \
+> 13 [pid  8191] read(0,  <unfinished ...> \
+> 14 [pid  8191] write(1, "leH\nruojno", 10leH \
+> 15 [pid  8191] <... write resumed>)        = 10 \
+> 16 [pid  8191] write(1, "*", 1 <unfinished ...> \
+> 17 [pid  8191] <... write resumed>)        = 1 \
+> 18 [pid  8191] read(0,  <unfinished ...> \
+> 19 [pid  8191] write(1, "B\nel\n!edno", 10B \
+> 20 [pid  8191] write(1, "*", 1*)            = 1 \
+> `21 [pid  8191] read(0, "m", 10)            = 1` \
+> `22 [pid  8191] write(1, "m\nel\n!edno", 10m` \
+> 23 [pid  8191] write(1, "*", 1*)            = 1 \
+> 24 [pid  8191] read(0,  <unfinished ...> \
+> 25 ^C 
+> -----------------------------------------------------------------------
+> 
+> Ligne 21, le `[pid 8191]` (parent) fais sa dernière lecture, il ne restait que le byte `'m'` à lire. \
+> Ligne 22, le `[pid 8191]` (parent) écris pour la dernière fois, en commençant par le byte `'m'` dernièrement lu. \
+> Par contre, le reste du buffer n'a pas été écrasé ni géré avec un caractère null.
+> Alors, ce qui reste dans `buf` s'écrit aussi sur la sortie standard: `'\nel\n!edno'` \
+> De plus, à chaque tour de boucle, un autre appel à la fonction `write()` est faite pour écrire le byte `'*'`
 
 ### Q3
 
