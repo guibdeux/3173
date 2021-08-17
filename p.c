@@ -21,4 +21,5 @@ int main() {
         write(1, buf, 10);
         write(1, "*", 1);
     }
+    pause();
 }

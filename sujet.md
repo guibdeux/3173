@@ -106,19 +106,20 @@ Note: il est possible que sur votre machine vous n'observiez pas ce comportement
 Quels sont les processus créés ou manipulés par ce programme?
 Détaillez et justifiez votre réponse en indiquant, entre autres, pour chaque processus où dans le programme celui-ci est créé et quel est son processus parent.
 
-> `pid_t f = fork();` c'est un appel système, crée un processus clone indépendant; appelons ce dernier: "enfant_1"; le parent est le programme "p" \
-> `system("rev");` c'est une fonction bibliothèque, gère un processus clone indépendant grâce à `fork(2)`; appelons ce dernier: "enfant_2"; le parent est "enfant_1" \
-> `system("rev");` gère aussi un processus clone indépendant grâce à `execl(2)` exécutant la commande `rev(1)`; 
-> "enfant2" devient l'exécutable `"/usr/bin/rev"` et conserve "enfant1" comme parent
-> Finalement, les processus créés ou manipulés sont `"enfant1"`, `"enfant2"` et `"/usr/bin/rev"`
+> `pid_t f = fork();` c'est un appel système, crée un processus clone indépendant; appelons ce dernier: **"enfant_1"**; le **parent** est le programme **"p"** \
+> `system("rev");` c'est une fonction bibliothèque, exécute une commande et gère un processus clone indépendant grâce à `fork(2)`; appelons ce dernier: **"enfant_2"**; le **parent** est **"enfant_1"** \
+> `system("rev");` exécute une commande grâce à `execl(2)` (exécutant le programme `rev(1)`); 
+> **"enfant2" devient** l'exécutable `"/usr/bin/rev"` et **conserve "enfant1"** comme **parent**
+> Finalement, les **processus créés ou manipulés** sont `"enfant1"`, `"enfant2"` et `"/usr/bin/rev"`
 ### Q2
 
 Dans l'expérience, expliquez pourquoi le programme affiche deux fois « `el !edno*` » ?
 Justifiez votre réponse.
 
+> ```c
 > ------------------------------------------------------------------------
 > 1  [master] guib [~/3173] \
-> 2  $ `strace -f ./p < exemple.txt 2>&1 | grep "read(0\|write"` \
+> 2  $ strace -f ./p < exemple.txt 2>&1 | grep "read(0\|write" \
 > 3  [pid  8191] read(0,  <unfinished ...> \
 > 4  [pid  8194] read(0, "Hello, World!\nBonjour\nle\nmonde!", 4096) = 31 \
 > 5  [pid  8194] read(0, "", 4096)           = 0 \
@@ -137,15 +138,16 @@ Justifiez votre réponse.
 > 18 [pid  8191] read(0,  <unfinished ...> \
 > 19 [pid  8191] write(1, "B\nel\n!edno", 10B \
 > 20 [pid  8191] write(1, "*", 1*)            = 1 \
-> `21 [pid  8191] read(0, "m", 10)            = 1` \
-> `22 [pid  8191] write(1, "m\nel\n!edno", 10m` \
+> 21 [pid  8191] read(0, "m", 10)            = 1 \
+> 22 [pid  8191] write(1, "m\nel\n!edno", 10m \
 > 23 [pid  8191] write(1, "*", 1*)            = 1 \
 > 24 [pid  8191] read(0,  <unfinished ...> \
 > 25 ^C 
 > -----------------------------------------------------------------------
+> ```
 > 
-> Ligne 21, le `[pid 8191]` (parent) fais sa dernière lecture, il ne restait que le byte `'m'` à lire. \
-> Ligne 22, le `[pid 8191]` (parent) écris pour la dernière fois, en commençant par le byte `'m'` dernièrement lu. \
+> `Ligne 21, le [pid 8191]` (parent) fais sa dernière lecture, il ne restait que le byte `'m'` à lire. \
+> `Ligne 22, le [pid 8191]` (parent) écris pour la dernière fois, en commençant par le byte `'m'` dernièrement lu. \
 > Par contre, le reste du buffer n'a pas été écrasé ni géré avec un caractère null.
 > Alors, ce qui reste dans `buf` s'écrit aussi sur la sortie standard: `'\nel\n!edno'` \
 > De plus, à chaque tour de boucle, un autre appel à la fonction `write()` est faite pour écrire le byte `'*'`
@@ -154,10 +156,36 @@ Justifiez votre réponse.
 
 Dans l'expérience, indiquez pour chacun des descripteurs de fichiers de chacun des processus: à quoi correspond-il (quels fichiers ou tubes ou autre), quand est-il créé (ou rendu disponible au processus) et quand est-il fermé. Précisez également où ces évènements ont lieu dans le programme.
 
->
->
->
->
+> ```c
+> 1  int main() { \
+> 2  int p[2]; \
+> 3                                                 `"p"`: 0 -> stdin, 1 -> stdout, 2 -> stderr \
+> 4  pipe(p); \
+> 5                                                 `"p"`: 0 -> stdin, 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
+> 6         pid_t f = fork(); \
+> 7                                                 `"enfant1"`: 0 -> stdin, 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
+> 8         if (f == 0) { \
+> 9                 dup2(p[1], 1); \
+> 10                                                `"enfant1"`: 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
+> 11                system("rev"); \       
+> 12                                                `"enfant2"`: 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
+> 13                                                `"/usr/bin/rev"`: 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
+> 14        }
+> 15        close(p[1]); \
+> 16                                                `"p"`: 0 -> stdin, 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY) \
+> 17                                                `"enfant1"`: 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY) \
+> 18        dup2(p[0], 0); \
+> 19                                                `"p"`: 0 -> Pipe(READ_ONLY), 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY) \
+> 20                                                `"enfant1"`: 0 -> Pipe(READ_ONLY), 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY) \
+> 21        char buf[10] = ""; \
+> 22        while(read(0, buf, 10) > 0) { \ 
+> 23                write(1, buf, 10); \
+> 24                write(1, "*", 1); \
+> 25        } \
+> 26 }
+> ```
+
+
 
 ### Q4
 
