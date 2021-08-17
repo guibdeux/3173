@@ -118,30 +118,30 @@ Justifiez votre réponse.
 
 > ```c
 > ------------------------------------------------------------------------
-> 1  [master] guib [~/3173] \
-> 2  $ strace -f ./p < exemple.txt 2>&1 | grep "read(0\|write" \
-> 3  [pid  8191] read(0,  <unfinished ...> \
-> 4  [pid  8194] read(0, "Hello, World!\nBonjour\nle\nmonde!", 4096) = 31 \
-> 5  [pid  8194] read(0, "", 4096)           = 0 \
-> 6  [pid  8194] write(1, "!dlroW ,olleH\nru", 16) = 16 \
-> 7  [pid  8194] write(1, "ojnoB\nel\n!ednom", 15 <unfinished ...> \
-> 8  [pid  8191] write(1, "!dlroW ,ol", 10!dlroW ,ol <unfinished ...> \
-> 9  [pid  8194] <... write resumed>)        = 15 \
-> 10 [pid  8191] <... write resumed>)        = 10 \
-> 11 [pid  8191] write(1, "*", 1* <unfinished ...> \
-> 12 [pid  8191] <... write resumed>)        = 1 \
-> 13 [pid  8191] read(0,  <unfinished ...> \
-> 14 [pid  8191] write(1, "leH\nruojno", 10leH \
-> 15 [pid  8191] <... write resumed>)        = 10 \
-> 16 [pid  8191] write(1, "*", 1 <unfinished ...> \
-> 17 [pid  8191] <... write resumed>)        = 1 \
-> 18 [pid  8191] read(0,  <unfinished ...> \
-> 19 [pid  8191] write(1, "B\nel\n!edno", 10B \
-> 20 [pid  8191] write(1, "*", 1*)            = 1 \
-> 21 [pid  8191] read(0, "m", 10)            = 1 \
-> 22 [pid  8191] write(1, "m\nel\n!edno", 10m \
-> 23 [pid  8191] write(1, "*", 1*)            = 1 \
-> 24 [pid  8191] read(0,  <unfinished ...> \
+> 1  [master] guib [~/3173] 
+> 2  $ strace -f ./p < exemple.txt 2>&1 | grep "read(0\|write" 
+> 3  [pid  8191] read(0,  <unfinished ...> 
+> 4  [pid  8194] read(0, "Hello, World!\nBonjour\nle\nmonde!", 4096) = 31 
+> 5  [pid  8194] read(0, "", 4096)           = 0 
+> 6  [pid  8194] write(1, "!dlroW ,olleH\nru", 16) = 16 
+> 7  [pid  8194] write(1, "ojnoB\nel\n!ednom", 15 <unfinished ...> 
+> 8  [pid  8191] write(1, "!dlroW ,ol", 10!dlroW ,ol <unfinished ...> 
+> 9  [pid  8194] <... write resumed>)        = 15 
+> 10 [pid  8191] <... write resumed>)        = 10 
+> 11 [pid  8191] write(1, "*", 1* <unfinished ...> 
+> 12 [pid  8191] <... write resumed>)        = 1 
+> 13 [pid  8191] read(0,  <unfinished ...> 
+> 14 [pid  8191] write(1, "leH\nruojno", 10leH 
+> 15 [pid  8191] <... write resumed>)        = 10 
+> 16 [pid  8191] write(1, "*", 1 <unfinished ...> 
+> 17 [pid  8191] <... write resumed>)        = 1 
+> 18 [pid  8191] read(0,  <unfinished ...> 
+> 19 [pid  8191] write(1, "B\nel\n!edno", 10B 
+> 20 [pid  8191] write(1, "*", 1*)            = 1 
+> 21 [pid  8191] read(0, "m", 10)            = 1 
+> 22 [pid  8191] write(1, "m\nel\n!edno", 10m 
+> 23 [pid  8191] write(1, "*", 1*)            = 1 
+> 24 [pid  8191] read(0,  <unfinished ...> 
 > 25 ^C 
 > -----------------------------------------------------------------------
 > ```
@@ -157,31 +157,31 @@ Justifiez votre réponse.
 Dans l'expérience, indiquez pour chacun des descripteurs de fichiers de chacun des processus: à quoi correspond-il (quels fichiers ou tubes ou autre), quand est-il créé (ou rendu disponible au processus) et quand est-il fermé. Précisez également où ces évènements ont lieu dans le programme.
 
 > ```c
-> 1  int main() { \
-> 2  int p[2]; \
-> 3                                                 `"p"`: 0 -> stdin, 1 -> stdout, 2 -> stderr \
-> 4  pipe(p); \
-> 5                                                 `"p"`: 0 -> stdin, 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
-> 6         pid_t f = fork(); \
-> 7                                                 `"enfant1"`: 0 -> stdin, 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
-> 8         if (f == 0) { \
-> 9                 dup2(p[1], 1); \
-> 10                                                `"enfant1"`: 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
-> 11                system("rev"); \       
-> 12                                                `"enfant2"`: 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
-> 13                                                `"/usr/bin/rev"`: 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) \
+> 1  int main() { 
+> 2  int p[2]; 
+> 3                                                 // "p": 0 -> stdin, 1 -> stdout, 2 -> stderr 
+> 4  pipe(p); 
+> 5                                                 // "p": 0 -> stdin, 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) 
+> 6         pid_t f = fork(); 
+> 7                                                 // "enfant1": 0 -> stdin, 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) 
+> 8         if (f == 0) { 
+> 9                 dup2(p[1], 1); 
+> 10                                                // "enfant1": 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) 
+> 11                system("rev");       
+> 12                                                // "enfant2": 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) 
+> 13                                                // "/usr/bin/rev": 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY), 4 -> Pipe(WRITE_ONLY) // ("enfant2" a terminé)
 > 14        }
-> 15        close(p[1]); \
-> 16                                                `"p"`: 0 -> stdin, 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY) \
-> 17                                                `"enfant1"`: 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY) \
-> 18        dup2(p[0], 0); \
-> 19                                                `"p"`: 0 -> Pipe(READ_ONLY), 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY) \
-> 20                                                `"enfant1"`: 0 -> Pipe(READ_ONLY), 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY) \
-> 21        char buf[10] = ""; \
-> 22        while(read(0, buf, 10) > 0) { \ 
-> 23                write(1, buf, 10); \
-> 24                write(1, "*", 1); \
-> 25        } \
+> 15        close(p[1]); 
+> 16                                                // "p": 0 -> stdin, 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY) // ("/usr/bin/rev" a terminé)
+> 17                                                // "enfant1": 0 -> stdin, 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY) 
+> 18        dup2(p[0], 0); 
+> 19                                                // "p": 0 -> Pipe(READ_ONLY), 1 -> stdout, 2 -> stderr, 3 -> Pipe(READ_ONLY) 
+> 20                                                // "enfant1": 0 -> Pipe(READ_ONLY), 1 -> Pipe(WRITE_ONLY), 2 -> stderr, 3 -> Pipe(READ_ONLY) 
+> 21        char buf[10] = ""; 
+> 22        while(read(0, buf, 10) > 0) { 
+> 23                write(1, buf, 10); 
+> 24                write(1, "*", 1); 
+> 25        } 
 > 26 }
 > ```
 
