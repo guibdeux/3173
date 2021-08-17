@@ -323,9 +323,30 @@ Justifiez votre réponse.
 
 En vous adressant à l'étudiant distrait, indiquez et expliquez les nombreux problèmes dans son code ainsi que ce qui aurait dû être fait.
 
->
->
->
+> NOTE: Les **erreurs répétés** ne sont **repérées** qu'**une seule fois** pour alléger la correction
+> ```c
+> int main() {                              // Écrire des commentaires pour aider les lecteurs, faire des variables significatives et des fonctions.
+> int p[2];
+> pipe(p);                                  // Vérifier les erreurs des appels systèmes 
+> 
+>         pid_t f = fork();
+>         if (f == 0) { 
+>                 dup2(p[1], 1);            // Fermer OLD_FD après l'appel à dup2()
+>                                           // Fermer le pipe en lecture
+>                 system("rev");
+>                                           // Terminer le processus "enfant1" 
+>         } 
+> 
+>         close(p[1]);
+>         dup2(p[0], 0);                    // Fermer OLD_FD après l'appel à dup2(), vérifier l'erreur
+>         char buf[10] = "";                // Allouer dynamiquement buf et lui donner la place pour deux caractères
+>                                           // Il ne faut pas remplir buf lors de la lecture, il faut laisser une place pour le caractère nul, à l'indice décidé par le retour de read(2)
+>         while(read(0, buf, 10) > 0) {     // Lire le pipe caractère par caractère
+>                 write(1, buf, 10);        // S'assurer de ne plus avoir d'écrivains sur le pipe 
+>                 write(1, "*", 1);         // Écrire l'étoile seulement si 10 caractères sont écris sur STDOUT
+>         }                                 // Utiliser le retour de la fonction read pour vérifier la condition et changer l'opérateur pour != 0, permettra de vérifier l'erreur lorsque le retour de read(2) == -1
+> }                                         // Ne pas oublier le retour de la fonction main "return 0"
+> ```
 
 ### Q9
 
@@ -357,8 +378,8 @@ ssize_t total_nbytes = 0;
             _exit(1);
         } else {
             total_nbytes += nbytes;
-            buf[nbytes] = 0x00;
-            write(1, buf, strlen(buf));
+            buf[nbytes] = 0x00; // place '\0' dans buf, au bon indice
+            write(1, buf, strlen(buf)); // STDOUT
             // Write a "*" every 10 bytes
             if (total_nbytes % 10 == 0) write(1, etoile, strlen(etoile));
         }
