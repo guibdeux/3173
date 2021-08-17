@@ -107,11 +107,11 @@ Quels sont les processus créés ou manipulés par ce programme?
 Détaillez et justifiez votre réponse en indiquant, entre autres, pour chaque processus où dans le programme celui-ci est créé et quel est son processus parent.
 
 > `pid_t f = fork();` c'est un appel système, crée un processus clône indépendant; \
->   --> appelons ce dernier: **"enfant_1"**; \
+>   --> appelons ce dernier: **"enfant1"**; \
 >   --> le **parent** est le programme **"p"** \
 > `system("rev");` c'est une fonction bibliothèque, exécute une commande et gère un processus clône indépendant grâce à `fork(2)`; \
->   --> appelons ce dernier: **"enfant_2"**; \
->   --> le **parent** est **"enfant_1"** \
+>   --> appelons ce dernier: **"enfant2"**; \
+>   --> le **parent** est **"enfant1"** \
 > `system("rev");` exécute une commande grâce à `execl(2)` (exécutant le programme `rev(1)`); \
 >   -->**"enfant2" devient** l'exécutable `"/usr/bin/rev"` et **conserve "enfant1"** comme **parent** \
 > Finalement, les **processus créés ou manipulés** sont: \
@@ -153,7 +153,7 @@ Justifiez votre réponse.
 > ```
 > -------------------------------------------------------------------------------------------------------------------
 > `Ligne 21, [pid 8191]`, **le parent "p"**, fait sa **dernière lecture**, il ne restait que le byte `'m'` à lire. \
-> `Ligne 22, [pid 8191]`, **le parent "p"**, **écrit** pour la **dernière fois** sur la sortie standard, en commençant par le byte `'m'` dernièrement lu. \
+> `Ligne 22, [pid 8191]`, **le parent "p"**, **écrit buf au complet** pour le **dernier tour** sur la sortie standard, en commençant par le byte `'m'` dernièrement lu. \
 > `NOTE`, le reste de `buf` n'a pas été écrasé ni géré avec un caractère null. \
 > `NOTE`, les bytes restants dans `buf` s'écrivent aussi: `'\nel\n!edno'` \
 > `Ligne 23, [pid 8191]`, **le parent "p"**, écrit le byte `'*'` sur la sortie standard.
@@ -225,7 +225,7 @@ Détaillez et justifiez votre réponse en indiquant, entre autres, ce que chaque
 > 24                                       // "enfant1": actif, idem
 > 25        while(read(0, buf, 10) > 0) { 
 > 26                                       // "p": actif, lit le descripteur 0 contenant pipe_READ_ONLY pour obtenir maximum 10 octets et le placer dans buf; consomme le data du pipe avec read(2)
-> 27                                       // "enfant1": bloqué, le pipe (ressource) est occupé (même si ce n'est qu'une lecture, c'est un pipe)
+> 27                                       // "enfant1": bloqué, le pipe (ressource) est occupé (atomicité)
 > 28                write(1, buf, 10);
 > 29                                       // "p": actif, écrit `buf` au complet sur STDIN
 > 30                write(1, "*", 1);
@@ -239,17 +239,29 @@ Détaillez et justifiez votre réponse en indiquant, entre autres, ce que chaque
 > 38 }
 > 39 
 > 40                                       // Note: plusieurs processeurs sont disponibles pour le parrallélisme.
-```
+> ```
 
 ### Q5
 
 Peut-on caractériser (ou pas) la situation comme un interblocage, un « live lock », une famine, etc. ?
 Justifiez votre réponse.
 
->
->
->
->
+> `Oui`, nous pouvons caractériser la situation comme un interblocage. En effet, un processus peut en bloquer un autre ou se bloquer lui-même. \
+> Suivons les **4 conditions** nécessaires et suffisantes à un interblocage: \
+> `1) Exclusion mutuelle, la ressource est soit disponible, soit assignée` \
+> --> le pipe est soumis a l'atomicité, opérations entières sans pouvoir être interrompues, la ressource est pour un seul processus à la fois en lecture et un autre à la fois en écriture. \
+> `2) Détention multiple (hold and wait), un processus qui détient une ressource peut en demander d’autres` \
+> --> les processus peuvent détenir plusieurs pipes en lecture et en écriture \
+> `3) Pas de réquisition, une ressource détenue par un processus doit être libérée par lui` \
+> --> Un processus doit arrêter de lire ou écrire dans le pipe pour qu'un autre processus fasse la même opération. Ce dernier ne pourra pas interrompre le premier \
+> --> les descripteurs pipe_WRITE_ONLY des écrivains sont à fermer pour libérer les lecteurs; ces descripteurs doivent être fermés par les écrivains eux-mêmes. \
+> --> **Il ne doit plus rester un écrivain pour débloquer les lecteurs sur un pipe vide** \
+> `4) Attente circulaire, il doit y avoir un cycle dans les attentes d’événements` \
+> --> les lecteurs attendent les autres lecteurs et les écrivains attendent les autres écrivains; \
+> --> un lecteur sur un pipe occupé en lecture ou écriture attendra son tour et tentera à nouveau lorsque le **premier** sera **terminé/bloqué**. \
+> --> tandis que, **la lecture sur le pipe elle-même suis un cycle avec les écrivains**. \
+> --> un écrivain écrit alors un lecteur lit. \
+> --> Un écrivain reçoit un signal SIGPIPE pour se terminer lorsqu'aucun lecteur existe.
 
 
 ## Seconde expérience
