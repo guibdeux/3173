@@ -17,9 +17,14 @@ int main() {
     close(p[1]);
     dup2(p[0], 0);
     char buf[10] = "";
+    int i = 0;
     while(read(0, buf, 10) > 0) {
         write(1, buf, 10);
-        write(1, "*", 1);
+        write(1, "#", 1);
+        if (f != 0 && i > 50) {
+            pause();
+        }
+        ++i;
     }
     pause();
 }

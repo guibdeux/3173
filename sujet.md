@@ -106,18 +106,25 @@ Note: il est possible que sur votre machine vous n'observiez pas ce comportement
 Quels sont les processus créés ou manipulés par ce programme?
 Détaillez et justifiez votre réponse en indiquant, entre autres, pour chaque processus où dans le programme celui-ci est créé et quel est son processus parent.
 
-> `pid_t f = fork();` c'est un appel système, crée un processus clone indépendant; appelons ce dernier: **"enfant_1"**; le **parent** est le programme **"p"** \
-> `system("rev");` c'est une fonction bibliothèque, exécute une commande et gère un processus clone indépendant grâce à `fork(2)`; appelons ce dernier: **"enfant_2"**; le **parent** est **"enfant_1"** \
-> `system("rev");` exécute une commande grâce à `execl(2)` (exécutant le programme `rev(1)`); 
-> **"enfant2" devient** l'exécutable `"/usr/bin/rev"` et **conserve "enfant1"** comme **parent**
-> Finalement, les **processus créés ou manipulés** sont `"enfant1"`, `"enfant2"` et `"/usr/bin/rev"`
+> `pid_t f = fork();` c'est un appel système, crée un processus clône indépendant; \
+>   --> appelons ce dernier: **"enfant_1"**; \
+>   --> le **parent** est le programme **"p"** \
+> `system("rev");` c'est une fonction bibliothèque, exécute une commande et gère un processus clône indépendant grâce à `fork(2)`; \
+>   --> appelons ce dernier: **"enfant_2"**; \
+>   --> le **parent** est **"enfant_1"** \
+> `system("rev");` exécute une commande grâce à `execl(2)` (exécutant le programme `rev(1)`); \
+>   -->**"enfant2" devient** l'exécutable `"/usr/bin/rev"` et **conserve "enfant1"** comme **parent** \
+> Finalement, les **processus créés ou manipulés** sont: \
+>   --> `"enfant1"`; \
+>   --> `"enfant2"`;  \
+>   -->`"/usr/bin/rev"`
+
 ### Q2
 
 Dans l'expérience, expliquez pourquoi le programme affiche deux fois « `el !edno*` » ?
 Justifiez votre réponse.
 
 > ```c
-> ------------------------------------------------------------------------
 > 1  [master] guib [~/3173] 
 > 2  $ strace -f ./p < exemple.txt 2>&1 | grep "read(0\|write" 
 > 3  [pid  8191] read(0,  <unfinished ...> 
@@ -143,14 +150,13 @@ Justifiez votre réponse.
 > 23 [pid  8191] write(1, "*", 1*)            = 1 
 > 24 [pid  8191] read(0,  <unfinished ...> 
 > 25 ^C 
-> -----------------------------------------------------------------------
 > ```
-> 
-> `Ligne 21, le [pid 8191]` (parent) fais sa dernière lecture, il ne restait que le byte `'m'` à lire. \
-> `Ligne 22, le [pid 8191]` (parent) écris pour la dernière fois, en commençant par le byte `'m'` dernièrement lu. \
-> Par contre, le reste du buffer n'a pas été écrasé ni géré avec un caractère null.
-> Alors, ce qui reste dans `buf` s'écrit aussi sur la sortie standard: `'\nel\n!edno'` \
-> De plus, à chaque tour de boucle, un autre appel à la fonction `write()` est faite pour écrire le byte `'*'`
+> -------------------------------------------------------------------------------------------------------------------
+> `Ligne 21, [pid 8191]`, **le parent "p"**, fait sa **dernière lecture**, il ne restait que le byte `'m'` à lire. \
+> `Ligne 22, [pid 8191]`, **le parent "p"**, **écrit** pour la **dernière fois** sur la sortie standard, en commençant par le byte `'m'` dernièrement lu. \
+> `NOTE`, le reste de `buf` n'a pas été écrasé ni géré avec un caractère null. \
+> `NOTE`, les bytes restants dans `buf` s'écrivent aussi: `'\nel\n!edno'` \
+> `Ligne 23, [pid 8191]`, **le parent "p"**, écrit le byte `'*'` sur la sortie standard.
 
 ### Q3
 
@@ -192,10 +198,48 @@ Dans l'expérience, indiquez pour chacun des descripteurs de fichiers de chacun 
 Dans l'expérience, indiquez dans quel état (actif, prêt, bloqué, zombi, etc.) est chacun des processus.
 Détaillez et justifiez votre réponse en indiquant, entre autres, ce que chaque processus est en train de faire (ou d'attendre) et à quel endroit du programme il est.
 
->
->
->
->
+> // "p":
+> // "enfant1":
+> // "enfant1":
+> // "/usr/bin/rev":
+> 
+> ```c
+> int main() {
+>                                       // "p": prêt
+> int p[2];
+>                                       // "p": actif, création du pipe
+> pipe(p);
+>        pid_t f = fork();
+>                                       // "enfant1": prêt
+>        if (f == 0) {
+>                                       // "enfant1": actif, vérifie son PID, placera (pipe WRITE_ONLY) sur STDOUT, exécutera system()
+>                dup2(p[1], 1);
+>                system("rev");
+>                                       // "enfant2": prêt
+>                                       // "enfant2": actif, exécute execl() et devient "/usr/bin/rev": prêt, `man rev.1`
+>                                       // "/usr/bin/rev": actif, lis STDIN et écris chaque mots à l'envers dans STDOUT (pipe WRITE_ONLY) et quitte
+>        }
+>        close(p[1]);
+>                                       // "p": actif, ferme (pipe WRITE_ONLY)
+>                                       // "enfant1": actif, ferme (pipe WRITE_ONLY (original))
+>        dup2(p[0], 0);
+>                                       // "p": actif, place (pipe READ_ONLY) sur STDIN
+>                                       // "enfant1": actif, idem
+>        char buf[10] = ""; 
+>                                       // "p": actif, initialise buffer avec une 
+>                                       // "enfant1": actif, idem
+>        while(read(0, buf, 10) > 0) { 
+>                                       
+>                write(1, buf, 10);
+> 
+>                write(1, "*", 1);
+> 
+>        } 
+> 
+> }
+> 
+> Note: plusieurs processeurs sont disponibles pour le parrallélisme.
+```
 
 ### Q5
 
