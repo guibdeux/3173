@@ -198,47 +198,47 @@ Dans l'expérience, indiquez pour chacun des descripteurs de fichiers de chacun 
 Dans l'expérience, indiquez dans quel état (actif, prêt, bloqué, zombi, etc.) est chacun des processus.
 Détaillez et justifiez votre réponse en indiquant, entre autres, ce que chaque processus est en train de faire (ou d'attendre) et à quel endroit du programme il est.
 
-> // "p":
-> // "enfant1":
-> // "enfant1":
-> // "/usr/bin/rev":
-> 
 > ```c
-> int main() {
->                                       // "p": prêt
-> int p[2];
->                                       // "p": actif, création du pipe
-> pipe(p);
->        pid_t f = fork();
->                                       // "enfant1": prêt
->        if (f == 0) {
->                                       // "enfant1": actif, vérifie son PID, placera (pipe WRITE_ONLY) sur STDOUT, exécutera system()
->                dup2(p[1], 1);
->                system("rev");
->                                       // "enfant2": prêt
->                                       // "enfant2": actif, exécute execl() et devient "/usr/bin/rev": prêt, `man rev.1`
->                                       // "/usr/bin/rev": actif, lis STDIN et écris chaque mots à l'envers dans STDOUT (pipe WRITE_ONLY) et quitte
->        }
->        close(p[1]);
->                                       // "p": actif, ferme (pipe WRITE_ONLY)
->                                       // "enfant1": actif, ferme (pipe WRITE_ONLY (original))
->        dup2(p[0], 0);
->                                       // "p": actif, place (pipe READ_ONLY) sur STDIN
->                                       // "enfant1": actif, idem
->        char buf[10] = ""; 
->                                       // "p": actif, initialise buffer avec une 
->                                       // "enfant1": actif, idem
->        while(read(0, buf, 10) > 0) { 
->                                       
->                write(1, buf, 10);
-> 
->                write(1, "*", 1);
-> 
->        } 
-> 
-> }
-> 
-> Note: plusieurs processeurs sont disponibles pour le parrallélisme.
+> 1  int main() {
+> 2                                        // "p": prêt
+> 3  int p[2];
+> 4                                        // "p": actif, création du pipe
+> 5  pipe(p);
+> 6         pid_t f = fork();
+> 7                                        // "enfant1": prêt
+> 8         if (f == 0) {
+> 9                                        // "enfant1": actif, vérifie son PID, placera (pipe WRITE_ONLY) sur STDOUT, exécutera system()
+> 10                dup2(p[1], 1);
+> 11                system("rev");
+> 12                                       // "enfant2": prêt
+> 13                                       // "enfant2": actif, exécute execl() et devient "/usr/bin/rev": prêt, (man rev.1)
+> 14                                       // "/usr/bin/rev": actif, lis STDIN et écris chaque mots à l'envers dans STDOUT (pipe WRITE_ONLY) et quitte
+> 15        }
+> 16        close(p[1]);
+> 17                                       // "p": actif, ferme (pipe WRITE_ONLY)
+> 18                                       // "enfant1": actif, ferme (pipe WRITE_ONLY (original))
+> 19        dup2(p[0], 0);
+> 20                                       // "p": actif, place (pipe READ_ONLY) sur STDIN
+> 21                                       // "enfant1": actif, idem
+> 22        char buf[10] = ""; 
+> 23                                       // "p": actif, initialise buf avec une taille de 10 chars et y injecte le caractère nul en premier indice
+> 24                                       // "enfant1": actif, idem
+> 25        while(read(0, buf, 10) > 0) { 
+> 26                                       // "p": actif, lit le descripteur 0 contenant pipe_READ_ONLY pour obtenir maximum 10 octets et le placer dans buf; consomme le data du pipe avec read(2)
+> 27                                       // "enfant1": bloqué, le pipe (ressource) est occupé (même si ce n'est qu'une lecture, c'est un pipe)
+> 28                write(1, buf, 10);
+> 29                                       // "p": actif, écrit `buf` au complet sur STDIN
+> 30                write(1, "*", 1);
+> 31                                       // "p": actif, écrit "*" sur STDIN
+> 32        } 
+> 33                                       // "p": actif, fait la lecture complète reçue de "/usr/bin/rev" et procède à l'écriture sur STDIN
+> 34                                       // "p": bloqué, tente une relecture sur le descripteur 0 pipe_READ_ONLY (vide)
+> 35                                       // "enfant1": prêt
+> 36                                       // "enfant1": actif, obtient la ressource pipe_READ_ONLY et repasse à la ligne 25
+> 37                                       // "enfant1": bloqué, tente une relecture sur le descripteur 0 pipe_READ_ONLY (vide); il en est aussi toujours l'écrivain.
+> 38 }
+> 39 
+> 40                                       // Note: plusieurs processeurs sont disponibles pour le parrallélisme.
 ```
 
 ### Q5
