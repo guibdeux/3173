@@ -469,6 +469,7 @@ _exit(1);
 
 Quelle est votre capsule préférée du cours INF3173. Expliquez pourquoi.
 
+> Normalement je dirais que ma capsule préférée c'est la **410**, celle sur les **signaux** car grâce à cette capsule, j'ai eu une **meilleure compréhension du TP1**. \
+> Mais, ma capsule préférée c'est **incontestablement la capsule 430 sur les sockets**. En effet, bien manipuler les sockets semblent donner accès à un domaine ou les applications sont encore plus grandes et merveilleuses.
 >
->
->
+> Merci.
