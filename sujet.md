@@ -293,16 +293,19 @@ Expliquez ce qui s'est passé dans cette expérience. Indiquez, entre autres, po
 > 30                write(1, "*", 1);
 > 31                                       // "enfant1": actif, écrit "*" sur le pipe
 > 32        } 
-> 33                                       // "enfant1": actif, fait la lecture partielle reçue de "/usr/bin/rev" ou de lui-même et procède à l'écriture sur le pipe en boucle
+> 33                                       // "enfant1": actif, fait la lecture partielle en compétition avec "p", le data reçu de "/usr/bin/rev" ou de lui-même et procède à l'écriture sur le pipe en boucle
 > 34                                       // "p": prêt; "p": actif, tente une relecture acceptée sur le descripteur 0 pipe_READ_ONLY en retournant à Q4, ligne 25
 > 35                                       // "enfant1": bloqué, atomicité du pipe en lecture, "p" a réussit à obtenir une lecture sur le pipe;
 > 36                                       // "enfant1": prêt, "p" termine une lecture; "enfant1": actif, tente une relecture acceptée sur le descripteur 0 pipe_READ_ONLY en retournant à Q6, ligne 25
-> 37                                       // Operations commentées Q6, ligne 25 à 36 en boucle jusqu'à ce que "p" obtiennent suffisamment de tours de boucles pour consommer le pipe et bloquer 
-> 38                                       // Lorsque le pipe sera vide et consommé à cause de "p" qui écrit sur STDIN, "p" et "enfant1" passeront à l'état bloqué 
-> 39                                       // Des étoiles sont écrites un peu partout entre les caractères importants venus de "/usr/bin/rev", car avec le parralélisme, "enfant1" a le temps d'écrire le data du pipe et "*" sur le pipe en boucle et de se relire pendant que "/usr/bin/rev" a commencé à écrire et que "p" lit le pipe pour l'écrire sur STDIN.
-> 40 }
-> 41 
-> 42                                       // Note: plusieurs processeurs sont disponibles pour le parrallélisme.
+> 37                                       // Operations commentées Q6, ligne 25 à 36 en boucle jusqu'à ce que "p" obtiennent suffisamment de tours de boucles dans la même séquence pour consommer le pipe et bloquer 
+> 38                                       // Lorsque le pipe sera vide et consommé à cause de "p" qui consomme le pipe et écrit sur STDIN, "p" et "enfant1" passeront à l'état bloqué 
+> 39                                       // NOTE:
+> 40                                       // --> "enfant1" lit le pipe et y écrit en boucle alors que "/usr/bin/rev" n'a pas terminé l'écriture en compétition avec "enfant1" et que "p" lit le pipe en compétition avec "enfant1"
+> 41                                       // --> Ainsi, alors que "p" vide le pipe et l'envoie sur STDOUT, "enfant1" lit le peu de caractères restants reçus de "/usr/bin/rev" que "p" n'a pas consommé
+> 42                                       // --> Le restant de caractères reçu de "/usr/bin/rev" est assez pour "enfant1" pour entrer dans la boucle, réécrire la lecture dans le pipe et y ajouter un étoile en boucle à répétition avant de perdre la prochaine lecture du pipe par "p"
+> 43 }
+> 44 
+> 45                                       // Note: plusieurs processeurs sont disponibles pour le parrallélisme.
 >```
 
 ### Q7
@@ -312,7 +315,7 @@ Que pensez-vous de l'attitude de l'étudiant.
 Justifiez votre réponse.
 
 > La cause selon moi de la différence de comportement entre les deux machines est: \
-> --> une possibilité d'accès aléatoire de "enfant1" en écriture sur le pipe selon les différentes architectures et/ou systèmes d'exploitation. \
+> --> une possibilité d'accès aléatoire de "enfant1" en écriture sur le pipe selon les différentes architectures et/ou systèmes d'exploitation et la disponibilité des processeurs. \
 > --> En effet, si le nouveau système d'exploitation offre la chance à **"enfant1"** d'**exécuter Q6, ligne 25**, l'affichage sera imprévisible et remplie de "*", partiellement lisible (à l'envers) ou complètement illisible
 >
 > L'attitude de l'étudiant, je pense qu'elle était trop spontanée, il devrait vérifier son code avant de mettre le problème sur le dos de quelque chose de beaucoup plus compliqué que ses connaissances.
