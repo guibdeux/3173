@@ -375,11 +375,11 @@ En appliquant vos indications de la question précédente, proposez une version 
 > 6  #include <string.h>
 > 7  
 > 8  void reverse_Write_With_Stars () {
-> 9  char etoile[2] = "*";
-> 10 char chariot[2] = "\n";
-> 11 char* buf = NULL;
-> 12 ssize_t nbytes = 1;
-> 13 ssize_t total_nbytes = 0;
+> 9      char etoile[2] = "*";
+> 10     char chariot[2] = "\n";
+> 11     char* buf = NULL;
+> 12     ssize_t nbytes = 1;
+> 13     ssize_t total_nbytes = 0;
 > 14 
 > 15     if ((buf = malloc(sizeof(char) * 2)) == NULL) {
 > 16         perror("\nmalloc");
@@ -418,12 +418,12 @@ En appliquant vos indications de la question précédente, proposez une version 
 > 49 }
 > 50 
 > 51 int main() {
-> 52 // Creating a pipe
-> 53 int p[2];
-> 54 if (pipe(p) == -1) {
-> 55 perror("\npipe");
-> 56 _exit(1);
-> 57 }
+> 52     // Creating a pipe
+> 53     int p[2];
+> 54     if (pipe(p) == -1) {
+> 55         perror("\npipe");
+> 56         _exit(1);
+> 57     }
 > 58 
 > 59     // creating a process
 > 60     switch (fork()) {
