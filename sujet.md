@@ -232,7 +232,7 @@ Détaillez et justifiez votre réponse en indiquant, entre autres, ce que chaque
 > 31                                       // "p": actif, écrit "*" sur STDIN
 > 32        } 
 > 33                                       // "p": actif, fait la lecture complète reçue de "/usr/bin/rev" et procède à l'écriture sur STDIN
-> 34                                       // "p": bloqué, tente une relecture sur le descripteur 0 pipe_READ_ONLY (vide)
+> 34                                       // "p": bloqué, tente une relecture sur le descripteur 0 pipe_READ_ONLY (VIDE)
 > 35                                       // "enfant1": prêt
 > 36                                       // "enfant1": actif, obtient la ressource pipe_READ_ONLY et repasse à Q4, ligne 25
 > 37                                       // "enfant1": bloqué, tente une relecture sur le descripteur 0 pipe_READ_ONLY (VIDE); il en est aussi toujours l'écrivain.
@@ -258,10 +258,8 @@ Justifiez votre réponse.
 > --> **Il ne doit plus rester un écrivain pour débloquer les lecteurs sur un pipe vide** \
 > --> Un écrivain reçoit un signal SIGPIPE pour se terminer lorsque plus aucun lecteur existe. \
 > `4) Attente circulaire, il doit y avoir un cycle dans les attentes d’événements` \
-> --> les lecteurs attendent les autres lecteurs et les écrivains attendent les autres écrivains; \
-> --> un lecteur sur un pipe occupé en lecture ou écriture attendra son tour et tentera à nouveau lorsque le **premier** sera **terminé/bloqué**. \
-> --> tandis que, **la lecture sur le pipe elle-même suis un cycle avec les écrivains**. \
-> --> un écrivain écrit alors un lecteur lit. 
+> --> les lecteurs attendent que les autres lecteurs libèrent le pipe; les écrivains attendent que les autres écrivains libèrent le pipe; \
+> --> un lecteur attend en boucle l'écriture d'un écrivain; lecteur bloque si écrivain trop lent; écrivain bloque si lecteur trop lent et PIPESIZE atteint. 
 
 
 ## Seconde expérience
@@ -299,7 +297,7 @@ Expliquez ce qui s'est passé dans cette expérience. Indiquez, entre autres, po
 > 36                                       // "enfant1": prêt, "p" termine une lecture; "enfant1": actif, tente une relecture acceptée sur le descripteur 0 pipe_READ_ONLY en retournant à Q6, ligne 25
 > 37                                       // Operations commentées Q6, ligne 25 à 36 en boucle jusqu'à ce que "p" obtiennent suffisamment de tours de boucles dans la même séquence pour consommer le pipe et bloquer 
 > 38                                       // Lorsque le pipe sera vide et consommé à cause de "p" qui consomme le pipe et écrit sur STDIN, "p" et "enfant1" passeront à l'état bloqué 
-> 39                                       // NOTE:
+> 39                                       // IMPORTANT:
 > 40                                       // --> "enfant1" lit le pipe et y écrit en boucle alors que "/usr/bin/rev" n'a pas terminé l'écriture en compétition avec "enfant1" et que "p" lit le pipe en compétition avec "enfant1"
 > 41                                       // --> Ainsi, alors que "p" vide le pipe et l'envoie sur STDOUT, "enfant1" lit le peu de caractères restants reçus de "/usr/bin/rev" que "p" n'a pas consommé
 > 42                                       // --> Le restant de caractères reçu de "/usr/bin/rev" est assez pour "enfant1" pour entrer dans la boucle, réécrire la lecture dans le pipe et y ajouter un étoile en boucle à répétition avant de perdre la prochaine lecture du pipe par "p"
@@ -320,14 +318,14 @@ Justifiez votre réponse.
 > 
 > Par exemple, sur ma machine linux (ubuntu 20.04):
 > ```c
-> [master] guib [~/3173]
-> $ ./p < exemple.txt
-> !dlroW ,ol*leH
-> ruojno*B
-> el
-> !edno**
-> el
-> !edno***m*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************^C
+> 1 [master] guib [~/3173]
+> 2 $ ./p < exemple.txt
+> 3 !dlroW ,ol*leH
+> 4 ruojno*B
+> 5 el
+> 6 !edno**
+> 7 el
+> 8 !edno***m*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************^C
 > ```
 > Nous voyons une **série de "\*"** à la fin de l'affichage alors que **"enfant1" a prit la main avant la consommation complète du pipe**
 >
@@ -341,143 +339,143 @@ En vous adressant à l'étudiant distrait, indiquez et expliquez les nombreux pr
 
 > NOTE: Les **erreurs répétés** ne sont **repérées** qu'**une seule fois** pour alléger la correction
 > ```c
-> int main() {                              // Écrire des commentaires pour aider les lecteurs, faire des variables significatives et des fonctions.
-> int p[2];
-> pipe(p);                                  // Vérifier les erreurs des appels systèmes 
-> 
->         pid_t f = fork();
->         if (f == 0) { 
->                 dup2(p[1], 1);            // Fermer OLD_FD après l'appel à dup2()
->                                           // Fermer le pipe en lecture
->                 system("rev");
->                                           // Terminer le processus "enfant1" 
->         } 
-> 
->         close(p[1]);
->         dup2(p[0], 0);                    // Fermer OLD_FD après l'appel à dup2(), vérifier l'erreur
->         char buf[10] = "";                // Allouer dynamiquement buf et lui donner la place pour deux caractères
->                                           // Il ne faut pas remplir buf lors de la lecture, il faut laisser une place pour le caractère nul, à l'indice décidé par le retour de read(2)
->         while(read(0, buf, 10) > 0) {     // Lire le pipe caractère par caractère
->                 write(1, buf, 10);        // S'assurer de ne plus avoir d'écrivains sur le pipe 
->                 write(1, "*", 1);         // Écrire l'étoile seulement si 10 caractères sont écris sur STDOUT
->         }                                 // Utiliser le retour de la fonction read pour vérifier la condition et changer l'opération pour: "!= 0", cela permettra de vérifier l'erreur lorsque le retour de read(2) == -1
-> }                                         // Ne pas oublier le retour de la fonction main "return 0"
+> 1  int main() {                              // Écrire des commentaires pour aider les lecteurs, faire des variables significatives et des fonctions.
+> 2  int p[2];
+> 3  pipe(p);                                  // Vérifier les erreurs des appels systèmes 
+> 4  
+> 5          pid_t f = fork();
+> 6          if (f == 0) { 
+> 7                  dup2(p[1], 1);            // Fermer OLD_FD après l'appel à dup2()
+> 8                                            // Fermer le pipe en lecture
+> 9                  system("rev");
+> 10                                           // Terminer le processus "enfant1" 
+> 11         } 
+> 12 
+> 13         close(p[1]);
+> 14         dup2(p[0], 0);                    // Fermer OLD_FD après l'appel à dup2(), vérifier l'erreur
+> 15         char buf[10] = "";                // Allouer dynamiquement buf et lui donner la place pour deux caractères
+> 16                                           // Il ne faut pas remplir buf lors de la lecture, il faut laisser une place pour le caractère nul, à l'indice décidé par le retour de read(2)
+> 17         while(read(0, buf, 10) > 0) {     // Lire le pipe caractère par caractère
+> 18                 write(1, buf, 10);        // S'assurer de ne plus avoir d'écrivains sur le pipe 
+> 19                 write(1, "*", 1);         // Écrire l'étoile seulement si 10 caractères sont écris sur STDOUT
+> 20         }                                 // Utiliser le retour de la fonction read pour vérifier la condition et changer l'opération pour: "!= 0", cela permettra de vérifier l'erreur lorsque le retour de read(2) == -1
+> 21 }                                         // Ne pas oublier le retour de la fonction main "return 0"
 > ```
 
 ### Q9
 
 En appliquant vos indications de la question précédente, proposez une version corrigée et fonctionnelle du programme `p.c` (contrainte: vous devez garder l'utilisation de tubes et l'appel à la commande `rev`).
 
-```c
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
-
-void reverse_Write_With_Stars () {
-char etoile[2] = "*";
-char chariot[2] = "\n";
-char* buf = NULL;
-ssize_t nbytes = 1;
-ssize_t total_nbytes = 0;
-
-    if ((buf = malloc(sizeof(char) * 2)) == NULL) {
-        perror("\nmalloc");
-        _exit(1);
-    } // allocating dynamically buf
-    while(nbytes == 1) { // going to read the pipe char by char
-        nbytes = read(0, buf, 1);
-        if  (nbytes == -1 ) {
-            perror("\nread");
-            _exit(1);
-        } else {
-            total_nbytes += nbytes;
-            buf[nbytes] = 0x00; // place '\0' dans buf, au bon indice
-            if ((write(1, buf, strlen(buf))) == -1) {
-                perror("write buf");
-                _exit(1);
-            } // STDOUT
-            // Write a "*" every 10 bytes
-            if (total_nbytes % 10 == 0)
-                if ((write(1, etoile, strlen(etoile))) == -1) {
-                    perror("write chariot");
-                    _exit(1);
-                }
-        }
-    }
-    // Rendre le code propre ajoutant un retour chariot
-    if ((write(1, chariot, strlen(chariot))) == -1) {
-        perror("write chariot");
-        _exit(1);
-    }
-    if (close(0) == -1) { // Close READ_ONLY (pipe)
-        perror("\nparent close descriptor \"0\" containing pipe");
-        _exit(1);
-    }
-    free(buf);
-}
-
-int main() {
-// Creating a pipe
-int p[2];
-if (pipe(p) == -1) {
-perror("\npipe");
-_exit(1);
-}
-
-    // creating a process
-    switch (fork()) {
-    case -1:
-        perror("\nfork");
-        _exit(1);
-    case 0: // child code
-        if (close(p[0]) == -1) { // Close READ_ONLY (pipe)
-            perror("\nchild close p[0]");
-            _exit(1);
-        }
-        if ((dup2(p[1], 1)) == -1) { // Copy WRITE_ONLY (pipe)
-            perror("\ndup2(p[1], 1)");
-            _exit(1);
-        }
-        if (close(p[1]) == -1) {
-            perror("\nchild close p[1]");
-            _exit(1);
-        }
-
-        if (system("rev") == -1) {
-            perror("\nsystem");
-            _exit(1);
-        }
-        _exit(0); // end of child
-    }
-    /***************
-     * parent code *
-     ***************/
-    if (close(p[1]) == -1) { // Close WRITE_ONLY (pipe)
-        perror("\nparent close p[1]");
-        _exit(1);
-    }
-    if ((dup2(p[0], 0)) == -1) { // Copy READ_ONLY (pipe)
-        perror("\ndup2(p[0], 0)");
-        _exit(1);
-    }
-    if (close(p[0]) == -1) {
-        perror("\nchild close p[1]");
-        _exit(1);
-    }
-
-    // main function
-    reverse_Write_With_Stars();
-    // waiting child
-    if (wait(NULL) == -1) {
-        perror("\nwaiting child");
-        _exit(1);
-    }
-    return 0;
-}
-```
+> ```c
+> 1  #include <stdlib.h>
+> 2  #include <stdio.h>
+> 3  #include <unistd.h>
+> 4  #include <sys/types.h>
+> 5  #include <sys/wait.h>
+> 6  #include <string.h>
+> 7  
+> 8  void reverse_Write_With_Stars () {
+> 9  char etoile[2] = "*";
+> 10 char chariot[2] = "\n";
+> 11 char* buf = NULL;
+> 12 ssize_t nbytes = 1;
+> 13 ssize_t total_nbytes = 0;
+> 14 
+> 15     if ((buf = malloc(sizeof(char) * 2)) == NULL) {
+> 16         perror("\nmalloc");
+> 17         _exit(1);
+> 18     } // allocating dynamically buf
+> 19     while(nbytes == 1) { // going to read the pipe char by char
+> 20         nbytes = read(0, buf, 1);
+> 21         if  (nbytes == -1 ) {
+> 22             perror("\nread");
+> 23             _exit(1);
+> 24         } else {
+> 25             total_nbytes += nbytes;
+> 26             buf[nbytes] = 0x00; // place '\0' dans buf, au bon indice
+> 27             if ((write(1, buf, strlen(buf))) == -1) {
+> 28                 perror("write buf");
+> 29                 _exit(1);
+> 30             } // STDOUT
+> 31             // Write a "*" every 10 bytes
+> 32             if (total_nbytes % 10 == 0)
+> 33                 if ((write(1, etoile, strlen(etoile))) == -1) {
+> 34                     perror("write chariot");
+> 35                     _exit(1);
+> 36                 }
+> 37         }
+> 38     }
+> 39     // Rendre le code propre ajoutant un retour chariot
+> 40     if ((write(1, chariot, strlen(chariot))) == -1) {
+> 41         perror("write chariot");
+> 42         _exit(1);
+> 43     }
+> 44     if (close(0) == -1) { // Close READ_ONLY (pipe)
+> 45         perror("\nparent close descriptor \"0\" containing pipe");
+> 46         _exit(1);
+> 47     }
+> 48     free(buf);
+> 49 }
+> 50 
+> 51 int main() {
+> 52 // Creating a pipe
+> 53 int p[2];
+> 54 if (pipe(p) == -1) {
+> 55 perror("\npipe");
+> 56 _exit(1);
+> 57 }
+> 58 
+> 59     // creating a process
+> 60     switch (fork()) {
+> 61     case -1:
+> 62         perror("\nfork");
+> 63         _exit(1);
+> 64     case 0: // child code
+> 65         if (close(p[0]) == -1) { // Close READ_ONLY (pipe)
+> 66             perror("\nchild close p[0]");
+> 67             _exit(1);
+> 68         }
+> 69         if ((dup2(p[1], 1)) == -1) { // Copy WRITE_ONLY (pipe)
+> 70            perror("\ndup2(p[1], 1)");
+> 71            _exit(1);
+> 72         }
+> 73         if (close(p[1]) == -1) {
+> 74            perror("\nchild close p[1]");
+> 75             _exit(1);
+> 76         }
+> 77 
+> 78         if (system("rev") == -1) {
+> 79             perror("\nsystem");
+> 80             _exit(1);
+> 81         }
+> 82         _exit(0); // end of child
+> 83     }
+> 84     /***************
+> 85      * parent code *
+> 86      ***************/
+> 87     if (close(p[1]) == -1) { // Close WRITE_ONLY (pipe)
+> 88         perror("\nparent close p[1]");
+> 89         _exit(1);
+> 90     }
+> 91     if ((dup2(p[0], 0)) == -1) { // Copy READ_ONLY (pipe)
+> 92         perror("\ndup2(p[0], 0)");
+> 93         _exit(1);
+> 94     }
+> 95     if (close(p[0]) == -1) {
+> 96         perror("\nchild close p[1]");
+> 97         _exit(1);
+> 98     }
+> 99 
+>100     // main function
+>101     reverse_Write_With_Stars();
+>102     // waiting child
+>103     if (wait(NULL) == -1) {
+>104         perror("\nwaiting child");
+>105         _exit(1);
+>106     }
+>107     return 0;
+>108 }
+> ```
 
 ## Extra
 
