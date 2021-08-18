@@ -339,27 +339,28 @@ En vous adressant à l'étudiant distrait, indiquez et expliquez les nombreux pr
 
 > NOTE: Les **erreurs répétés** ne sont **repérées** qu'**une seule fois** pour alléger la correction
 > ```c
-> 1  int main() {                              // Écrire des commentaires pour aider les lecteurs, faire des variables significatives et des fonctions.
+> 1  int main() {                              // (1) vÉcrire des commentaires pour aider les lecteurs, faire des variables significatives et des fonctions.
 > 2  int p[2];
-> 3  pipe(p);                                  // Vérifier les erreurs des appels systèmes 
+> 3  pipe(p);                                  // (2) Vérifier les erreurs des appels systèmes 
 > 4  
 > 5          pid_t f = fork();
 > 6          if (f == 0) { 
-> 7                  dup2(p[1], 1);            // Fermer OLD_FD après l'appel à dup2()
-> 8                                            // Fermer le pipe en lecture
+> 7                  dup2(p[1], 1);            // (3) Fermer OLD_FD après l'appel à dup2()
+> 8                                            // (4) Fermer le pipe en lecture
 > 9                  system("rev");
-> 10                                           // Terminer le processus "enfant1" 
+> 10                                           // (5) Terminer le processus "enfant1" 
 > 11         } 
 > 12 
 > 13         close(p[1]);
-> 14         dup2(p[0], 0);                    // Fermer OLD_FD après l'appel à dup2(), vérifier l'erreur
-> 15         char buf[10] = "";                // Allouer dynamiquement buf et lui donner la place pour deux caractères
-> 16                                           // Il ne faut pas remplir buf lors de la lecture, il faut laisser une place pour le caractère nul, à l'indice décidé par le retour de read(2)
-> 17         while(read(0, buf, 10) > 0) {     // Lire le pipe caractère par caractère
-> 18                 write(1, buf, 10);        // S'assurer de ne plus avoir d'écrivains sur le pipe 
-> 19                 write(1, "*", 1);         // Écrire l'étoile seulement si 10 caractères sont écris sur STDOUT
-> 20         }                                 // Utiliser le retour de la fonction read pour vérifier la condition et changer l'opération pour: "!= 0", cela permettra de vérifier l'erreur lorsque le retour de read(2) == -1
-> 21 }                                         // Ne pas oublier le retour de la fonction main "return 0"
+> 14         dup2(p[0], 0);                    // (6) Fermer OLD_FD après l'appel à dup2(), vérifier l'erreur
+> 15         char buf[10] = "";                // (7) Allouer dynamiquement buf et lui donner la place pour deux caractères
+> 16                                           // (8) Il ne faut pas remplir buf lors de la lecture, il faut laisser une place pour le caractère nul, à l'indice décidé par le retour de read(2)
+> 17         while(read(0, buf, 10) > 0) {     // (9) Lire le pipe caractère par caractère
+> 18                 write(1, buf, 10);        // (10) S'assurer de ne plus avoir d'écrivains sur le pipe 
+> 19                 write(1, "*", 1);         // (11) Écrire l'étoile seulement si 10 caractères sont écris sur STDOUT
+> 20         }                                 // (12) Utiliser le retour de la fonction read pour vérifier la condition et changer l'opération pour: "!= 0", cela permettra de vérifier l'erreur lorsque le retour de read(2) == -1
+> 21 }                                         // (13) Ne pas oublier le retour de la fonction main "return 0"
+> 22                                           // (14) Ne pas oublier d'attendre l'enfant avec wait(2), sinon nous aurons un zombie jusqu'à la terminaison de "p"
 > ```
 
 ### Q9
