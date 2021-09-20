@@ -1,12 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <stdbool.h>
-#include <errno.h>
-#include <string.h>
-
 /******************************************************************************************************************************************************
- * Ça permet de mentionner à l’éditeur de lien que nous allons faire appel à la bibliothèque maths. Pour plus d’information man 3 sqrt
+ * Ça permet de mentionner à l’éditeur le lien que nous allons faire appel à la bibliothèque maths. Pour plus d’information man 3 sqrt
  * ldd fichier permet de voir où sont les bibliothèques d’un exécutable. Les bibliothèques avec l’extension .a sont des bibliothèques statiques,
  * et les bibliothèques avec l’extension .so sont des bibliothèques dynamiques. ldd ./prime. La fonction sqrt() n’est pas un appel système, car
  * elle ne nécessite pas le mode noyau pour s’exécuter. Pour approcher la racine carrée d’un nombre, il y a plusieurs méthodes : méthode de Newton,
@@ -15,6 +8,13 @@
  * comme POSIX ne sont pas toujours implémentés et peuvent aussi être étendus. De manière générale, pour savoir si une fonction est un appel système,
  * faut intéroger l’OS en question. Sous Linux man syscalls va lister tous les appels système supportés.
  * ****************************************************************************************************************************************************/
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+#include <errno.h>
+#include <string.h>
 
 int main(int argc, char** argv) {
     if (argc < 2) {
@@ -63,14 +63,14 @@ int main(int argc, char** argv) {
             }
         }
     }
-
     printf("Nombre de nombres premiers trouvés : %ld\n", nb) ;
-    //Affichage des nombres premiers trouvés
-    printf("Affichage des nombres premiers trouvés : \n") ;
-    for(int long h = 0 ; h!=nb ; h++){
-    printf("%ld  ", primes[h] ) ;
-    }
-    printf("\n") ;
     free(primes);
+    //Affichage des nombres premiers trouvés
+    /*printf("Affichage des nombres premiers trouvés : \n") ;
+    for(int long h = 0 ; h!=nb ; h++){
+        printf("%ld  ", primes[h] ) ;
+    }
+    printf("\n") ;*/
     return 0 ;
+
 }
