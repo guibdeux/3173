@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define TAILLE_MAX 400
-5
+
 int main(){
 	char *tab_pointeurs[6], phrase_saisie[TAILLE_MAX];
 	int i;
