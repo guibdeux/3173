@@ -74,3 +74,7 @@ int main(int argc, char** argv) {
     return 0 ;
 
 }
+
+// ./helloWorld_c | cowsay &
+// ls -la /proc/`pgrep hello`/fd
+// strace ./helloWorld_cpp 2>&1 | grep write

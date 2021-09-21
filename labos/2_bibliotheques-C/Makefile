@@ -1,7 +1,9 @@
 DEBUG=yes
 CC=gcc
 GG=g++
-OPTIONS ='-03 -Wall -Wextra -std=c++17'
+OPTIONS = -03 -Wall -Wextra -std=c++17
+CFLAGS = -W -Wall -Werror -std=c11 -g
+
 # SRC=$(wildcard *.c)
 # EXEC=$(SRC)
 # OBJ=$(SRC:.c=.o)
@@ -20,12 +22,11 @@ all: helloWorld_c helloWorld_cpp prime_c backup
 # -lstdc++: C++ standard library, explicit linking with
 
 ifeq ($(DEBUG),yes)
-	CFLAGS='-W -Wall -Werror -std=c11 -g'
 #	LDFLAGS=-lSDL -lSDL_mixer ((Extra)Linker SimpleDirectMediaLayer)
 #	LDFLAGS='-lm'
 	@echo "Génération en mode debug"
 else
-	CFLAGS='-W -O2 -Wall -pedantic'
+# 	CFLAGS='-W -O2 -Wall -pedantic'
 #	LDFLAGS=-lSDL -lSDL_mixer
 #	LDFLAGS='-lm'
 	@echo "Génération en mode release"
