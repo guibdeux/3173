@@ -1,26 +1,31 @@
 #!/bin/bash
-sudo apt-get install screen
-# crtl-D ou exit pour sortir de screen
 echo "lancement de ./pra"
-./pra &
-wait 1
+./pra nohup&
 echo "lancement de ./prb"
-./prb &
-wait 1
+./prb nohup&
 echo "lancement de ./prc"
-./prc &
-wait 1
+./prc nohup&
 echo "lancement de ./prd"
-./prd &
+./prd nohup&
 
+# option -o pour spécifier une colonne (vsz, mémoire virtuelle)
+# https://fr.wikibooks.org/wiki/Fichier:Memoire_virtuelle.svg
+echo "memoire pra"
+ps -o vsz `pgrep pra`
+echo "memoire prb"
+ps -o vsz `pgrep prb`
+echo "memoire prc"
+ps -o vsz `pgrep prc`
+echo "memoire prd"
+ps -o vsz `pgrep prd`
 
+# état du processus (actif, pret, bloqué) + des info additionnelle.
+# man ps pour les détails.
+# S =  sleep (une forme de bloqué),
+# s = meneur de session (on n’a pas vraiment causé des sid donc je vais pas insister),
+# l = processus multithread (l=light-weight process), etc.
 
-
-kill -s 9 `pgrep pra` &>> /dev/null
-kill -s 9 `pgrep prb` &>> /dev/null
-kill -s 9 `pgrep prc` &>> /dev/null
-kill -s 9 `pgrep prd` &>> /dev/null
-
-
-
-
+pmap `pgrep pra`
+pmap `pgrep prb`
+pmap `pgrep prc`
+pmap `pgrep prd`
