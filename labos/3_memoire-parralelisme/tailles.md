@@ -35,9 +35,19 @@ int main(int argv, char *argc[]){
 ###Comparaison entre les différents programmes
 ````
 Entre p0 et p1 : La taille du fichier p0 est égale à la taille du fichier p1 car lorsqu’on inclue des “Headers”, ceux-ci ne contiennent que des éléments tels que des prototypes de fonctions, des définitions de structures, … . Lorsqu’on ne fait appel à aucune fonction dont le prototype est dans le header, dans ce cas le compilateur ne va rien ajouter lors de la création de l’exécutable.
-Entre p1 et p2 : La taille du fichier p1 est inférieure à la taille du fichier p2 car dans le fichier p2 nous avons déclaré une variable globale auquelle nous avons statiquement alloué un espace mémoire.
+Entre p1 et p2 : La taille du fichier p1 peut être inférieure à la taille du fichier p2 car dans le fichier p2 nous avons déclaré une variable globale auquelle nous avons statiquement alloué un espace mémoire (BSS).
+Entre p1 et p2 : La taille du fichier p12 est égale à la taille du fichier p2 car la variable tableau de 8000 bytes non initialisée et "unused" est ignorée par le compilateur
 Entre p2 et p3 : La taille du fichier p2 est inférieure à la taille du fichier p3 car la valeur par laquelle nous avons initialisé le tableau sera stockée dans le fichier exécutable même si nous avons initialisé par "hello" un tableau de 8000 cases, le reste des cases est implicitement NULL.
 ````
+
+```
+$ du -h p0;  du -h p1;  du -h p2;  du -h p3
+20K     p0
+20K     p1
+20K     p2
+28K     p3
+```
+
 ### Taille mémoire des processus
 Programme qui permet d’afficher les adresses de fin de segments de texte, des données initialisées, des données non initialisées et du tas:
 ```c

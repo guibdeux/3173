@@ -8,6 +8,8 @@
 |Extra|cat /usr/share/vim/vim81/tutor/tutor.fr.utf-8|
 |Extra|https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html|
 |Extra|man glob.7|
+|Extra|man regex.7|
+|Extra|man man|
 
 |Logiciels suggérés| Suggestions|
 |:---|---:|
