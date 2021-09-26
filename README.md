@@ -21,3 +21,11 @@ sudo apt install man-db manpages-posix
 ````
 sudo apt install manpages-dev manpages-posix-dev
 ````
+
+### Verifier la version de la libc
+```
+dpkg -l libc6
+```
+```
+apt-cache policy libc6
+```

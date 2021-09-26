@@ -73,7 +73,8 @@ int main(int argc, char **argv)
 
 	for (i = 0; i != nb_thread; i++){
 		depart_argument = i+2 ;
-		pthread_create( tableau_id_thread + i, NULL , do_work, (void *) depart_argument) ;
+        pthread_create( tableau_id_thread + i, NULL , do_work, &depart_argument);
+        // pthread_create( tableau_id_thread + i, NULL , do_work, (void *) depart_argument);
 
 	}
 
