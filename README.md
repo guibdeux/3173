@@ -1,11 +1,13 @@
 # INF3173 -- ATELIER GUIB
-|Deroulement|Laboratoire 1|
+|Deroulement|Laboratoire 3|
 |:---|---:|
-|Communication|Mattermost|
+|Communication et **capsules**|Mattermost|
 |Github|https://github.com/guibdeux/guib-3173|
-|Déroulement|(solution)|
+|Déroulement|Essaies et questions|
 |Extra|https://overthewire.org/wargames/bandit/|
 |Extra|cat /usr/share/vim/vim81/tutor/tutor.fr.utf-8|
+|Extra|https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html|
+|Extra|man glob.7|
 
 |Logiciels suggérés| Suggestions|
 |:---|---:|
