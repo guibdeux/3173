@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+
 const char buf[1024*1024*4] = "Hello";
-
 extern char etext, edata, end;
-
 int main(int argv, char *argc[]){
     printf("   etext %p\n", &etext);
     printf("   edata %p\n", &edata);

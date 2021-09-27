@@ -12,9 +12,9 @@ long int maximum ;
 
 // Chaque thread travaille sur une fraction du tableau
 // Chacun commence à un indice différent puis "saute" par-dessus les autres
-void *do_work(void *ptr)
+void *do_work(void *arg)
 {
-	long int depart = (long int)ptr;
+	long int depart = (long int)arg;
 	bool is_prime= false;
 
 	for(long int i = depart; i <= maximum; i+= nb_thread)
@@ -37,6 +37,7 @@ void *do_work(void *ptr)
 	}
 	return NULL; //pour faire taire les warnings du compilo
 }
+
 
 int main(int argc, char **argv)
 {
@@ -73,13 +74,27 @@ int main(int argc, char **argv)
 
 	for (i = 0; i != nb_thread; i++){
 		depart_argument = i+2 ;
-        pthread_create( tableau_id_thread + i, NULL , do_work, &depart_argument);
-        // pthread_create( tableau_id_thread + i, NULL , do_work, (void *) depart_argument);
-
+        /*********************************************
+         * arg1, store id in buffer                  *
+         * arg2, default attributes                  *
+         * arg3, routine                             *
+         * arg4, sole argument of routine            *
+         *********************************************/
+         pthread_create( tableau_id_thread + i, NULL , do_work, (void*) depart_argument);
 	}
+
+//    struct thread_info {    /* Used as argument to thread_start() */
+//        pthread_t thread_id;        /* ID returned by pthread_create() */
+//        int       thread_num;       /* Application-defined thread # */
+//        char     *argv_string;      /* From command-line argument */
+
 
 	// Attendre que l'ensemble des threads soit terminé.
 	for (i = 0; i != nb_thread; i++){
+        /****************************************************************************************************
+         * arg1, function waits for the thread specified by thread to terminate.                            *
+         * arg2, If  retval  is  not  NULL, then pthread_join() copies the exit status of the target thread *
+         ****************************************************************************************************/
 		pthread_join( tableau_id_thread[i], NULL ) ;
 	}
 
@@ -90,7 +105,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	printf("Nombre de nombres premiers trouvés : %d\n", nb) ;
+
 
 	return 0;
 }
@@ -99,5 +114,6 @@ int main(int argc, char **argv)
 //On remarque que notre programme a utilisé l’appel système clone pour créer les threads.
 //On remarque que la version multithread est plus lente que la version monothread car ceci est principalement du au fait que le processeur doit gérer en plus l’aspect du parallélisme des threads.
 //Conclusion : la programmation multithread n’est pas simple et n’implique pas de meilleurs performance systèmatiquement.
-//Extra
-//TODO
+
+// time ./p_prime 11 2
+// time ../2_bibliotheques-C/prime_c 11 2

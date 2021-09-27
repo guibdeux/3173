@@ -22,7 +22,7 @@ all: p0 p1 p2 p3 pra prb prc prd p_prime progAfficheAdressesSegments backup
 # -Werror=vla: Initialisations de la taille des tableaux uniquement avec macro ou nombre naturel
 # -std=c11: Version compilateur
 # -pedantic:  Using the stricter -pedantic-errors option converts such diagnostic warnings into errors that will cause compilation to fail at such points
-# -pthreads: POSIX.1 specifies a set of interfaces (functions, header files) for threaded
+# -pthread: POSIX.1 specifies a set of interfaces (functions, header files) for threaded
 # -lm: Lier la bibliotheque math (dynaminquement? verifier--> ```ldd executable```)
 # -DLANG=FR: Préciser la langue
 # -DNDEBUG: Désactiver les assertions; remplacer assert (...) par ((void)0)
@@ -85,8 +85,7 @@ progAfficheAdressesSegments: progAfficheAdressesSegments.c
 .PHONY: clean mrproper backup
 
 clean:
-	@rm -rf p0 p1 p2 p3 pra prb prc prd p_prime progAfficheAdressesSegments 2> /dev/null
-
+	@rm -rf p0 p1 p2 p3 pra prb prc prd p_prime progAfficheAdressesSegments primeC p_primeC 2> /dev/null
 
 mrproper: clean
 

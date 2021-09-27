@@ -5,12 +5,10 @@
  * - des données non initialisées;                  *
  * - du tas.                                        *
  ****************************************************/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 extern char etext, edata, end;
-
 int main(int argv, char *argc[]){
     printf("   etext %p\n", &etext);
     printf("   edata %p\n", &edata);

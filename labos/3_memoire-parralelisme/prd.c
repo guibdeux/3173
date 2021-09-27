@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
 extern char etext, edata, end;
-
 int main(int argv, char *argc[]){
     char buf[1024*1024*4] = "Hello";
     printf("   etext %p\n", &etext);
