@@ -11,8 +11,8 @@
 |Extra|man regex.7|
 |Extra|man man|
 
-|Logiciels suggérés| Suggestions|
-|:---|---:|
+|Logiciels suggérés| | Suggestions|
+|:---|---|---:|
 |Jetbrains CLION|creation de compte education, plugin vim|https://www.jetbrains.com/shop/eform/students|
 |Virtual Box|Ubuntu 21.04|https://releases.ubuntu.com/21.04/|
 
