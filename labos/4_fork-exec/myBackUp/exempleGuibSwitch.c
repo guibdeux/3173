@@ -2,9 +2,10 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<sys/types.h>
+#include<sys/wait.h>
 
 int main() {
-    pid_t pid;
+    pid_t pid; int wStatus;
     printf("Je m'identifie le pere, pid: %d\n", getpid());
     switch (pid = fork()) {
         case -1: // error code
@@ -23,6 +24,7 @@ int main() {
     // still parent code
     printf("Je suis toujours le pere, pid: %d, mais\n", getpid());
     printf("variable pid: %d\n", pid);
+    wait(&wStatus);
     return 0;
 }
 

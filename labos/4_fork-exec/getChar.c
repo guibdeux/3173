@@ -19,3 +19,9 @@ int main() {
 	return 0;
 }
 
+/*
+ * Même si un processus fils termine son execution, il garde son entrée dans la table des processus
+ * jusqu'à ce que le processus père termine (processus init hérite des enfants et fait les wait()) ou
+ * fait un appel waitpid, entre temps, le processus fils prend l'état zombie, on peut le visualiser en
+ * éxecutant la commande ps -al, l'option -l permet d'afficher l'état des processus.
+ */

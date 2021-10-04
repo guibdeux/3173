@@ -24,7 +24,7 @@ int main(void) {
 	while(waitpid(-1,&wstatus,0) != -1);
 
     if(pidPere == getpid()){
-    	printf("}");
+    	printf("}\n");
     }
     return 0;
 }
