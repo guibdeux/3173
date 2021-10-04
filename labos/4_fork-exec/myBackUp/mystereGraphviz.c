@@ -7,6 +7,7 @@
 int main(void) {
     pid_t pidPere ;
     pidPere = getpid() ;
+    printf("je suis le pere, mon pid est %d\n", pidPere);
     int wstatus ;
     printf("digraph { \nrankdir = BT\n");
     fflush(stdout);

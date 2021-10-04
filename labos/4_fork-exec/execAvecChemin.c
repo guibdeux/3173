@@ -5,11 +5,11 @@
 #include <sys/types.h>
 #include <string.h>
 
-int exec_avec_chemin(char *nom , char **argv){
+void exec_avec_chemin(char *nom , char **argv){
 	char *path = getenv("PATH");
 	if (path == NULL) {
 		fprintf(stderr, "Pas de PATH défini\n");
-		return 1;
+		return;
 	}
 	char *ptr = strtok(path, ":");
 	char *potentiel_path;
@@ -25,10 +25,13 @@ int exec_avec_chemin(char *nom , char **argv){
 
 		ptr = strtok(NULL, ":");
 	}
-	return 1;
 }
 
 int main(int argc, char **argv) {
+    if (argc == 1) {
+        fprintf(stderr, "aucun argument\n");
+        exit(1);
+    }
 	pid_t pid_fils;
 	int wstatut;
 	int exit_statut = 0;
