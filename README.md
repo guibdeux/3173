@@ -1,5 +1,7 @@
 # INF3173 -- ATELIER GUIB
 
+https://prezi.com/view/MIqViwlUlxn8n9pOHBAQ
+
 https://docs.google.com/presentation/d/1OSmNxLxrVVJMlM7hvciAsCvKW99eGkT-BmfeDX2jdDs/edit#slide=id.p1
 
 |Deroulement|Laboratoire 4|
