@@ -1,0 +1,2408 @@
+Beginning of /media/capsules
+This is the start of the /media/capsules channel, created by privat on April 23, 2021. Any member can join and read this channel.
+
+Set a Header
+Let’s add some people to the workspace!
+Invite others to the workspace
+April 23
+System
+6:39 PM
+@privat joined the channel.
+May 05
+System
+6:20 PM
+@abdenbi_m joined the channel.
+May 10
+System
+12:36 AM
+@ghalem.raouf and 3 others joined the channel.
+May 11
+System
+9:22 AM
+@frenette.julien and 7 others joined the channel.
+May 13
+System
+9:38 AM
+@des_lauriers.mathieu and 2 others joined the channel.
+May 14
+System
+8:02 PM
+@leclerc.yan-alexandre joined the channel.
+May 17
+System
+7:01 PM
+@ben_lamin.soukaina and @gauthier.pierre.9 joined the channel.
+May 18
+System
+8:50 AM
+@keroack.samuel joined the channel.
+	
+privat
+8:58 AM
+Bon matin, pour ceux qui regardent les capsules et ont des remarques ou des questions, je vous invite à les poser dans ce canal.
+
+	
+le_nouveau.patrice
+9:09 AM
+
+En fait j'ai déjà regardé les capsules, donc je voulais savoir par rapport aux quiz, j'imagine que ce qui est questionner est en lien aux capsules (et non au contenu du lab par exemple)?
+
+System
+9:14 AM
+You and @hamza.lyna joined the channel.
+	
+privat
+9:16 AM
+
+En effet, c'est par rapport aux capsules.
+
+	
+le_nouveau.patrice
+9:18 AM
+
+aussi, question peut-être un peu noob, mais j'ai jamais vraiment appris c'était quoi un "démon"(daemon?)?
+
+	
+privat
+9:24 AM
+un démon c'est le nom « unix » des processus services/serveurs qui tournent en arrière-plan. Ils sont habituellement lancés automatiquement lors du démarrage de l'ordinateur et ne sont donc pas associés à un utilisateur humain (ni à un terminal de contrôle). Le nom de l'exécutable se termine traditionnellement par d. Serveur ssh (sshd), demon docker (dockerd), serveur d'impression (cupsd), serveur apache (httpd), etc.
+
+System
+9:28 AM
+@rehouma.mohamed_hocine and 3 others joined the channel.
+	
+le_nouveau.patrice
+9:32 AM
+ah ok, en fait ça me dit dequoi, je pense que j'avais un peu oublié le nom et confondu avec quelque chose d'autre, merci!
+
+System
+9:33 AM
+@ek891044 and 3 others joined the channel.
+	
+diawara.doudou
+9:39 AM
+
+est -ce-que il existe un log file pour voir tous les appels systèmes  qui ont été fait depuis que la machine est up?    
+
+	
+privat
+9:51 AM
+ca risque de faire un très gros log file. Surtout que pour pouvoir écrire dans le logfile il faut faire un appel système (write).
+
+System
+9:53 AM
+@lai.ting-yang and 5 others joined the channel.
+	
+privat
+10:14 AM
+
+Toutefois, en fonction de ce qu'on cherche c'est possible d'avoir de quoi. Avec un outil avancé comme https://github.com/iovisor/bpftrace par exemple.
+
+	
+cobello.patrick
+10:40 AM
+
+les IPCsont responsables de la communication entre les différents services, comme l'exemple de la diapo 28 de 110, libsdl -> libpulse, ou bien les IPC sont seulement au niveau du SE ?
+
+	
+privat
+10:44 AM
+IPC=interprocess communication. donc c'est toutes les techniques utilisées pour communiquer entre processus (quel que soit le type ou le rôle des processus qui communiquent ou pourquoi).
+Toutefois, comme le SE isole les processus, ben ils peuvent pas vraiment communiquer directement et doivent utiliser des API dédiées offertes par le système d'exploitation (ou des bibliothèques qui abstraient et utilisent ces API systèmes). On en verra dans le chapitre 4xx
+
+	
+cobello.patrick
+10:46 AM
+Ok merci!
+
+	
+privat
+10:54 AM
+
+Toutefois, dans la diapo 28, il n'y a que 2 processus (les rectangles bleus), donc les flèches internes 2, 4 et 8 sont pas de l'IPC, c'est juste de l'utililisation classique de bibliothèques (appels de fonction, etc.) la seule flèche qui est de l'IPC est 6
+
+	
+cobello.patrick
+10:55 AM
+À voilà, ça répond bien à mon questionnement
+
+	
+rehouma.mohamed_hocine
+11:31 AM
+
+Bonjour, le quiz 2 sur moodle est indiqué à la date d'aujourd'hui, est-ce une erreur ?
+
+	
+privat
+11:35 AM
+Ce n'est pas une erreur, comme annoncé la semaine dernière, sur le site et dans le plan de cours, le quiz hebdomadaire s'ouvre à 12h le mardi (jusqu à tard pour accommoder les gens, car en pratique à 12h20 tout le monde pourrait avoir fini).
+
+	
+blouin.guillaume
+Update your status
+11:58 AM
+
+pourquoi c'est nécessaire de prendre write() en assembleur au lieu de directement syscall(syswrite..)
+
+j'ai pas saisi 
+
+	
+privat
+12:09 PM
+j'ai pas compris la question
+
+	
+privat
+12:28 PM
+la diapo 20 (de 120) c'est ce qui est +/- fait dans l'implémentation de la fonction syscall ou de la fonction write. C'est nécessaire dans le sens ou si c'est pas toi qui le fais, c'est quelqu'un d'autre qui doit le faire (la libc en général). En pratique, ben, c'est quelqu'un d'autre qui va le faire (la libc), car le faire soi-même c'est pénible et pas portable.
+
+	
+blouin.guillaume
+Update your status
+12:33 PM
+
+on a deja <sys/syscall.h>, alors ca sert a quoi d'utiliser write() dans <unistd.h> 
+
+	
+privat
+12:35 PM
+dans quelle diapo ?
+
+	
+sin.ken-wen_michael
+12:40 PM
+bonjour, est-ce normal qu'on ne peut pas retourner dans les anciennes questions ? pour le quiz 
+
+	
+sin.ken-wen_michael
+12:41 PM
+
+par exemple j'ai sauté la question 5, et je ne peux plus y retourner
+
+	
+privat
+12:44 PM
+Les questions se font dans l'ordre, mais je ne savais pas que Moodle était assez naze pour permettre de sauter des questions sans avertissement :slightly_frowning_face:
+
+System
+12:45 PM
+@duenas_illatopa.brazhia_milagros joined the channel.
+	
+sin.ken-wen_michael
+12:45 PM
+
+ah... je ne savais pas, car en général on a le droit de retourner entre les questions...
+
+du coup j'imagine j'ai perdu 1 point ... 
+
+	
+dubreuil.benoit.2
+12:45 PM
+
+Il y a habituellement le processus de révision tout juste avant de remettre le quiz. C'est comme ça pour INF5153.
+
+	
+privat
+12:46 PM
+En effet, il ne semble y avoir aucun avertissement coté Moodle. C'est vraiment nul (j'aime pas ça, j'aurais dû coder mon propre sysème de quiz :slightly_smiling_face:). Je ne sais pas si je peux modifier les paramètres du quiz en direct.  Je vais essayer.
+
+	
+sin.ken-wen_michael
+12:49 PM
+
+d'accord, il me reste que 3 min 
+
+	
+privat
+12:49 PM
+ça a changé quelque chose ?
+
+	
+sin.ken-wen_michael
+12:49 PM
+oui, merci
+
+	
+le_nouveau.patrice
+1:32 PM
+ah fuck avoir su j'aurais attendu avant de le faire, c'était effectivement pas évident pas pouvoir revenir sur nos questions
+
+	
+le_nouveau.patrice
+2:15 PM
+
+pour savoir, j'imagine qu'on va avoir la correction des quiz le lendemains qu'ils se font?
+
+System
+2:27 PM
+@touil.el_hassen_charef_eddine joined the channel.
+	
+privat
+4:24 PM
+
+normalement oui (mais bon, moodle c'est souvent des surprises !)
+
+System
+6:40 PM
+@nasralla.bassem and @kamel.younes joined the channel.
+System
+8:02 AM
+@njampou_djamouo.steeven joined the channel.
+	
+privat
+10:22 AM
+la moyenne du quiz 2 est 80%. Continuez comme ça. Les prochains quiz devraient être plus intéressants vu qu'on entre plus en détails dans les concepts, en particulier sur la star du cours : les processus
+
+	
+diawara.doudou
+11:49 AM
+
+donc le shell(invite de commande) ne fait pas parti du kernel , c'est un processus right?
+
+	
+privat
+11:51 AM
+oui, un processus (pourquoi pas plusieurs si plusieurs utilisateurs, consoles, et.) normal de programmes normaux /bin/dash, /bin/bash, etc.
+
+	
+diawara.doudou
+11:56 AM
+that's make sense, :thumbsup: merci!!
+
+	
+dubreuil.benoit.2
+1:51 PM
+
+J'ai de la misère à comprendre la destination des appels systèmes : est-ce qu'on fait des syscalls dans des processus utilisateurs envers l'OS? J'ai comme un blocage mental qui me dit que c'est l'OS qui achemine ces syscalls vers une cible privilégiée, i.e. matériel :thinking: 
+
+	
+privat
+1:57 PM
+Comme son nom l'indique un « appel système » c'est quand le processus fait appel au système d'exploitation pour quelque chose qu'il ne peut pas faire lui-même. Bien sûr, le processus n'a pas de libre arbitre et n'est que l'exécution d'un programme : les appels systèmes sont des instructions dans ce programme (ou dans des bibliothèques utilisées par ce programme). Est-ce que c'est plus clair ?
+
+System
+1:57 PM
+@el_omari.imane and 2 others joined the channel.
+	
+el_tayeh.tarek
+8:34 PM
+
+Bonsoir @privat , pour la question 6 du quiz 2, n'est ce pas vrai que le processeur bascule en mode utilisateur lorsque le noyau a completé la tache ?
+
+	
+el_tayeh.tarek
+8:40 PM
+la question dit LORS de l'execution d'une instruction processur privilégié, j'ai juste assumer que l'execution été terminé.  Mais effectivement, la réponse à la question lors de l'éxécution est bel et bien que le processeur devrait être en mode noyau sinon c'est pas possible. 
+
+	
+privat
+8:41 PM
+
+pour exécuter une instruction machine privilégiée il faut être en mode noyau. Si on n’est pas en mode noyau ça n'exécute pas l'instruction, mais lève une faute. Si on est en mode noyau, ben ça exécute l'instruction (et on reste en mode noyau). l'idée est que seul le système d'exploitation a le droit d'utiliser les instructions privilégiées donc il reste en mode noyau tout le temps. par contre les processus n'ont pas le droit donc il sont en mode utilisateur tout le temps. La bascule du mode se fait seulement quand on passe de processus (qui exécute le code de son programme) à système (qui exécute son propre code) et inversement
+
+	
+el_tayeh.tarek
+8:42 PM
+
+oui je comprend parfaitement ca, mais j'ai juste assumer que l'execution est terminée. La prochaine fois, je relirai la question pour être sur d'avoir bien compris. 
+
+	
+privat
+8:49 PM
+Quand l'exécution de l'instruction privilégiée est terminée, le mode noyau reste. Peut-être qu'une prochaine instruction sera aussi privilégiée, or il n'y a pas de moyen manuel de récupérer le mode noyau une fois qu'on l'a perdu. c'est pourquoi le mode noyau est maintenu jusqu'à qu'il soit explicitement relâché (via une instruction dédiée)
+
+May 20
+	
+dubreuil.benoit.2
+9:29 AM
+
+Donc, pour résumer dans mes propres mots, un appel système est un appel de fonction spécifique à l'OS exposée aux processus utilisateurs afin d'interagir avec cet OS et / ou la machine.
+
+	
+dubreuil.benoit.2
+9:37 AM
+
+Pourquoi est-ce que le shell est un processus autonome au juste? Je croyais qu'il y avait une instance de shell dans l'arborescence de chaque processus qu'il l'utilise :thinking: 
+
+	
+privat
+9:48 AM
+
+« fonction » est un terme assez surchargé qui peut facilement prêter à confusion. c'est mieux quelque chose du style « appel de service système » ou « appel de fonctionnalité système ».
+Toutefois, a haut niveau, call et syscall sont conceptuellement très similaire : on délègue un traitement et on revient après. Les détails sont par contre importants : call prend en opérande l'adresse d'une fonction du processus (programme&bibliothèques) mais le processus reste en contrôle car c'est sa mémoire et de l'adresse (call ce n'est pas beaucoup plus différent qu'un br/jmp/goto) alors que syscall prend un numéro de service et le processus perd le contrôle. c'est le noyau du système d'exploitation qui prend la main (et il y a tout le mécanisme du passage/retour au mode noyau qui entre en jeu)
+
+	
+privat
+9:49 AM
+
+pas nécessairement. fait ps -eH pour voir la hiérarchie des processus et il n'y a pas le shell partout
+
+9:50 AM
+le shell est juste un interprète de commande : il prend des commandes de l'utilisateur et/ou d'un script shell et les interprète. 
+
+	
+dm
+12:45 PM
+
+Bonjour, si j'ai bien compris le shell est toujours vu comme un processus alors? Je pensais que quand on parle de shell on parle d'une application passive qui est assise sur noyau et on peut parler de processus seulement quand le programme shell (/bin/bash, /bin/sh, etc.) est en cours d'exécution, non? 
+
+	
+privat
+1:53 PM
+dans un OS moderne, il n'y a pas d'application passive spéciale. Juste des processus. Si on imagine un Unix à l'ancienne sans interface graphique et juste une console textuelle physique, on va par exemple avoir un noyau qui va booter et configurer la machine, les disques, etc.
+Le noyau va lancer le processus init (/sbin/init).
+init va lancer des demons et getty (/sbin/getty).
+getty va gérer le terminal et lancer login (/bin/login), login va s'occuper d'identifier un utilisateur (login: ... passwod: ...) qui va lancer son shell (/bin/bash) (en fait, chaque utilisateur peut avoir un shell personnalisé).
+Et tous ces processus sont des processus normaux de programmes normaux.
+Dans un système d'exploitation contemporain classique, c'est plus complexe (beaucoup plus de processus et d'interaction entre ces processus) mais l'idée est là même.
+
+	
+dubreuil.benoit.2
+4:17 PM
+
+Ça c'est dans mon WSL 2.0 (vrai et fake Linux en même temps) avec 3 tabs qui sont chacun des instances de mon shell.
+
+Image collée à 2021-5-20 16-16.png
+
+
+4:18 PM
+Est-ce que ce serait dans le fond parce qu'on veut dire la même chose, mais que j'utilise des mots différents, alors j'ai mal compris à la lecture le fonctionnement?
+
+4:22 PM
+Donc, si j'essaie de résumer grossièrement ton exemple avec faisant attention à l'interprétation : 
+
+Soit un script exécuté par un shell. Ce script appelle echo Bob avec cheveux. Si on ignore toute forme de sandboxing de la part du shell lors de l'exécution d'un script, cela veut dire que le echo ne serait pas appelé dans un autre shell, mais dans celui qui a appelé ce script.
+
+4:25 PM
+On aurait pu forcer l'instanciation d'un autre shell en faisant préfixant echo avec par bash -c pour faire bash -c "echo Bob avec cheveux"
+
+4:25 PM
+Ai-je bien compris?
+
+	
+privat
+4:48 PM
+attention, echo est habituellement une commande interne du shell ce qui fait que la commande echo Bob avec cheveux c'est juste le shell qui fait un print et non le shell qui lance un nouveau processus.
+un shell n'est pas vraiment un contenant (et ne fait aucun sandboxing, c'est pas son rôle), remplacez « appelé dans » par « lancé par ». Sous unix chaque processus possède un processus parent (on a une hiérarchie de processus).
+Tous les programmes peuvent lancer des processus, le shell n'a rien de particulier à ça (cf capsules 24x)
+attention, avec -c s'il n'y a qu'une commande la plupart des shells font une optimisation (je ne veux pas entrer trop dans les détails tout de suite)
+4:49 PM
+$ bash -c 'echo un; bash -c "echo deux; ps -fH"'
+un
+deux
+UID          PID    PPID  C STIME TTY          TIME CMD
+privat    626597  626587  0 11:57 pts/1    00:00:00 bash
+privat    757661  626597  0 16:45 pts/1    00:00:00   bash -c echo un; bash -c "echo deux; ps -fH"
+privat    757662  757661  0 16:45 pts/1    00:00:00     bash -c echo deux; ps -fH
+privat    757663  757662  0 16:45 pts/1    00:00:00       ps -fH
+	
+dubreuil.benoit.2
+8:36 PM
+Je comprends la majorité des concepts ici, quoi que je n'utilise probablement que les mauvais termes.
+
+Je vais essayer de répéter l'essentiel ou ce que j'y comprends : 
+
+Unix lance le shell.
+Le parent du shell (PPID) est donc Unix, le OS.
+De ce fait, il est un processus autonome.
+Ahhhhhhhhh ça fait du sens maintenant.
+
+8:37 PM
+Image collée à 2021-5-20 20-37.png
+
+
+8:37 PM
+C'est plus clair dans mon WSL 2.0 en y ajoutant plus d'options.
+
+	
+dubreuil.benoit.2
+8:46 PM
+Donc, si je suis sur Ubuntu avec environnement desktop, lorsque je clic sur l'icône de terminal, la commande exécutée va entre autre faire un syscall qui va dire à Ubuntu de lancer un shell pour qu'ensuite cette commande l'attache à un terminal graphique? 
+
+C'est probablement loin de la réalité, mais je cherche simplement si le fait de cliquer sur l'icône va faire une syscall pour lancer un shell.
+
+8:47 PM
+i.e. est-ce que seulement l'OS peut réellement lancer un shell et donc que c'est une commande privilégiée.
+
+	
+privat
+9:09 PM
+Je pense que vous mélangez plusieurs choses.
+
+l'os n'est pas un processus
+le shell n'est pas un processus particulier
+le parent du shell n'est habituellement pas non plus un processus particulier
+tous les processus sont autonomes et isolés
+quand on crée un processus (quel que soit le contexte), on ne passe par le shell, mais pas des appels systèmes dédiés (capsules 24x)
+le shell n'est pas un processus particulier (j'ai l'impression de me repeter)
+9:10 PM
+Le point important est que le shell est un programme comme les autres. Dans le cadre des labs et TP on développera des morceaux de fonctionnalités classiques des shells (tout recoder un shell en entier serait un peu plus de travail, faisable, mais pénible, c'est pourquoi on ne le fera pas)
+
+May 21
+System
+12:21 AM
+@zidani.djamel joined the channel.
+	
+dubreuil.benoit.2
+9:53 AM
+
+Merci pour la réexplication :slightly_smiling_face: 
+
+Mais bref, serait-ce possible d'en parler sur Zoom au prochain cours mardi?
+
+	
+dubreuil.benoit.2
+10:21 AM
+
+
+
+Je comprends les points 1 à 4 et 6. Mes questions m'auto-mélange.
+
+Pour le 5, je ne suis pas encore rendu là dans la matière, mais j'y arrive.
+
+System
+6:23 PM
+@moreau.stephanie.4 joined the channel.	
+ek891044
+9:44 AM
+bonjour  @privat : j'aimerai savoir si l'algo
+
+l'algorythme d'ordonnancement fait partie du noyau
+
+???
+
+	
+privat
+9:51 AM
+Oui, ces algos sont implémentés dans le noyau.  En fonction des systèmes d'exploitation, l'utilisateur peut avoir accès à plusieurs algos (il choisit lequel il veut) et peut configurer des paramètres. On y revient dans la capsule 250.
+
+	
+le_nouveau.patrice
+10:04 AM
+
+petite question: j'imagine que les dossiers qui sont dans /proc se font enlevé une fois que le processus à fini d'être exécuté?
+
+	
+privat
+10:09 AM
+les fichiers de /proc n'ont jamais existés à la base. C'est juste les appels systèmes comme open et read qui retournent des résultats qui font croire que ces fichiers existent. Les données lues sont calculées et fournies à la demande sans rien stocker nulle part.
+
+	
+le_nouveau.patrice
+10:10 AM
+aaaah ok
+
+je pensais qu'ils étaient quand même "présent" un moment
+
+il n'y a donc effectivement pas de cuillière
+
+	
+ek891044
+10:14 AM
+
+autre question : dans les capsules vous posez la question de savoir si un processus peut passer de prêt à bloqué ou encore de bloqué à actif? je ne sais pas si c'est moi là, mais je ne comprends pas les réponses que vous-y apportez?
+
+	
+privat
+10:36 AM
+est-ce que vous avez un timestamp que je puisse vérifier à quoi vous faites référence précisément ?
+
+	
+cobello.patrick
+10:38 AM
+
+Les capsules 230 je penses au sujet des questions!
+
+	
+privat
+10:39 AM
+je pense aussi que c'est 230, mais savoir à quelle minute pourrait m'aider à chercher plus vite
+
+	
+cobello.patrick
+10:42 AM
+à 16:25 et 33:12 environ
+
+	
+privat
+10:45 AM
+
+prêt à bloqué: quand un processus est prêt, il n'a pas le CPU (donc ne fait rien) ; pour passer à bloqué il faut que le processus demande une ressource qui n'est pas encore disponible. Or comme il ne fait rien, il ne peut rien demander.
+bloqué à actif: pour être débloqué il faut que la ressource demandée devienne disponible. Or c'est pas pour autant qu'on a le droit d'avoir tout de suite le processeur. La seule chose que le déblocage fait c'est de passer le processus à prêt : il a obtenu sa ressource, il ne lui manque qu'une chose maintenant : le CPU
+10:46 AM
+est-ce que c'est plus clair ?
+
+	
+cobello.patrick
+10:48 AM
+
+Il y avait aussi une question à savoir si un processus pouvait passer de Pret à Bloqué ou Bloqué à Actif, ce que j'ai compris, c'est que non. mais pour Pret à Bloqué, j'ose croire que ça serait un defaut de conception du processus?
+
+	
+ek891044
+10:56 AM
+oui merci
+
+	
+privat
+11:13 AM
+
+Est-ce que la réponse juste au-dessus clarifient les choses?
+
+	
+cobello.patrick
+11:15 AM
+Oui, je crois que je m'étais mélangé dans ma question, car en effet, c'était déjà très clair !
+
+System
+11:19 AM
+@laferriere.maxime.2 joined the channel.
+	
+le_nouveau.patrice
+11:32 AM
+
+juste pour savoir, pour la dernière page du pdf de vie/états de processus, on dit qu'on va discuté des questions en cours synchrone, n'ayant pas de moment "synchrone" sur zoom, j'ai tenté de pensé rapidement aux réponses des questions mais ça serait bien de pouvoir les validés
+
+	
+privat
+11:35 AM
+en effet, mais j'imagine que synchrone, c'est aussi le mattermost du mardi matin. Donc proposez vos réponses et on validera ensemble.
+
+	
+le_nouveau.patrice
+11:47 AM
+
+ok, mes réponses sont peut-être un peu naive pour l'instant (j'ai pas encore testé exhaustivement les commandes localement):
+
+1: je pense que ce serait dans la table des processus, qui est stocké dans la mémoire interne du noyau
+2: Je pense que non, car %E est le temps complet que le processus existe, je pense pas qu'un programme puisse passé plus de temps à être actif qu'à existé
+3: Je pense que oui, aussi si je me fis aux exemple dans la capsule, si on a un programme qui ne fait que des appels systèmes il pourrait passé son temps à faire travaillé l'OS
+4: Je suis pas 100% sur de comprendre la question, est-ce que par système on parle de l'OS, de processus?
+5: %w -> un programme qui ferait beaucoup/peu d'appel système (pour grande/petite valeur), %c -> pas 100% sur de comment avoir de grande/petites valeurs, appart un programme qui prend plus ou moins de temps à exécuté alors il passe plus ou moins de temps à attendre son tour d'avoir le processeur 
+
+je suis peut-être totalement dans le champs aussi, mais j'ai essayé!
+
+	
+privat
+11:56 AM
+
+1 :white_check_mark:
+2 :x: un processus peut avoir plusieurs threads, ce qui fait que le U total peut être plus grand que E (oui, c'est une question piège). Par contre, pour un thread unique nécessairement U<=E
+3 :white_check_mark:
+4 100% par processeur. Donc si ta machine a 8 cœurs le maximum est 800% (8 threads actifs à la fois, les autres deviennent prêts)
+	
+cobello.patrick
+11:57 AM
+%w ne devrait pas dépendre de la cache? Si j'ai une cache avec le necessaire, le %c sera plus petit?
+
+	
+privat
+11:58 AM
+pour %w (en gros passage à l'état bloqué) il suffirait de faire plein de petits appels système qui bloquent pas beaucoup de temps mais qui bloquent quand meme un peu. nanosleep est un bonne piste.
+
+12:01 PM
+pour %c c'est plus difficile, car ça dépend principalement de l'ordonnanceur. Une stratégie serait par exemple de faire plein de threads qui font des boucles infinies, comme ça l'ordonnanceur sera tenté de faire plein de changements de contexte.
+
+	
+le_nouveau.patrice
+12:05 PM
+merci!
+
+	
+le_nouveau.patrice
+12:05 PM
+
+j'étais pas sur si le nombre de threads étaient comptabilité pour le temps total de %E, c'est un peu weird mais ça fait du sens dans ce cas là
+
+	
+privat
+12:37 PM
+Oui, c'est bizarre mais logique car en réalité, c'est les threads qui occupe (ou non) du processeur. Donc soit un thread est à fond sur un CPU et l'utilise à 100% (E=U+S) soit-il ne l'est pas et passe du temps en bloqué et/ou prêt.
+Ensuite, pour les ressources consommées par un processus ben on fait simplement la somme de chacun de ses threads.
+
+May 26
+System
+12:24 PM
+@sehboub.yacine joined the channel.	
+gauthier.pierre.9
+8:15 PM
+
+Est-ce que c'est ça la raison du # au début des scripts? "The solution introduced was to hack csh to take a look at the
+first character of the script you are trying to run. If it was a
+`#' then csh would try to run the script through /bin/csh,
+otherwise it would run the script through /bin/sh. The example
+code from the above might now look something like:" (http://www.unixguide.net/unix/faq/3.16.shtml)
+
+June 01
+	
+privat
+8:41 AM
+Vous êtes allés bien loin dans l'archéologie informatique. Un truc du genre « # est le marqueur des commentaires de nombreux langage de scripts ce qui fait que le shebang est donc sécuritairement ignoré par les interpréteurs. » est très suffisant comme explication.
+
+	
+goulet.nicolas
+10:23 AM
+
+Si j'ai bien saisi, strace ne fait la trace que d'un seul processus SAUF si on spécifie un -fpour dire de faire la trace des processus enfants.
+
+C'est pour ça que dans votre exemple fork.c, si je fais strace ./fork les instructions propres au processus enfant s'exécutent normalement (ils ne sont pas affectés par le strace).
+
+SI je fais ensuite strace -f ./fork, il y aura une différence d'affichage dû au fait que strace va afficher les appels systèmes fait par le processus enfant.
+
+Sans -f: Je suis 345571, le fils de 345570
+Avec -f:  [pid 345351] write(1, "Je suis 345351, le fils de 34535"..., 34Je suis 345351, le fils de 345350) = 34
+
+	
+privat
+10:26 AM
+Exactement, notez qu'avec ou sans -f les processus enfants s'exécutent normalement et ne sont (pas trop) affectés par strace. C'est juste que leur sortie est noyée dans les affichages de strace.
+
+	
+goulet.nicolas
+10:51 AM
+
+N'hésitez pas de me répondre RTFM si ça s'applique ici (qui a été mon premier réflexe bien sûr).
+
+Je pensais que j'aurai pu empêcher fork() de créer un clone de chaque processus en cours en assignant son retour à une variable (pid_t pfils1, pid_t pfils2, pid_t pfils3).
+
+Vous avez plutôt parler d'une gestion de ce comportement avec des if(), est-ce quelque chose qu'on va voir plus loin?
+
+	
+frenette.julien
+10:52 AM
+
+Donc si je comprend bien, lorsqu'on fait un pipe, les printf sont sauvegardés dans un buffer durant toute l'exécution du programme (jusqu'au pipe) au lieu d'être affiché au fur et à mesure, ce qui fait en sorte que les buffers vont être affichés en double si on fait un fork. C'est bien ça?
+
+	
+privat
+10:56 AM
+
+Je ne comprends pas bien votre question. Dès le premier exemple du fork il y a un if
+https://gitlab.info.uqam.ca/inf3173/progs/-/blob/master/241-fork/fork.c
+
+GitLab
+Sign in
+Gitlab - Département d'informatique
+
+	
+privat
+10:58 AM
+
+Hum, les pipes on voit ça dans la capsule 420. Je ne comprends pas bien le contexte de votre question et le rapport avec printf.
+
+	
+privat
+10:59 AM
+Note: si vous avez des questions par rapport aux capsules. Indique le contexte (numéro de capsule et de page ou timestamp panopto) peut vraiment aider à comprendre la question.
+
+	
+frenette.julien
+11:05 AM
+
+Dans la capsule 241 (le code se trouve à la slide 5), on parle de fflush(). Si on écrit './fork' tout se passe comme prévu. Par contre, si on écrit './fork | cat', alors la première ligne (qui aurait seulement dû être écrite par le parent) est affiché deux fois. 
+
+Dans le fond, est-ce que le programme a une façon de savoir si un pipe est présent et, puisqu'il n'a pas besoin d'afficher immédiatement le résultat de la commande, il l'a garde en mémoire, et donc l'affiche pour le parent et le fils. Un peu comme si le buffer, qui n'avait pas encore été écrit a été copié quand l'enfant a été créé.
+
+Le comportement me semble un peu nébuleux
+
+	
+privat
+11:10 AM
+
+stdio offre des fonctions d'entrée sortie efficaces qui utilisent des tampons.
+la première ligne de la description deman stdio indique « The standard I/O library provides a simple and efficient buffered stream I/O interface. »
+
+11:12 AM
+L'idéee d'un tampon, c'est que printf, putchar, fwrite, etc. stokent les données dans un tampon (dans l'espace mémoire du processus, c'est une lib qui travaille) et que le tampon soit vidé seulement de temps en temps.
+Ici vider ça veut dire faire un appel système write.
+
+11:14 AM
+Le gain est que faire plusieurs printf, fwrite, etc. pour copier des octets dans le tampon de la libc et faire un write à la fin c'est moins couteux que de faire des appels système sytématique à write car un appel système coute plus cher qu'un appel de fonction.
+
+11:16 AM
+L'astuce dans cet exemple, c'est que la libc adapte sa politique de bufferisation de stdio en fonction du type de sortie sur lequel on affiche : si c'est un terminal (sous-entendu avec un humain pas loin) alors on vide le tampon quand il y a un saut de ligne (car sans doute l'humain veut lire la ligne tout de suite) alors que si la sortie c'est autre chose (un tube, un fichier, etc) ben sdtio attend plutôt que le tampon soit plein avant de le vider.
+
+11:19 AM
+Comment la libc sait si la sortie est un terminal ou autre chose, il y a la fonction pratique isatty(3) qui indique si un descripteur est un terminal (tty). En arrière c'est sans doute l'appel système fstat(2) qui permet de récupérer de l'information sur un fichier ouvert.
+
+11:21 AM
+Quel rapport avec fork tout ça ? Et bien comme le tampon réside dans la mémoire du processus, il sera copiée (cloné) comme le reste lors d'un appel à fork. Or, si à ce moment le tampon n'est pas vide, il est possible que celui-ci se fasse vider deux fois : une dans le parent, et une dans l'enfant.
+
+	
+frenette.julien
+11:23 AM
+C'est super clair maintenant, merci!
+
+	
+goulet.nicolas
+11:23 AM
+
+Effectivement j'aurai dû être plus clair!
+
+Dans votre exemple forks.c, on voit qu'à chaque appel de fork() le nombre de processus en cours est doublé (1 gen1, 2 gen2, 4 gen3, 8 gen4).
+
+Je pensais qu'en assignant à une variable de type pid_t le retour de chaque appel de fork() on aurait créer un seul clône à la fois, mais fork()semble quand même faire un clône de chaque processus malgré tout. 
+
+J'ai fait les changements suivant à forks.c mais sans effets significatifs sur strace (un appel SIGCHLD en moins):  
+
+    pid_t pfils;
+    pid_t pfils2;
+    pid_t pfils3;
+    printf("Gen 1\n");
+    pfils = fork();
+    printf("Gen 2\n");
+    pfils2 = fork();
+    printf("Gen 3\n");
+    pfils3 = fork();
+    printf("Gen 4\n");
+J'ai des difficultés à retrouver le moment précis où vous le dites mais dans la capsule 241 vous mentionner brièvement qu'il est possible d'empêcher fork() d'avoir le comportement de créer un clône de chaque processus en cours en utilisant des if().
+
+	
+privat
+11:24 AM
+
+Comme la politique de bufferisation dépend du type de sortie, et que l'état du tampon dépend de la politique de bufferisation, et que le double-affichage dépend de l'état du tampon, on se retrouve avec un comportement différent si le programme qui forke affiche à l'écran ou pas (dans un tube ou dans un fichier par exemple)
+
+11:27 AM
+La morale de l'histoire, c'est que les comportements en apparence bizarres s'expliquent tout à fait rationnellement si on comprend les différents éléments d'un système informatique et leurs liens.
+
+	
+privat
+11:32 AM
+
+une variable en C c'est juste une variable. L'important, c'est comment on les utilise.
+
+Ensuite si on raisonne au niveau du langage C fork n'est une fonction sans paramètre et qui retourne une valeur. Or dans la plupart des langages de programmation, le résultat de la fonction ben l'utilisateur en fait bien ce qu'il veut. Voire rien du tout.
+
+11:34 AM
+tu peux écrire sqrt(1234); sans stocker ou utiliser le résultat et la fonction sqrt sera quand même invoquée et la racine carrée de 1234 quand même calculée. Ici pour rien car sqrt ne fait pas d'effet de bord.
+
+11:36 AM
+De même, int x = printf("Hello world!") affiche du texte, pourtant printf retourne un entier (dont la plupart des clients se fichent (c'est le nombre d'octets affichés si vous voulez savoir)). Que l'on utilise ou pas la valeur de retour de printf ou pas, le texte est affiché pareil. (printf fait un effet de bord).
+
+11:38 AM
+Bon, ben pour fork c'est pareil. Au niveau du langage C c'est juste une fonction qui retourne un entier, mais qui a un méchant effet de bord: il duplique le processus!
+Qu'importe comment que tu utilises la valeur de retour du fork le processus sera cloné.
+
+11:41 AM
+Maintenant, la valeur de retour du fork permet de distinguer si le processus est le parent ou l'enfant. En tant que programmeur tu fais bien de cette information ce que tu veux (contrairement à un processus, un programmeur a normalement du libre arbitre).
+
+11:41 AM
+Si tu décides que le comportement du programme est le même indépendamment de la valeur de retour de fork, ben les processus enfant et parent font avoir le même comportement (donc doublé au premier fork, quadruplé au 2e, etc.)
+
+11:43 AM
+Si par contre tu décides que le comportement du programme dépend de la valeur de retour de fork (avec un simple if par exemple), alors les processus parent et enfant vont avoir un comportement différent.
+
+11:44 AM
+Est-ce que c'est plus clair?
+
+	
+goulet.nicolas
+12:03 PM
+Désolé du délai de réaction! L'école de la maison vient avec des imprévus.   :sweat_smile: 
+
+Oui c'est beaucoup plus claire! J'ai été joué avec la valeur de retour de fork. Il y a peut-être une ligne du man de fork qui me mélange un peu:
+
+ the PID of the child process is returned in the parent
+
+qu'est-ce qu'on entend par retourner le PID DANS le parent?
+
+Merci aussi pour les explications détaillées pour le C, je n'ai pas fait tous les apprentissages nécéssaires sur ce language pendant 3135 et j'ai du rattrapage à faire!
+
+	
+privat
+12:06 PM
+La valeur de retour du fork dépend du processus : parent ou enfant. Il faut donc comprendre la phrase comme quelque chose du style « Dans le cas du processus parent, la valeur de retour est le PID du processus enfant. »
+
+	
+cobello.patrick
+4:43 PM
+
+Pas certain de comprendre la différence avec Exit(), Atexit et return dans main. D'autant plus que, si je comprend bien, le vrai exit POSIX est en fait _exit()? Donc exit() n'étant pas un appel système mais une fonction dans la bilbiotheque C pourrait agir comme return 0 par exemple et exit_group sera appelé à la sortie? Dans le cas de _exit, dans son cas, il flush, comme l'Exemple à la diapo 8 de 243, le printf sans \n.
+
+	
+blouin.guillaume
+Update your status
+5:36 PM
+
+
+
+question en retard:
+--> pourquoi le "bss" ne possede pas une page de 4k comme le tas a 132k, 18m24s capsule 220 memoire des processus
+
+en plus le bss vide de la lib ld a une page de 4k, mais le bss du programme principal n'en a pas besoin du 4k? 
+
+@privat bonjour 
+19m00s les donnees statiques du sous programme foo donnent 3 pages de 4k pour 396 ko sur la "STACK principale" mais vous dites 2 appelles ? lorsque l'argument t vaut 0, un troisieme tableau serait alloué avant la fin de la recursion 
+
+alors, au bout du compte, une page serait allouée à chaque empilement ? et ca semble le cas a chaque malloc aussi? 	
+le_nouveau.patrice
+5:36 PM
+
+je voulais juste comprendre ce qu'on veut dire par "flusher", si admettons que printf ne pas print à cause d'un manque de retour de chariot, est-ce que c'est parce qu'on a pas "flusher" le string de ce qui avait dans printf dans le buffer pendant l'exécution, ou c'est parce que ce qui avait dans printf à été "flusher" donc ignoré?
+
+June 02
+	
+blouin.guillaume
+Update your status
+12:06 AM
+
+@privat bonjour
+avez vous une solution pour que nous obtenions les reponses aux questions non dites dans les capsules (celles-ci sont skippées pour nous faire réfléchir) puisque nous n'avons pas la discussion en classe certain bouts d'enregistrement sont moins adaptés peut-être svp? 
+
+	
+le_nouveau.patrice
+10:08 AM
+
+en fait, pourquoi le nombre de process créer est 7 et pas 8 dans le quiz? est-ce que c'est parce que on enlève le processus actuel? j'ai supposé que chaque fork comptais pour 2 création, pour 2^3
+
+	
+abdenbi_m
+10:58 AM
+Un fork ne créé pas 2 processus, il en crée juste un (par contre, on se ramasse avec 2 processus après). 
+Donc le nombre de processus créés par les fork du codefork(); fork(); fork() est 7.
+
+	
+le_nouveau.patrice
+11:02 AM
+
+donc admettons que nous avons une chaine de fork, c'est quoi la meilleur facon de compté les processus créer? car à un certain point c'est un peu dur de dessiner un schéma après 3, est-ce que c'est 2^n - 1 processus creer si on fait juste faire fork() un nombre "n" de fois?
+
+	
+privat
+11:10 AM
+
+*exit(3) de C flushes les buffers de stdio, lance les actions programmées et termine le processus.
+
+return dans le main, c'est comme exit.
+_exit(2) de POSIX, termine immédiatement le processus sans rien flusher ni rien faire d'autre avant de quitter.
+Sous GNU/Linux, _exit(2) est en fait une enveloppe autour de l'appel système exit_group(2)
+	
+privat
+11:11 AM
+
+Pour les questions, j'ai demandé à ce que les étudiants proposent leurs réponses ici, et je commente. Ce que plusieurs étudiants ont déjà fait.
+
+	
+privat
+11:14 AM
+
+Ca dépend de la forme réelle de la chaine de fork. Si c'est juste une séquence d'instructions fork sans if ni rien qui change la séquence d'un des processus. alors 2^n-1 fonctionne bien. Mais il faut quand même faire attention à bien comprendre ce que fait un programme avant d'appliquer une formule toute faite.
+
+	
+privat
+11:22 AM
+
+"flusher" (tirer la chasse d'eau?) c'est vider un tampon (buffer), donc transférer les données accumulées depuis le tampon vers leur destination, et remettre le tampon à vide (qui pourra accumuler à nouveau de nouvelles données).
+Par défaut, quand tu fais printf("hello"); le « hello » reste dans le tampon de stdout et donc rien n'apparait à l'écran. Si tu fais ensuite un fflush(stdout), cette fonction va "flusher" le tampon, donc faire un write(1, tampon, taille) sous Unix et remettre la taille du tampon à 0 (le tampon est alors considéré comme vide).
+
+	
+privat
+11:36 AM
+
+bss c'est pour toutes les données statiques (ie globales) non initialisées. Ce qui correspond seulement au le tableau T.  pmap montre 128k pour le bss de car c'est ce que demande l'exécutable.
+
+	
+privat
+11:41 AM
+Vous avez raison, il y a 3 appels et non deux (bien vu!) donc la pile devrait avoir minimalement grossi à 3*128Ko = 384Ko (pmaps indique 396K donc on est suffisant et dans le bon ordre de grandeur)
+
+11:43 AM
+L'allocation des pages est indépendant. C'est un mécanisme automatique qu'on verra plus dans le chapitre 6 à la fin de la session.
+
+	
+le_nouveau.patrice
+1:23 PM
+
+est-ce que execv préserves les variables d'environment? je pensais qu'il fallait que ça finisse par un "e" pour ce faire (eX: execve)
+
+	
+blouin.guillaume
+Update your status
+6:18 PM
+je pense quand le "e"  est là c'est un nouvel environnement  et quand il est pas là, l'environnement est conservé
+
+June 03
+	
+abdenbi_m
+12:03 AM
+Quand e est présent ça veut dire que tu dois spécifier les variables d'environnement que tu veux utiliser. Un truc de ce genre,
+
+char *const env[] = {"PATH=/home/dracula/bin", "LIB=/home/dracula/lib", NULL};
+que tu donnes comme argument à execle() par exemple.
+Dans tous les autres cas, les variables d’environnement sont héritées. Extrait du man :
+
+e - execle(), execvpe()
+[...]
+       All other exec() functions (which do not include e in the suffix) take the environment for the new process image from the external variable environ in the calling process.
+
+June 08
+	
+le_nouveau.patrice
+10:01 AM
+
+quand on parle que l'horloge programmable est programmé pour un "nouveau quantum", c'est quoi un quantum? Juste une très petite mesure?
+
+	
+goulet.nicolas
+10:05 AM
+
+Capsule 250 10min10:
+
+Exemple du programme de l'ordonnanceur: $./w a | nice ./w b 
+
+Suite à l'exécution de ce programme, un détail me mélange: 
+
+a: E:3.31 P:90% U:2.98 S:0.00 w:1 c:346
+b: E:5.97 P:49% U:2.98 S:0.00 w:0 c:347
+Si je comprend bien, le champ P représente le pourcentage d'utilisation du CPU.
+
+Dans la plupart des exemples pourtant, ça ne dépasse jamais 100% d'utilisation: pourquoi dans ce cas-ci nous avons 139% d'utilisation du CPU?
+
+(pardon ordon était le nom que j'ai donné à w sur ma machine)
+
+	
+le_nouveau.patrice
+10:07 AM
+
+Pour tenté de répondre à la question ici, j'aurais tendance à dire que oui vu que les cas qu'on a souvent parlé sont les appels systèmes et les interruptions matérielles qui forcent un changement d'état pour aller vers un autre processus (et la communication au OS)
+
+Image Pasted at 2021-6-8 10-04.png
+
+
+	
+frenette.julien
+10:07 AM
+
+Tentative de réponse à la question p.6 :
+
+Avantage des ordonnanceurs non-préemptifs :
+Moins de calculs pour décider quel processus est à passer en priorité.
+
+Avantage des ordonnanceurs préemptifs :
+Le processeur se charge d'interrompre les processus et a donc un contrôle complet sur ceux-ci et leurs états lorsqu'ils sont choisis comme prioritaire, ce qui semble être avantageux sur les ordonnanceurs non-préemptifs qui pourraient donner priorité à un processus bloqué.
+
+	
+privat
+10:08 AM
+
+« quantum de temps » une certaine (petite) quantité de temps, par exemple 20ms.
+
+	
+le_nouveau.patrice
+10:11 AM
+ah ok c'est ce que je me disais, je voulais juste être sur
+
+merci!
+
+	
+privat
+10:18 AM
+
+je suis pas sur si c'est le bon exemple, mais comme a termine avant b, alors à ce moment b obtient 100% du processeur. La somme des pourcentages n'a pas trop de sens, car le moment de l'exécution n'est pas le même (déjà E est différent).
+
+	
+privat
+10:20 AM
+
+Exact, cf chapitre 1. Les deux seuls moyens pour le noyau de prendre la main (et éventuellement faire de l'ordonnancement) c'est soit par appel système soit par interruption matérielle.
+
+	
+privat
+10:22 AM
+
+non-préemptifs: ils sont aussi beaucoup plus simples à coder ce qui peut être un avantage quand tu as des ressources limitées ou que tu dois prouver que le code est correct ; ils permettent aussi d'implémenter facilement certains algos temps-réels (on en parle un peu plus loin dans la capsule)
+
+	
+le_nouveau.patrice
+10:24 AM
+
+est-ce qu'avec un ordonnanceur non-préemptifs on peut s'assuré "plus facilement" qu'un processus ai le temps de finir ce qu'il a à faire car il a plus de contrôle sur quand il termine son tour?
+
+	
+privat
+10:28 AM
+préemptif = le noyau peut prendre la main à tout moment pour mettre un autre processus à la place. Ce qui fait que oui, si le noyau ne peut pas reprendre la main de force, un processus garde le processeur et a le temps de finir son travail (sauf si le processus fait un appel système bloquant bien sur).
+
+	
+blouin.guillaume
+Update your status
+10:29 AM
+
+capsule 250, 30m30s, pourquoi la boucle infinie se termine et laisse place a l'autre processus en attente arbitraire 
+
+	
+blouin.guillaume
+Update your status
+10:32 AM
+
+interruption materiel: c'est l'ordonnanceur qui interrompt lui meme avec un signal kill ? si oui lequel et autre facon d'interrompre ca serait le quantum de temps ou entrée/sortie bloquante sinon c'est juste le processus qui peut s'arreter avec un appel systeme? rien d'autre? 
+
+	
+privat
+10:35 AM
+
+C'est un abus de langage de ma part, la boucle est pas infinie. C'est un truc du genre for(int i=0; i<beaucoup; i++); j'aurais du dire que c'était une boucle qui tourne pour rien
+
+	
+privat
+10:39 AM
+
+il ne faut pas confondre interruption matérielle et signaux (ie kill). L'interruption matérielle est un mécanisme bas niveau indépendant des processus, voir capsule 130.
+Quand un quantum de temps se termine, c'est par exemple l'horloge programmable (une composante matérielle) qui lève l'interruption qui sera traitée par le noyau.
+
+10:40 AM
+aussi
+
+entrée/sortie bloquante implique appel système
+appel système n'implique pas nécessairement entrée/sortie bloquante
+	
+blouin.guillaume
+Update your status
+10:41 AM
+d'accord 
+
+10:41 AM
+capsule 250, 31m35s, si lorsquon utilise la commande chrt -f <priorite> <exe> , les processus normaux dit non réel a priorite 99 sont moins prioritaires ? alors les processus systeme ca roule pas en arriere sinon ils sont reels? 
+
+	
+privat
+10:47 AM
+« processus systeme du noyau » est considéré être un abus de langage, car si c'est du noyau c'est donc pas du processus. On trouve souvent le terme « tache noyau » mais c'est bien un morceau du noyau qui vit sa vie indépendamment dans un contexte d'exécution particulier. Leurs priorités peuvent être comparables, plus élevées ou moins élevés que celles des processus normaux en fonction du rôle de la tache, mais à ce niveau-là c'est du détail très spécifique au noyau considéré, à sa version, voire à sa configuration,
+
+10:51 AM
+ps -e -O nice,cls,rtprio peut te monter les taches noyau, la classe d'ordonnancement et la priorité temps réelle éventuellement associée. Après c'est p'tet pas exactement qui se passe, car ça m'étonnerait pas que le noyau triche un peu pour ses propres affaires.
+
+	
+blouin.guillaume
+Update your status
+11:01 AM
+j'ai des processus avec la commande
+--> R:Running/Ready, S:Stopped, I=?
+
+--> on aurait pas pu trouver cette liste avec les fichiers /proc/ ?
+
+--> plusieurs processus systeme n'ont pas de chiffre prioritaire et ont "-" a la place, ca pourrait dire quoi
+
+	
+privat
+11:10 AM
+man ps pour les détails
+oui ps va juste chercher les infos dans /proc (ya pas de magie).
+il y a une priorité temps réel que si l'ordonnanceur est temps réel (sinon ben yen a pas) et inversement il y a un niveau de gentillesse (nice) que si l'ordonnanceur n'est pas temps réel. mais c'est du détail POSIX donc il ne faut pas y attribuer plus d'importance que ça (c'est pas fondamental dans les ordonnanceurs en général)
+11:12 AM
+man ps dit I    Idle kernel thread ; c'est bien des machins particuliers avec des comportements particuliers et des règles particulières.
+
+	
+blouin.guillaume
+Update your status
+11:41 AM
+processState.png
+
+
+	
+frenette.julien
+11:41 AM
+Question P.18
+
+Tourniquet -> CPU-Bound ou IO-Bound, qui y gagne? 
+
+Je dirais que des processus CPU-Bound gagneraient à avoir un quantum de temps puisqu'ils font beaucoup de calculs. Il n'y a pas beaucoup d'appels système et donc sans la limite de temps, chaque processus risque d'utiliser le système assez longtemps avant de passer au prochain.
+
+	
+frenette.julien
+11:42 AM
+
+À l'opposé, des processus IO-Bound ne gagneraient pas grand chose à avoir ce système de temps puisqu'ils se mettent déjà assez souvent en attente lors des entrées/sorties. Incorporer un système de limite de temps devient donc un peu inutile dans ce cas
+
+	
+frenette.julien
+11:44 AM
+
+
+
+Pour un processus qui part en boucle infini, il devient très intéressant, voir essentiel d'avoir une manière de l'arrêter malgré lui. Sans limite de temps, ce processus va complètement bloquer l'ordinateur et empêchera de pouvoir l'arrêter.
+
+	
+privat
+11:57 AM
+
+En fait, un processus IO-Bound a tendance à faire des petits CPU-bursts, il travaille un peu et hop il fait une demande bloquante et n'a plus besoin du CPU. Ce qui fait que c'est avantageux de lui donner la main régulièrement car il ne va pas l'accaparer longtemps mais progresser dans son travail : autant qu'il puisse commencer les demandes d'entrées-sorties le plus tôt possible.
+Ce qui fait que RR est intéressant pour lui: il a la garantie d'avoir la main dans un futur proche, et même s'il ne la garde pas très longtemps, le quantum est sans doute suffisant pour lui pour se rendre jusqu'au prochain appel système bloquant.
+
+12:01 PM
+Par contre, les processus CPU-bound ont beaucoup de calculs à faire, donc, si on ne vise pas l'interactivité mais juste du calcul pur, c'est plus intéressant de laisser le processus sur le CPU le plus longtemps possible 1. ca fait moins d'appels à l'ordonnanceur et 2. il y a plein de caches et d'astuces dans un processeur moderne ce qui fait que laisser un même processus actif (sans en changer) permet d'y gagner en termes de performance (cf INF4170).
+
+	
+privat
+12:04 PM
+
+yep, les boucles infinies c'est un problème quand on peut pas les préempter (parce que l'ordonnanceur n'est pas préemptif, ou parce que le processus problématique a la plus haute priorité et passe toujours devant les autres)
+
+June 13
+	
+nicolae.diana
+7:34 PM
+
+Bonjour, est-ce que les fichiers spéciaux ont un numéro d'inode (entrée dans la table des inodes) ?
+
+June 14
+	
+privat
+4:27 PM
+oui, chaque entrée dans la table des inodes a un numéro (unique dans le système de fichier considéré). Autant les fichiers réguliers que les fichiers spéciaux (répertoires, liens symboliques, tubes, périphériques, etc.)
+
+June 15
+	
+frenette.julien
+10:15 AM
+
+Tentative de réponse aux questions de la page 5 :
+
+Alternatives aux fichiers pour stocker des données
+
+Je dirais que oui, on peut stocker des données sur le cloud et y accéder tant qu'on a une connection internet (je ne sais pas si ça compte comme un fichier mais c'est tout ce que je vois)
+Fichiers moins importants de nos jours
+
+Je pense que les fichiers sont encore très importants de nos jours, cependant, étant donné que de plus en plus de gens ont accès à un internet rapide, il devient intéressant dans certaines situations de pouvoir simplement stocker ses données en ligne.
+	
+privat
+10:29 AM
+Intéressant. Toutefois, le cloud, c'est juste l'ordinateur de quelqu'un d'autre. Donc localement on ne voit pas nécessairement les fichiers, mais les disques des datacenter en sont pleins :slightly_smiling_face:
+
+10:31 AM
+L'alternative aux fichiers, c'est de stocker les données directement sur le support. C'est ce que font certaines bases de données par exemple.
+
+	
+le_nouveau.patrice
+10:33 AM
+Mon idée était justement que si on enlève le concept d'un "fichier" on devrait nous même gérer les blocs de mémoire allouer pour tel data, et gérer comment on l'interprète/va le chercher/on le stock ensuite
+
+https://www.redhat.com/en/topics/data-storage/file-block-object-storage
+
+File storage, block storage, or object storage?
+Learn the differences between file, block, and object storage and how to choose a storage solution best suited to your needs.
+
+	
+le_nouveau.patrice
+10:38 AM
+
+ça serait tu ça différente manière de storer des données?
+
+	
+privat
+10:42 AM
+oui, c'est des façons différentes de stocker les données.
+
+10:43 AM
+Mais le texte du site web lié est très superficiel (je me serais attendu à mieux de redhat mais bon...)
+
+	
+le_nouveau.patrice
+10:58 AM
+
+Pourquoi cd est une commande interne du shell?
+J'imagine que c'est pour pas créer de nouveau processus, mais est-ce que c'est parce que sinon il hériterait du répertoire courant du parent et ça marcherait pas?
+
+	
+privat
+11:03 AM
+la commande interne cd se contente de faire l'appel système chdir qui change le répertoire de travail du processus appelant. Si cd était une commande externe exécutée par un processus autonome, alors seul le répertoire courant de ce processus autonome serait changé (et puis le processus se termine juste après, car il a fini sont travail) et non le répertoire du shell appelant qui resterait inchangé.
+
+	
+le_nouveau.patrice
+11:04 AM
+ah ok oui je vois, ça serait juste changer dans le processus créer et non dans le répertoire du shell
+
+	
+kamel.younes
+1:16 PM
+Dans le quizz d'aujourdhui il y a des questions ou il est ecrit plusieurs choix possible, mais on ne peut cocher qu'une seule case. Est ce que c'est une erreur ?
+
+	
+privat
+1:18 PM
+c'est une erreur, il n'y a normalement qu'un choix.
+
+je vais vérifier vite
+
+je confirme. il n'y a qu'un seul choix.
+
+	
+kamel.younes
+1:23 PM
+Ok parfait
+
+	
+goulet.nicolas
+2:20 PM
+
+Je suis un peu mélangé avec la notion de répertoire courant (300 systèmes de gestion des fichiers).
+
+Si j'ai bien suivi, lorsque vous expliquiez qu'il existe un répertoire courant par processus, c'est bien du pseudo système de fichier /proc/ et tout les répertoires qu'on y retrouve (un par processus actif en cours)  qui sont en jeu?
+
+Et plus précisément la ligne suivante de la slide 10: 
+
+Relatif : partent du répertoire courant du processus
+Et non du répertoire où est stocké le binaire, etc.
+Ma compréhension était probablement trop étroite mais je pensais aux chemins relatifs strictement comme un chemin où se trouve un fichier; je vois mal comment la notion de répertoire courant du processus ou celle du répertoire où est stocké le binaire s'y mêlent
+
+	
+lai.ting-yang
+11:09 PM
+Pour le quiz, est-ce que la réponse est nécessairement unique? Ou une question pourrait avoir plus d'une réponse possible, alors qu'on pouvait juste choisir une?
+
+	
+kamel.younes
+11:25 PM
+Ce sont des reponses uniques d'apres le prof si j'ai bien compris
+
+June 16
+	
+privat
+9:33 AM
+
+Le répertoire de travail courant (current working directory) est le répertoire d'où on part quand il faut résoudre des chemins relatifs.
+Dans le shell, il est souvent indiqué dans l'invite: user@hostname:repertoire/de/travail $ et est affiché par pwd(1) (et donné par getcwd(3)).
+Ceci n'a aucun rapport avec le pseudo-système de fichier /proc (même s'il y a un fichier /proc/PID/cwd qui est un lien symbolique vers le répertoire de travail du processus).
+
+June 20
+	
+blouin.guillaume
+Update your status
+11:20 AM
+
+@privat bonjour
+pourquoi lstat() sur un fichier /proc/... retourne une longueur de 0 au lieu du lenght du nom du fichier pointé
+
+	
+brighach.moncef
+12:39 PM
+Pt que ca t’informes sur le symlink lui-meme et non le fichier pointé par celui-ci?
+
+“lstat() is identical to stat(), except that if path is a symbolic link, then the link itself is stat-ed, not the file that it refers to.“
+
+ https://linux.die.net/man/2/lstat
+
+	
+blouin.guillaume
+Update your status
+12:51 PM
+oui je sais, quand tu te demandes le size avec realink d'un symlink ca te donne la longueur du nom du fichier pointé
+
+June 21
+	
+privat
+9:41 AM
+
+Ça avait été déjà un peu signalé https://mattermost.info.uqam.ca/inf3173-e21/pl/nddk4xjejiyxbcthxr7ki7g87r
+Les fichiers de /proc n'existent pas vraiment ( https://mattermost.info.uqam.ca/inf3173-e21/pl/wpgi9xpwg3f67cxybar74k5ewe ) et le contenu des pseudo-fichiers est simplement généré à la demande. Ce qui fait que les développeurs de Linux ont simplement décidé de ne mettre 0 comme taille lors des appels de *stat. Comme le contenu des pseudo-fichiers est généré à la demande en fonction de l'état du système, en général le contenu peut varier grandement d'un appel à l'autre et donc si on gaspillait du temps CPU à calculer une pseudo-taille (car elle n'est pas stockée) elle serait souvent obsolète une fois le stat terminé.
+
+	
+blouin.guillaume
+Update your status
+2:13 PM
+pourquoi c'est une pseudo taille si le fichier pointé n'est pas pseudo? , c'est vrai qu'on en avait parlé mais merci du rafraîchissement ca fait beaucoup de bien vraiment et aussi on avait parlé que c'était possible mais finalement non
+
+	
+blouin.guillaume
+Update your status
+2:19 PM
+ok j'ai compris pour le CPU mais c'est dommage 
+
+System
+7:21 PM
+@kouassivi.corneille_frejus_codjovi joined the channel.	
+frenette.julien
+10:15 AM
+
+320 - Slide 3/7 : Pourquoi ça peut être un problème de stocker seulement les numéros d'utilisateur et groupes dans le système de fichiers?
+
+Tentative de réponse : 
+
+J'imagine qu'on doit s'assurer que chaque utilisateur créé ait un numéro unique.
+Dans un système avec beaucoup d'utilisateurs il faut aussi faire attention au débordement, si par exemple, l'information est stocké dans un int.
+Une autre chose qui me vient à l'esprit est qu'une façon de lier le numéro avec un nom doit exister quelque part.
+	
+privat
+10:23 AM
+La 3e est celle qui est intéressante (et inclue +/- les deux autres). On veut que les systèmes de fichiers soient indépendants et autonomes, mais dès qu'il y a des utilisateurs ça devient plus compliqué. Quand les systèmes de fichiers sont utilisés par un seul système (ton PC par exemple) les utilisateurs sont gérés par l'administrateur et c'est facile ensuite de dire que l'uid=1000 des systèmes de fichiers, c'est le même utilisateur global.
+Dès que le système de fichiers et partagé ça devient plus compliqué car il faut que les systèmes puissent travailler ensemble. Par exemple NFS utilisé sur les machines de labunix.
+
+10:27 AM
+On a aussi le cas ou les utilisateurs indiqués dans le système de fichiers ne sont pas corrects (ou n'existent pas) et il faut décider quoi faire en faire quand on les monte. C'est le cas par exemples des clés USB. quand un utlisateur non privilégié branche la clé usb à qui attribuer les fichiers montés, doit-on vraiment respecter la consigne du système de fichiers que le fichier malware.evil.exe.com appartient à root (avec les droits suid)? (hint: c'est pour ça que mount est un appel système réservé à root)
+
+10:29 AM
+Un dernier contexte est les conteneurs. Par exemple c'est +/- compliqué der partager les fichiers entre les conteneurs et l'hôte car chacun a des utilisateurs différents, donc uid=1000 du fichier partagé ne correspondait pas à la même chose qu'on soit dans l'hote ou dans le conteneur.
+
+	
+frenette.julien
+10:35 AM
+
+320 - Slide 5/7 : Quels sont les droits nécessaires
+
+Pour stat(2) : Aucun droit nécessaire pour le fichier sur lequel stat est appelé. Cependant, l'utilisateur doit avoir les droits d'exécution pour les répertoires menant à celui-ci.
+Pour chmod(2) : Encore une fois, les droit d'exécution pour les répertoire du chemin sont nécessaire. L'utilisateur doit aussi voir les droits en écriture du fichier sur lequel chmod est appelé.
+Suivre un lien symbolique : Les liens symboliques n'ont pas de permission.
+Supprimer un fichier : Les droits en lecture et en écriture sont nécessaire, mais seulement sur le dossier contenant le fichier à supprimer.
+	
+privat
+10:46 AM
+stat(2): oui, il faut se rendre, donc les droits de traversage (x) des éléments du chemin
+chmod(2): comme on change les droits n'importe qui peut pas le faire : propriétaire ou root seulement
+lien symbolique: droits de traversage des éléments du chemin lié. ce qui peut impliquer pour le noyau une vérification récursive des droits
+suppression: seulement le droit w du répertoire est suffisant et nécessaire (en pratique, c'est rare d'avoir w sur un répertoire dans sans r). les droits du fichier ne sont pas pris en compte : le fichier ou ses métadonnées ne sont pas modifiées, seule l'entrée dans le répertoire l'est (et il pourrait y avoir d'autres entrées (liens physiques) dans d'autres répertoires)
+	
+blouin.guillaume
+Update your status
+11:59 PM
+
+jai encore la misere a faire la difference entre groupe réel et groupe effectif  :neutral_face: 
+
+June 24
+	
+kamel.younes
+7:20 PM
+
+Est ce que c'est possible de rendre le contenu du cours accessible meme quand les sites de l'uqam sont hors service ? Car c'est vraiment pas pratique pour reviser
+
+	
+lai.ting-yang
+8:53 PM
+Tu peux télécharger les vidéos:
+
+Ouvris le lien du vidéo
+Right click sur la page, choisis "View Page Source" (ou qqch similaire selon ton browser )
+Fais CTRL+F, cherches le mot "mp4", tu trouveras un lien de ce style: https://uqam.ca.panopto.com/Panopto/Podcast/Social/xxxxxxxxxxxxxxxxxxx.mp4?mediaTargetType=videoPodcast. Copies le lien
+Ouvris le lien copié, le vidéo se charge.
+Tu peux maintenant Right click sur le vidéo, et télécharges le vidéo
+Supprimes les vidéos une fois tu termines ta révision
+June 25
+	
+blouin.guillaume
+Update your status
+8:46 PM
+
+capsule 320, 2m47s
+réel correspond, identifie utilisateur derrière la machine 
+ou identifie service, démon
+
+effectif par rapport au droits des processus par rapport à une augmentation de privilèges
+
+capsule 320, 4m05s (PAIRES)
+sauvé sauvegarder la valeur de l'effectif
+
+fichier paire utilisateur/fichier qui sert a rien
+
+June 28
+	
+blouin.guillaume
+Update your status
+3:25 PM
+
+a quoi ca sert si je fais un free() juste avant un exit()
+
+	
+lai.ting-yang
+3:32 PM
+Je pense que c'est juste plus "propre" , même si en réalité, on sait que le OS va nettoyer tout pour nous.
+
+July 06
+	
+blouin.guillaume
+Update your status
+9:31 AM
+
+Question 1: strlen() et pas sizeof()
+
+strlen() compte un octet de plus? :x:
+
+IMG_2870.PNG
+
+
+	
+blouin.guillaume
+Update your status
+9:40 AM
+
+est-ce que le descripteur du fichier ouvert dans la table des descripteurs TD peut avoir un numero different pour le meme processus dans la table globale des fichiers ouverts TFO
+Si oui c'est comme ca que plusieurs processus manipule le même fichier ouvert? ayant un numéro indépendant qui pointe sur la table globale? c'est pour ça l'étoile dans (-->TFO*) ?
+
+	
+privat
+9:49 AM
+
+strlen compte un de moins.
+Ce qu'on veut write c'est les 13 caractères de la chaine, c'est exactement ce que faitstrlen qui compte la longueur de la chaine, ici donc 13.
+Avoir utilisé sizeof signifie la taille en octet du type de l'expression (ici msg est un tableau de taille 14, car le tableau contient un '\0' (NUL) implicite qui marque la fin de la chaîne, c'est la convention du C) aurait donc forcé le write à écrire un caractère NUL supplémentaire.
+Pour rendre les choses plus difficiles, NUL n'apparait pas dans le terminal (cat hello montre rien), mais il est quand même présent dans le fichier hello sera sans doute par la suite la cause de bugs bizarre et de tests échoués. (cat -v hello pour voir les caractères non imprimables)
+
+	
+privat
+10:07 AM
+
+Chaque numéro de descripteur (0, 1, 2, etc.) indique la case dans la table des descripteurs (propre à chaque processus, mais accessible directement que par le noyau, le processus se contente des numéros 0, 1, 2, etc. et des appels systèmes).
+Dans la case de la table des descripteurs, on a alors un pointeur vers l'entrée dans la table des fichiers ouverts Habituellement, chez POSIX une entrée dans la table des descripteurs ne contient que deux choses: ce fameux pointeur vers et un champ de flags (principalement pour le flag POSIX FD_CLOEXEC que j'ai pas présenté et qui force la fermeture du descripteur lors du prochain exec).
+
+L'étoile signifie qu'il y a dans la table un champ compteur (nombre de pointeurs entrants) qui permet de nettoyer l'entrée quand le nombre de pointeurs devient 0.
+
+	
+privat
+10:18 AM
+Par exemple, chez Linux: la structure fd (entrée dans la table des descripteurs) est simple : https://github.com/torvalds/linux/blob/master/include/linux/file.h#L36-L39
+Alors qu'une entrée dans la table des fichiers ouverts est un peu plus complexe, mais on y voit quand même facilement le compteur (f_count) et le curseur (f_pos) https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L920-L959
+
+GitHub
+torvalds/linux
+Linux kernel source tree. Contribute to torvalds/linux development by creating an account on GitHub. 
+
+	
+blouin.guillaume
+Update your status
+10:29 AM
+ok ça fait pas mal de stock merci :money_mouth_face:
+
+	
+blouin.guillaume
+Update your status
+10:40 AM
+
+12m58s, capsule 340
+type de fichier du terminal = CHR
+c'est quoi CHR, il y a rien sur le web 
+
+dans la colonne descripteur fd
+2u
+3r
+
+le u et r, la différence?
+
+	
+privat
+10:44 AM
+Pour un fichier spécial périphérique (device) de type caractère : on lit/écrit un octet (ou une séquence d'octets) à la fois. C'est lsof qui décide d'appeler ça CHR mais c'est documenté dans leur man.
+
+10:47 AM
+Sans doute le mode d'ouverture. man lsof confirme:
+
+                  FD is followed by one of these characters, describing the mode under which the file is open:
+
+                       r for read access;
+                       w for write access;
+                       u for read and write access;
+	
+blouin.guillaume
+Update your status
+10:49 AM
+je cherchais merci 
+
+	
+le_nouveau.patrice
+11:19 AM
+
+Quelle est la différence entre dupliquer un descripteur et ouvrir
+deux fois un fichier ?
+
+Peut-être un peu naif (ou j'ai pas bien compris), mais si on reouvre un même fichier ça va pas créer une entrée dans la table des fichiers ouvert sur le même fichier? Tandis que la dupplication va juste au plus faire une autre entré dans la table des descripteurs qui pointe sur le même fichier que l'autre
+
+en fait ça va pas ajouté une entré dans la table des descripteurs mais en faire pointer une sur la même qu'on a dupliqué
+
+	
+privat
+11:25 AM
+
+
+
+c'est ça. quand on duplique un descripteur ca veut dire qu'on conserve et partage le curseur et le mode d'ouverture. Alors que qu'un open va donner un fichier ouvert indépendant. De plus open refait tout le processus d'ouverture, c’est-à-dire la résolution des chemins (le fichier à p'tet bougé) et la vérification des droits (qui peuvent avoir été modifiés depuis).	
+blouin.guillaume
+Update your status
+3:18 PM
+
+@privat bonjour
+
+capsule 400, communication intreprocessus, 9m30s
+1) MOVE, cela veut dire LDA ? 
+
+Mardi Séance synchrone
+2) sera-t-il possible vite vite de traduire avec vous l'assembleur PEP8
+3) Possibilités que vous acceptiez de lire avec nous le fichier test_helper.bash du tp1 ?
+
+je vous en prie,
+envoye par guib
+
+	
+blouin.guillaume
+Update your status
+3:49 PM
+
+@privat bonjour
+Nous pour la commande PIPE(2), c'est les architectures du haut ou du bas (Voir 2 carrés verts)
+
+Screenshot from 2021-07-12 15-45-54.png
+
+
+	
+privat
+4:13 PM
+
+MOV c'est LDr ou STr (en fonction du sens).
+quelles diapos?
+test_helper c'est un peu du bricolage interne, si vous avez des questions précises, vous pouvez les posez directement.
+	
+privat
+4:16 PM
+
+utilisez int pipe(int pipefd[2]). sur les archis indiquées, c'est le premier. sur les autres archis (chez vous sans doute et chez posix) c'est le second.
+
+	
+blouin.guillaume
+Update your status
+7:42 PM
+ok int pipe(int pipefd[2]) 
+
+July 13
+	
+blouin.guillaume
+Update your status
+9:37 PM
+
+@privat bonjour
+pourquoi kill est souvent un signal interne du shell
+
+	
+blouin.guillaume
+Update your status
+9:55 PM
+
+capsule 410, diapo 8/12, la quatrieme ligne du main, on appelle une fonction sans la signature complète de la fonction et ca compile;
+
+@privat bonjour
+c'est parce que l'affection est à un pointeur de fonction? pourquoi il n'y a pas le symbole & dans ce cas?
+
+@privat j'aurais préféré:
+action.sa_handler = &gere;
+
+pourquoi non 
+
+	
+blouin.guillaume
+Update your status
+10:15 PM
+IMG_2983.PNG
+
+
+parce que le champs sa_handler c'est un pointeur de fontion qui prend un int en parametre quon a pas deja (c'est le signal)
+
+	
+blouin.guillaume
+Update your status
+10:18 PM
+
+@privat bonjour
+capsule 410, 12m58s, diapo 8/12
+si on veut que ca soit le champs *sa_sigaction, c'est quoi le flag qu'il faut mettre dans action.sa_flags
+
+	
+blouin.guillaume
+Update your status
+10:41 PM
+
+@privat bonjour
+c'est le sigemptyset() qui mets le mask à zéro des signaux bloqués ou c'est le sa_flag = 0
+
+IMG_2984.PNG
+
+
+July 14
+	
+privat
+9:30 AM
+
+elle permet aux identifiants de tâches (jobs, genre %1) qui n'ont de sens que pour le shell, d'être utilisés à la place des IDs de processus.
+elle permet aux processus d'être terminés si la limite du nombre de processus est atteinte
+	
+privat
+9:33 AM
+
+quand foo est une fonction, foo et &foo sont équivalents. Pour qu'il y ait appel (call) il faut les (). La spec du C est un peu bizarre parfois :slightly_frowning_face:
+J'aurais du utiliser &gere dans l'exemple, ça aurait été pareil mais moins mélangeant.
+
+	
+privat
+9:35 AM
+
+on peut laisser 0 par exemple.
+
+	
+privat
+9:37 AM
+
+sigemptyset c'est pour le masque. sa_flags c'est pour des options supplémentaires avancées de l'appel système.
+
+July 19
+	
+blouin.guillaume
+Update your status
+8:01 PM
+
+@privat bonjour
+savez-vous c'est quoi le type abstrait d'une sémaphore en language C? 
+
+755FF7F2-C2CA-4693-849E-28741782EB13.jpg
+
+
+ int sem_init(sem_t *sem, int pshared, unsigned int value);
+	
+blouin.guillaume
+Update your status
+8:04 PM
+
+sem_init() initializes the unnamed semaphore at the address pointed to by sem. The value argument specifies the initial value for the semaphore.
+1) dernier int en argument ils disent pas c'est quoi; --> update, ils disent c'est quoi c'est le initial value mais c'est juste un int qui est possible pour une sémaphore?;
+2) j'ai un pointeur vers une semaphore sem_t, ca dit que je vais pas initialiser ma semaphore dans mon propre code ? 
+
+	
+blouin.guillaume
+Update your status
+8:10 PM
+from man sem_init(3)
+
+	
+privat
+9:02 AM
+
+Il est important de distinguer le concept de sémaphore (qui est abstrait), avec les implémentations des sémaphores dans les langages de programmation et les bibliothèques (qui font des choix particuliers de sémantique, d'interface et d'implémentation).
+Dans le langage C il n'y a pas de sémaphore, la plupart des Unix offrent deux implémentations des sémaphores, celle de posix et celle plus ancienne de System V.
+
+	
+blouin.guillaume
+Update your status
+9:09 AM
+pourtant il y a <semaphore.h> non? 
+
+	
+privat
+9:10 AM
+
+un sémaphore est conceptuellement un compteur, value est la valeur initiale du compteur.
+sem_t est un type opaque (comme le FILE de stdio.h). En tant que programmeur C vous n'avez pas besoin de savoir comment c'est fait (c'est spécifique à votre libc) et si vous basez sur des détails internes de ce type, votre code ne devient plus portable. sem_init, comme son nom l'indique est l'initaliseur de sem_t: on lui donne un sem_t non initialisé et la fonction l'initialise pour nous. Attention, en tant que programmeur vous avez la responsabilité d'allouer le sem_t (et vous décidez ainsi de où le sem_t existe en mémoire: variable globale, variable locale, dans le tas, etc.).
+	
+privat
+9:12 AM
+
+semaphore.h est spécifié par posix (et non ISO C), un système non-posix n'aura pas forcément ce header (ou alors ne sera pas forcément équivalent). https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/semaphore.h.html
+
+	
+blouin.guillaume
+Update your status
+9:13 AM
+
+1) bonjour merci beaucoup! alors si j'ai besoin changer une variable partagée qui n'est pas un int, je suis mieux de faire un signal mutex ??
+
+	
+blouin.guillaume
+Update your status
+9:15 AM
+
+2) mon sem_t que j'ai alloué, comment mon programme concurrent va savoir son existence
+
+	
+privat
+9:17 AM
+
+les sémaphores et les mutex sont un peu différents. Si votre objectif est de protéger une donnée partagée, les mutex sont tout indiqués.
+
+	
+blouin.guillaume
+Update your status
+9:18 AM
+
+comment vous avez fait pour savoir que le manpage de sem_init est de posix et non iso C
+	
+kamel.younes
+9:18 AM
+
+Est ce que les navigateurs web utilisent des sockets web posix pour la communication entre le client et le serveur ? L'addresse serait une addresse http dans ce cas ?
+
+	
+privat
+9:22 AM
+
+Dans la plupart des cas, mutex et sémaphores sont utilisés pour synchroniser des threads d'un même processus, donc c'est facile.
+Parfois, on va synchroniser des processus issus d'un processus parent commun qui crée les sémaphores, dans ce cas la il faut faire hériter les sémaphores (cf paramètre pshared)
+Pous synchroniser des processus qui se connaissent pas directement il faut utiliser des sémaphores només (cf sem_open)
+
+	
+privat
+9:22 AM
+
+habituellement il y a une section CONFORMITÉ ou CONFORMING TO dans les manpages
+
+	
+privat
+9:30 AM
+
+c'est pas clair ce que vous appelez « sockets web posix ». Les sockets (dites berkeley sockets), c'est une API système, pas un réellement concept de téléinformatique. Par contre oui, dans les systèmes unix (y compris macos) il est vraisemblable que les navigateurs utilise l'API des sockets pour communiquer avec le serveur http(s) en face (socket(AF_INET, SOCK_STREAM, 0);).
+De même, pour les serveurs web (apache, nginx, etc.) qui vont utiliser l'API des sockets pour accepter et servir les clients.
+
+	
+blouin.guillaume
+Update your status
+9:37 AM
+@privat bonjour
+mais pour la methode bind() du serveur, l'adresse https demandée par le client sera transformée par le protocole DNS pour atteindre la valeur mise dans la méthode bind() qui sera IP + PORT n'est-ce pas? 
+
+	
+privat
+9:40 AM
+oui, dans les protocoles IP il faut une adresse IP et non un nom de domaine. Donc le navigateur doit faire une résolution DNS en premier.
+
+	
+blouin.guillaume
+Update your status
+9:47 AM
+j'écrirais mon adresse comment dans bind() ?
+--> nous avons un exemple seulement un nom de fichier 
+
+4) IP+Port, pour l'écrire dans le bon emplacement de la méthode bind(), comment écrire IP+PORT
+
+	
+privat
+9:50 AM
+IPv4 a une sockaddr spécifique struct sockaddr_in qui contient un champ pour l'adresse (4 octets) et un pour le port ; IPv6 c'est un peu plus compliqué mais c'est la même idée. manpages ip(7) et ipv6(7)
+
+	
+privat
+9:57 AM
+Notez que dans les diapos et capsules, je ne détaille (un peu) que les sockets du domaine unix (man unix.7) utilisés pour la communication interprocessus (en particulier, c’est celui que la plupart des démons sur vos machines unix utilisent) et non les sockets des protocoles internet (utilisés sur le net). Principalement parce que internet, c’est une autre bête (le cours est déjà assez dense) et que le cours de téléinformatique INF3271 n'est pas prérequis à INF3173.
+
+	
+kamel.younes
+12:37 PM
+
+J'imagine qe c'est le contenu de la semaine prochaine, mais pour regler les problemes de concurrence entre processus est ce qu'on utilise des verouillages de variables ? On a vu quelque chose de similaire en 3080
+
+	
+privat
+1:55 PM
+en effet, les mutex et sémaphores c'est la semaine prochaine. je suis pas trop sur de à quoi vous faites référence dans INF3080 (si vous avez un pointeur plus précis je pourrais vous en dire plus). Pour les mutex, on parle aussi de verrou et de verrouillage (lock) : l'analogie est que le mutex verrouille la section critique, par analogie avec un verrou mécanique sur une porte qui protège la pièce.
+
+1:59 PM
+Il ne faut par contre pas confondre avec une autre utilisation de « verrouillage » en informatique qui vise à protéger l'accès (ou plus souvent la modification) d'information (variable, configuration, fichier, etc.). On peut trouver cet usage dans les interfaces graphique ou dans certains logiciels.
+
+	
+kamel.younes
+3:11 PM
+
+Je faisais reference au cours de bases de donnees. On avait vu que dans des bases de donnees a plusieurs utilisateurs, lorsque l'un modifie une donnee, elle est verouillee pour que d'autres utilisateurs puissent effectuer leurs transactions sans en compromettre d'autres et sans avoir a attendre que les autres utilisateurs aient fini la leur.
+
+	
+privat
+3:16 PM
+je suis pas spécialiste en BD mais je ne pense pas que ça ait directement rapport aux mutex tels que vu dans ce cours, c'est sans doute donc un verrouillage dans le second sens que j'ai donnés (protéger temporairement un truc). Toutefois, à  l'interne les SGBD peuvent utiliser des mécanismes de synchronisation pour s'assurer que la BD reste cohérente, mais les détails techniques sont très dépendants des choix de conception et de l'architecture logicielle du SGBD considéré.
+
+	
+privat
+3:25 PM
+https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html donc ça semble bien un mécanisme pour permettre à un client de faire des requêtes en évitant que des clients concurrents fassent de même. ça ressemble à des transactions du pauvre (mais je peux me tromper). Meme si les concepts sont proches (verrouiller/déverrouiller), dans mysql on n’est pas au même niveau de granularité que dans le système d'exploitation/dans un processus.
+
+	
+kamel.younes
+3:27 PM
+Oui voila, je parlais des mechanismes afin de maintenir la BD coherente, effectivement on avait vu que l'architecte de la BD peut choisir differentesmethodes selon les cas d'utilisation ! Merci pour la reponse
+
+	
+privat
+4:40 PM
+
+Juste histoire de compléter la réponse. C11 spécifie aussi une api de threads et mutexes (et variables conditionnelles). Je ne la connais pas tant que ça et semble proche (un sous ensemble?) des pthreads. https://www.gnu.org/software/libc/manual/html_node/ISO-C-Threads.html et https://en.cppreference.com/w/c/thread
+
+	
+blouin.guillaume
+Update your status
+5:22 PM
+ok ! j'imagine lorsqu'on utilises les fonctions de bibliotheques C, ca reviens a etre plus portables encore que posix? c'est pour a quon a les deux? 
+
+	
+privat
+5:39 PM
+C'est pas clair, les avis semblent très partagés. Comme posix a plus de fonctionnalités utiliser les threads C11 c'est risquer de devoir tout changer si on a besoin de ces fonctionnalités supplémentaires. Aussi les threads des C11 sont optionnels donc pour un vrai projet de développement il faudrait s'assurer de ce qui est réellement disponible sur les plate-formes cibles et dans la chaîne d'outils utilisé.
+
+July 27
+	
+blouin.guillaume
+Update your status
+10:11 AM
+
+@privat bonjour desoler je suis en retard aujourdhui
+capsule 510 section critique, 5m50s
+---> comment le programme ./inc_bad fonctionne sans main et obtient 2 threads, j'ai manqué quelque chose ? 
+
+5EDF5E3E-1FAA-4750-9B39-9C2965D73B2A.jpg
+
+
+	
+privat
+10:14 AM
+
+désolé mario mais le main est dans un autre fichier: https://gitlab.info.uqam.ca/inf3173/progs/-/blob/master/500-synchro/main.c :slightly_smiling_face:
+
+GitLab
+Sign in
+Gitlab - Département d'informatique
+
+10:16 AM
+normalement, le Makefile s'occupe de build les binaires comme il faut
+
+	
+blouin.guillaume
+Update your status
+10:17 AM
+merci maintenant j'ai un exemple pour créé un thread ! 
+
+2) comment /inc_bad communique a prog/500-synchro/main.c, je ne vois pas le lien on dirait de la magie 
+
+	
+privat
+10:20 AM
+Makgie: $^ désigne l'ensemble des « sources » de la règle, donc ici  inc_%.c et main.c, le % du inc_%.c est remplacé par ce que la cible match https://gitlab.info.uqam.ca/inf3173/progs/-/blob/master/500-synchro/Makefile#L10
+
+GitLab
+Sign in
+Gitlab - Département d'informatique
+
+	
+blouin.guillaume
+Update your status
+10:26 AM
+ayoye ok 
+
+merci
+
+	
+blouin.guillaume
+Update your status
+10:41 AM
+
+@privat bonjour !
+capsule 501 section critique 11m18s
+est que le "!" est de trop dans la boucle while pour flag[!k]
+
+015F6ACB-BC07-416B-95AE-051443140F32.png
+
+
+	
+privat
+10:42 AM
+non, l'algo est bizarre (non-naturel). mais il faut le !k car on surveille l'autre thread
+
+	
+kamel.younes
+4:42 PM
+
+Est ce qu'on pourrait avoir plus de precision sur ce que c'ets qu'une instruction "atomique" exactement ?
+
+	
+blouin.guillaume
+Update your status
+4:48 PM
+
+
+
+https://fr.m.wikipedia.org/wiki/Atomicité_(informatique)
+
+Atomicité (informatique) — Wikipédia
+F9608D67-1C78-4045-B3AA-EF1371CE2DF8.jpg
+
+
+	
+kamel.younes
+4:52 PM
+Ok je vois
+
+Merci
+
+	
+privat
+5:01 PM
+
+l'article Wikipédia en français est pas très bon.  l'idée d'une instruction atomique est qu'elle est faite d'un coup sans qu'on puisse observer d'état intermédiaire.
+
+5:04 PM
+après, pour la précision, ben ça dépend du contexte : c'est à quel niveau que tu raisonnes sur quel type architecture concurente/parallèle.
+
+	
+blouin.guillaume
+Update your status
+5:07 PM
+
+@ privat bonjour
+
+capsule 530 interblocages, 41m33s
+Héritage de priorité:
+---> sous linux, au lieu de (PTHREAD_PRIO_INHERIT),
+vous dites, utilisez les futex manuellement avec le flag pour l'héritage
+
+1) sous linux, peux-t-on avoir accès à des mutex posix de Priority Inheritance? il me semble que linux a accès à tout ce qui est posix en plus de GNU? il manque un API? alors qui peut utiliser POSIX, je suis perdu
+
+2) le processus prioritaire qui a reçu un futex linux doit savoir lui-même qu'il doit faire hériter sa priorité au processus consommant la ressource?
+
+	
+privat
+5:08 PM
+
+diapo 14 et 15. ya meme une démo dans les capsules
+
+	
+blouin.guillaume
+Update your status
+5:09 PM
+
+56CDB4BA-DB66-49FB-9FF7-0042B0D63315.jpg
+
+
+	
+privat
+5:13 PM
+1- si je me souviens bien, les pthreads de la libc n'implémentent pas (encore) l'héritage de priorité, mais que c'est dispo dans les futex (plus bas niveau). C'est optionnel chez POSIX et gnu le fait pas. C'est sans doute dispo dans d'autre unix (mac? sunos?)
+
+	
+privat
+5:20 PM
+2- l'inversion de priorité rend les choses plus compliquées avec les futex (qui est déjà compliqué de base) car les futex c'est juste une brique techniquement complexe (mais efficace pour) implémenter des mécanismes de plus haut niveau par dessus. c'est bien au-delà du cadre du cours
+
+August 02
+	
+blouin.guillaume
+Update your status
+8:18 PM
+
+  @privat bonjour
+
+Capsule 600 gestion de la mémoire
+A) 4m24s, diapo 5/15
+--> quel est la différence entre multiprocesseurs et multicoeurs?
+
+B) 14m51s
+--> quel est la lettre "c" avant les droits?
+
+C) 21m08s
+commande ps aux
+Colonne VSZ, taille de mémoire logique
+1) Par rapport aux tailles de mémoires logiques, se retrouve-t-elles quelque part ? Sinon comment /proc/PID/pagemap fait les liens
+
+2) Colonne STAT, que veulent dire ces symboles
+--> Ss 
+--> S 
+--> I< 
+--> I 
+--> Ssl
+--> Snsl
+
+D) 23m37s
+--> comment l'ordinateur fait pour trouver la bonne valeur alors qu'elle est à une adresse logique identique ?
+
+hypothèse1: l'adresse physique d'une variable clonée n'est pas à la même adresse physique que son clone sinon ce serait une variable partagée? Ils n'ont que leurs adresses logiques héritées? 
+
+hypothèse1 (suite): la table des pages de l'enfant est partiellement différente après fork()
+
+E) 37m51s
+1) que sont les Registres FS et GS? l'adresse linéaire obtenue correspond-t-elle  à l'adresse de base + l'index, sinon c'est quoi une adresse linéaire
+2) bien connaître tous les registres c'est un peu INF2171 ou INF4170?
+Accumulator, Index Register, Stack Pointer, Program Counter, CR3 (Adresse de table de pages)
+3) ces registres ci-haut sont-ils des registres autant que les flags ci-bas:
+ N(Negative), Z(Zero), V(Overflow), C(Carry), ?
+4) y a-t-il d'autres registres
+
+Capsule 610 Pagination
+F) 22m54s, diapo 7/15
+1) le registre CR3 pour processeur x86 32bits, pour un processeur x64 ce serait quoi
+2) est-ce que nos processeurs dans nos ordinateurs sont x64 ou x86
+
+G) 24m54s diapo 7/15
+l'adresse dans CR3 est-elle physique et pour un changement de contexte le MMU trouverait la table des pages du nouveau processus actif?
+
+Capsule 620 Mémoire Virtuelle
+H) 3m28s, diapo 3/13
+lorsque la mémoire disque est presque pleine, peut-il y avoir des erreurs de swappings si nos pages sont de grosse taille
+
+I) 18m23s, diapo 10/13 
+Quand est-ce que l'adresse virtuelle peut ne pas être configurée pour pointer et que le noyau peut oublier de mapper
+
+J) 30m27s, diapo 13/13
+est ce que une page peut avoir plusieurs jokers si elles sont très souvents visités 
+
+K) Pouvez-vous nommer un algos de remplacement non pathologique
+
+Show more
+August 03
+	
+privat
+8:48 AM
+A) processeur=CPU(unité centrale de traitement)=microprocesseur ; c'est habituellement la composante électronique (une puce que vend Intel ou AMD par exemple) la plus importante de l'ordinateur.
+On dit qu'un ordinateur est multiprocesseur quand il possède plus d'un processeur ce qui veut dire que du calcul peut être fait sur un processeur en même temps que du calcul est fait sur un autre (par exemple plusieurs processus peuvent être actif en même temps : vrai parallélisme)
+Multicœur c'est quand la puce physique vendue contient en réalité à plusieurs unités de calculs ± indépendantes (appelés cœurs ou cores), ainsi avec une seule puce on a plusieurs unités de calcul autonomes (et là aussi du vrai parallélisme)
+De nos jours, les topologies des processeurs sont plus ou moins complexes, c'est des trucs que vous verrez sans doute en INF4170
+
+8:50 AM
+B) le type du fichier - pour régulier, d pour répertoire, c pour périphérique en mode caractère, etc.
+
+8:53 AM
+C1) on détaille plus dans 62x car VSZ correspond à la mémoire virtuelle (ce qui inclue swap et compagnie)
+
+	
+privat
+8:58 AM
+C2) état du processus (actif, pret, bloqué) + des info additionnelle. man ps pour les détails. S =  sleep (une forme de bloqué), s = meneur de session (on n’a pas vraiment causé des sid donc je vais pas insister), l = processus multithread (l=light-weight process), etc.
+
+9:00 AM
+D) version lente: lors du fork, on copie toute les pages du processus parent et on fabrique une table des page nouvelle (qui pointe sur les copies) destinée à l'enfant
+version rapide: copy-on-write
+
+	
+privat
+9:12 AM
+E1) oui, il me semble que c'est juste un plus (à vérifier)
+E2) connaitre les registres spécifiques n'est pas important, connaitre leurs rôles l'est plus
+E3) le flag (mot d'état) est habituellement un registre autonome, les NZVC et autre ne sont que des bits particuliers de ce registre.
+E4) plein, https://en.wikipedia.org/wiki/X86#/media/File:Table_of_x86_Registers_svg.svg
+
+9:15 AM
+F1) c'est CR3 aussi il me semble
+F2) probablement oui. dans ton téléphone et ton routeur c'est sans doute du arm. dans les mac récents c'est du arm-like (M1), avant du x68 et encore avant du powerpc.
+
+9:17 AM
+G) oui, l'adresse dans le registre est physique et sert au MMU pour faire les traductions ; le système d'exploitation change la valeur de ce registre lors des changements de contexte pour que ce soit toujours la bonne valeur dedans.
+
+9:19 AM
+H) si ya pas la place ni en ram, ni en swap, forcément ça va mal se passer, on en parle un peu dans 623
+
+9:21 AM
+I) si le noyau oublie de faire son travail, c'est un bogue du noyau. (ou alors j'ai pas bien compris la question)
+
+	
+privat
+9:28 AM
+J) oui, là je présente la stratégie générale. Ensuite chaque os l'implémente à sa sauce avec ses variations et spécificités. La mémoire ça devient vite très compliqué.
+Chez posix, on a l'appel système mlock (et cie). Sous linux ça s'appelle des pages unevictable à l'interne.
+
+	
+blouin.guillaume
+Update your status
+9:30 AM
+nice merci :stuck_out_tongue_closed_eyes::+1_light_skin_tone:
+
+	
+privat
+11:27 AM
+
+K) c'est pas l'algo qui est pathologique en soit, c'est la donnée en entrée qui cause un comportement inattendu (l'anomalie de Belady).
+L'anomalie de Belady est avant-tout une curiosité algorithmique, il ne faut pas forcément lui accorder plus d'importance que ça.
+Pour répondre à la question, FIFO, même s'il est souvent considéré moins bon que l'horloge n'est pas soumis à Belady (edit: il l'est, c’est même sur cet algo que Belady est présenté dans les diapos/capsules). Un autre algo commun LRU n'est pas soumis à Belady (mais LRU est couteux, d'une certaine facon, l'horloge n'est qu'une version simplifiée de LRU). 
+
+	
+privat
+11:33 AM
+Note: comme pour la question précédente, c'est juste une introduction générale au problème abstrait et a des stratégies de résolution, dans la vraie vie les choses sont plus complexes. « The current reclaim algorithm is a mash of a number of different algorithms with a number of modifications for catching corner cases and various optimisations » par exemple
+
+	
+blouin.guillaume
+Update your status
+12:09 PM
+d'accord, D) comment fait-on un copy-on-write ? 
+
+	
+blouin.guillaume
+Update your status
+12:17 PM
+k) algo de remplacement FIFO dans les capsules semblait très mauvais 9 échecs sur 12 alors pourquoi il n'est pas soumis a belady
+
+	
+blouin.guillaume
+Update your status
+12:39 PM
+
+7AAE7AAD-4942-4B8C-880B-CCE88CC36BEB.jpg
+
+
+	
+privat
+1:45 PM
+En effet, c'est une erreur de ma part. Dans les capsules et diapos, c'est correct, c'est d'ailleurs sur FIFO que Beladi est introduit.
+
+	
+privat
+1:46 PM
+
+k) il l'est, une erreur de ma part.
+
+1:47 PM
+d) COW est présenté capsule 621, pp 5-7
+
+August 10
+	
+blouin.guillaume
+Update your status
+8:43 AM
+
+@privat bonjour
+capsule 621, memoire virtuelle avancée
+
+A) 8m33s, cat proc/$$/status
+--> Pourquoi la mémoire résidente s'appelle VmRSS, est-elle encore virtuelle ou ont-ils oublié d'enlever le mot "Vm"
+
+B) où est située la zone de mémoire virtuelle
+
+	
+privat
+9:52 AM
+A et B) la mémoire virtuelle c'est un concept. Ca signifie que la mémoire que le système d'exploitation "montre" aux processus c'est 1. plein d'astuces d'optimisation (partage,cow,swap,etc.) ce qui permet d'économiser la mémoire et 2. complètement transparent pour les processus (qui pensent utiliser une mémoire classique).
+
+9:52 AM
+donc pour A). la mémoire virtuelle inclue la mémoire résidente. ils ont laissé le "Vm" sans doute pour s'y retrouver et indiquer que c'est des stats liés à la mémoire virtuelle (mais de façon incohérente l'on pas mis pour les champs suivants comme RssAnon...)
+
+	
+privat
+10:00 AM
+pour B) la mémoire virtuelle peut etre, en général, soit résidente, soit sur disque, soit non allouée encore (voir capsule suivante pour les histoires d'allocations)
+
+	
+kamel.younes
+10:02 AM
+
+Si j'ai bien compris un appel a mmap ne fait ni de read ni de write. Comment est ce possible ? Qu'est ce qui est fait a la place ? Je n'ai pas bien compris cette partie 
+
+	
+privat
+10:17 AM
+read() et write() sont des appels système. cad des moyens pour un processus de demander des choses au système d'exploitation. mmap() et aussi un appel système. Maintenant, mmap (quand utilisé avec un fichier) ainsi que read et write utilisent à l'interne du noyau de choses similaires: chercher des données sur le disque, le copier en mémoire, etc.
+
+	
+privat
+10:23 AM
+pour le processus, la magie de mmap c'est de se retrouver avec de la ram qui contient "deja" les octets du fichier et plus fort encore, que les modifications à cette mémoire se répercute "tout seul" sur le fichier. En réalité, c'est pas de la vrai magie mais plus de la prestidigitation : le noyau contrôle le contenu de la mémoire, est capable de la remplir 'juste-à-temps', quitte à mettre le processus "en pause" le temps de faire ses affaires (ça ressemble plus à de la magie avec trucage vidéo en fait)
+
+	
+kamel.younes
+10:25 AM
+
+Merci bcp ! Autre question : aurait il ete possible de faire le TP avec shm_open() et des shared memory objects a la place de pipes ? Etant donne que c'est de la memoire partagee cela peut permettre la communication inter-processus non ?
+
+	
+privat
+10:33 AM
+Dans le cadre général, peut-être. Dans le cadre du tp, c'est beaucoup plus difficile car on exécute des commandes quelconques qui font des read sur 0 et des write sur 1 (et ça, c'est dans leur programme, on a pas le contrôle).
+Maintenant, en plus, la communication par mémoire partagée ça peut être vite compliqué (on aurait le temps on en ferait un TP3!) car il faut gérer la synchronisation à la main (de façon programmation), c’est-à-dire s'assurer que l'écrivain écrive avant que le lecteur lise, que le lecteur sache s'arrêter quand ya plus rien à lire et plus d'écrivain, que l'écrivain sache attendre quand il est trop en avance sur le lecteur, etc. C'est assez pénible à faire correctement (cf lab de synchro), et comme c'est clé en main dans les tubes, on ne se rend pas forcément compte qu'on en a tant besoin.
+
+	
+privat
+10:41 AM
+Aussi, lors du exec, les mmap sont automatiquement perdus (c'est logique, on commence un nouveau programme avec de la mémoire "neuve").
+Il y aurait p'tet moyen de bricoler avec de la "mémoire partagée" nommée (shm_open) et donc avoir des descripteurs de fichiers à mettre en face de 0 et 1 (qui seront préservés lors des fork et exec!) mais 1. ça résout pas les problèmes de synchro (le lecteur lit, atteint la fin de fichier, mais en fait non c'est juste que l'écrivain a pas eu le temps de finir d'écrire) 2. la mémoire est partagée mais ne sera pas mapée dans la mémoire virtuelle des processus des commandes qu'on exécute pour autant.
+
+	
+kamel.younes
+10:56 AM
+Merci !
+
+	
+kamel.younes
+11:01 AM
+
+Une question en dehors du cadre du cours mais liee quand meme : 
+
+Lorsque l'on a un OOM l'OS emploi des heuritques afin de choisir quel processus tuer, mais parfois il tue le mauvais. Serait il possible de remplacer ces heuristiques par un modele de machine learning afin d'avoir une meilleure precision ?
+
+Plus generalement, est ce qu'il existe des OS utilisant du ML pour leur "prise de decision" (pour l'ordonnancement par exemple) ?
+
+	
+privat
+11:08 AM
+ML != magie. Je ne vois pas trop en quoi le ML serait pertinent dans les deux problèmes. car 1. il n'y a pas de base d'apprentissage (sur quoi tu veux l'entrainer? les données initiales c'est fondamental en ML) 2. tu veux pas risquer que ton os se comporte mal et de façon inexplicable dans des cas limites.
+
+	
+kamel.younes
+11:14 AM
+
+Je pensais a l'entrainer sur les statistique des processus contenues dans la structure retournee par lstat() par exemple. Le modele pourrait s'entrainer sur une jeu de donnees avec x= stats des processus, les conditions du systeme lors du kill et y = est ce que le fait de tuer ce processus lors d'un kill cause probleme/une perte de performance
+
+J'ai trouve ce papier qui m'avait l'air vraiment interressant par exemple : https://ieeexplore.ieee.org/document/7845120
+
+Using ML in designing self-healing OS
+Operating systems serve as executing platforms and resource manager and supervisors for the applications in running phase. With the development of more complex computer systems and applications, the required operating systems become complex too. But the proper management of such complex operating...
+
+	
+privat
+11:28 AM
+
+lstat c'est pour les fichiers. sinon les OOM sont des événements rares ce qui est un problème pour bâtir un corpus pertinent de données initiale, et sur tu feed ton ML avec les résultats du oom classique, c'est pas convainquant ce que ça puisse donner de quoi de vraiment mieux que oom classique. ce n’est pas infaisable mais ca nécessite de vraiment poser rigoureusement le problème et le contexte.
+
+	
+le_nouveau.patrice
+11:58 AM
+
+Pour les questions de capsules, je suis vraiment pas sur de certains (pas mal de) trucs donc j'aimerais essayé de comprendre:
+
+621:
+Diapo 7 : 1) Je pense que c'est simplement à cause que vu que c'est un défault de page mineur, on a pas besoin de faire des entrées/sorties pour aller chercher la page vu que c'est celle qu'on vient de copier alors pas besoin de bloqué le processus
+2)  Pas sur de comment différencier la page cow à une page en lecture seule si s'en ai une copie, peut-être par la taille?
+
+Diapo 8: 
+1) Pas vraiment sur, j'aurais l'impression de dire que ça change rien, étant donner que dans le cas privé on fait un COW si on a besoin de modifier la zone en lecture seul, et dans le reste c'est quelque chose en lecture seule donc pas modifiable
+
+623: 
+Diapo 4: 1) je pense que non, car il y a quand même des allocations de pages fait (comme montré plus loin)
+
+	
+le_nouveau.patrice
+12:00 PM
+
+rendu à la mémoire ça m'a un peu perdu en fait, y'a comme beaucoup de stock à considéré si c'est promis, allouer, partagé
+
+	
+le_nouveau.patrice
+12:03 PM
+
+mais je comprend qu'en gros avec mmap tu peux allouer un bloc de mémoire promis ou directement allouer, partagé ou non, read-only ou non, et "jouer avec" selon ses settings (comme écrire et incrémenté dans un fichier un chiffre sans utilisé de read/write)
+
+	
+privat
+12:08 PM
+
+621.7.1. oui exactement, a aucun moment le CPU n'a besoin de s'arrêter pour attendre quelque chose.
+
+12:08 PM
+621.7.2. le noyau stocke cette information à part car ya habituellement pas la place dans la tables de pages pour ajouter trop d'info de gestion. En regardant les droits de la zone memoire (les infos qu'on voit avec pmap pas exemple) on peut savoir: si on a une faute et que la zone est en lecture seule, le noyau envoie un signal sigsev au processus (par exemples) ; si la zone est en lecture-écriture, la faute peut alors être traité comme CoW
+
+12:12 PM
+621.8.1. ca ne change pas complètement rien, en ayant une page privée en lecture seule, on sait qu'aucun processus ne peut faire de modification.
+Par exemple, avec mmap, autant 'shared' et 'private' c'est déterminé une fois pour toute au début , autant les droits peuvent changer après (mprotect).
+le shared a aussi un effet sur les forks : parent et enfant partagent la meme zone
+
+12:16 PM
+623.4.1. oui, mais le vrai cout sera lors du CoW lorsque l'on va réellement écrire dans la page, il faudra le faire dans une copie crée à la volée (et non dans la page zéro). Donc on a juste déplacé cette copie de 0 à plus tard (en espérant aussi qu'on en ait pas besoin)
+
+	
+privat
+12:18 PM
+
+oui, la mémoire c'est pas simple, c'est un empilement d'astuces et en fonction du point de vue (processus, os, cpu) ça change tout
+
+	
+privat
+12:20 PM
+
+
+
+le "dernier" lab est sur mmap, en programmant avec, souvent on comprend mieux	
+blouin.guillaume
+Update your status
+2:58 PM
+
+@privat bonjour
+capsule 621, mmap et cie
+
+C) 17m29s, top -p PID
+Différence entre la colonne RES et SHR
+1) (SHR) 137004kb, c'est la mémoire partagée sur la RES ? 
+2) Comment savoir combien de processus partagent RES 
+
+D) Savez-vous pourquoi je n'ai pas le manuel pour mcore(2)
+
+	
+blouin.guillaume
+Update your status
+6:06 PM
+Screenshot from 2021-08-10 18-05-17.png
+
+
+August 11
+	
+privat
+3:00 PM
+
+C: man top explique que c'est une partie de RES
+D: mincore typo (bien trouvé!)
+
+August 16
+	
+blouin.guillaume
+Update your status
+6:53 PM
+
+@privat bonjour
+que fait cette fonction en language machine ? arch_prctl(ARCH_SET_FS, 0x7f3553655540) = 0
+
+	
+privat
+8:44 PM
+c'est pas du langage machine. ce n’est pas parce qu'il y a des mots en majuscules et de l'hexadécimal que c'est automatiquement du langage machine.
+arch_prctl est un appel système Linux spécifiques aux archis x86 et x86_64, et ARCH_SET_FS un paramètre qui comme son nom (et la manpage l'indique) sert à initialiser le registre processeur FS, et l'hexa est une adresse mémoire (vers la pile).
+Chez gnu (gcc et libc), la segmentation via le registre FS du processeur x86_64 est utilisée pour le Thread Local Storage et est automatiquement initialisé par la libc (même si on s'en sert pas). FS est aussi utilisée pour les canaris de pile il me semble (qui est activé par défaut dans le compilos récents).
+
+September 12
+System
+12:07 AM
+@brouillette.samuel and @cobello.patrick left the channel.
+September 15
+	
+abdenbi_m
+6:09 PM
+Bonjour @all 
+Je profite du monde encore sur ce canal dédié...
+Je suis à la recherche d'une démonstratrice ou d'un démonstrateur pour un de mes groupes d'INF3173 cet automne :
+
+Horaire : lundi soir de 18h00 à 20h00
+Contrat de 42h
+Vous aurez accès aux solutions et, au besoin, à un soutient pédagogique de ma part
+L'occasion de revoir les concepts du cours (sans stress!) et d’asseoir vos connaissances :slightly_smiling_face:
+Si ça vous intéresse m'écrire en message privé ici sur Mattermost ou sur abdenbi.moussa@uqam.ca
+Désolé d'avoir détourner ce canal.... 
+Merci!
+
+September 16
+System
+10:31 AM
+@el_omari.imane joined the channel.
+@romero_carpio.ruben and 2 others left the channel.
+September 20
+System
+1:35 PM
+@duenas_illatopa.brazhia_milagros left the channel.
+October 03
+	
+sehboub.yacine
+9:59 PM
+@abdenbi_m Bonsoir
+
+Quand je fait "Make check'', je passe tout les testes
+
+Mais sur GitHub j'ai ceci : 
+
+cquoi.JPG
+
+
+	
+sehboub.yacine
+10:00 PM
+
+Qu'est-ce que ca veut dire svp?
+
+	
+abdenbi_m
+10:11 PM
+Ce n'est pas le chat du cours...
+Clique sur test pour voir quels tests ont échoués.
+Pour rappel, "ça marche chez moi" est irrecevable comme argument.
+
+	
+sehboub.yacine
+10:25 PM
+ah ok 8 et 10 ne passe pas
+
+pourtant ca marche chez moi ET sur le serveur JAVA de l'UQAM
+
+Thursday
+System
+4:12 PM
+@rehouma.mohamed_hocine left the channel.
