@@ -1,5 +1,8 @@
 # INF3173 -- ATELIER GUIB
 
+https://docs.google.com/presentation/d/1T1JKK-E8m9iu_rUnuRkhM4OPkPbZ8lSM-vbLIyOgSRM/edit#slide=id.gf230178a39_0_149
+
+
 |Deroulement|Laboratoire 4|
 |:---|---:|
 |Communication et **capsules**|Mattermost|
