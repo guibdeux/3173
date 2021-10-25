@@ -4,9 +4,7 @@
 #include <pwd.h>
 #include <grp.h>
 #include <string.h>
-#include <sys/types.h>
 #include <time.h>
-#include <sys/sysmacros.h>
 
 int main(int argc, char* argv[]){
 

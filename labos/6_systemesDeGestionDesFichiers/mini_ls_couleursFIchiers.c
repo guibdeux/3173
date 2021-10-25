@@ -3,14 +3,11 @@
 #include <pwd.h>
 #include <grp.h>
 #include <string.h>
-#include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
-#include <sys/sysmacros.h>
 #include <limits.h>
 
 int main(int argc, char * argv[]) {
-
         struct stat statbuf, sb;
         int retour_stat, i = 0, j = 0;
         char fichier_source[PATH_MAX * 2 +5] = ""; // 2 fois la longueur maximale + de l'espace pour la flèche
@@ -22,7 +19,6 @@ int main(int argc, char * argv[]) {
         }
 
         for (i = 1; i < argc; i++) {
-
                 struct passwd * pw = NULL;
                 struct group * gr = NULL;
                 char permission[4] = "";
@@ -34,6 +30,7 @@ int main(int argc, char * argv[]) {
                         perror("Erreur de la récupération des informations");
                         return 1;
                 }
+
                 switch (statbuf.st_mode & S_IFMT) {
                 case S_IFDIR:
                         strcpy(type, "répertoire");
