@@ -17,7 +17,7 @@ int main(int argc, char * argv[]) {
         return 1;
     }
 
-    retour_stat = lstat(argv[1], & statbuf);
+    retour_stat = stat(argv[1], & statbuf);
 
     if (retour_stat == -1) {
         perror("Erreur de la récupération des informations");
@@ -33,6 +33,7 @@ int main(int argc, char * argv[]) {
     *    (mystat.st_mode & ~S_IFMT) means to ignore the bits explained above,
     *    keeping just the ones need to determine file permission (the 9 lines below that command).
     *********************************************************************************************/
+
     switch (statbuf.st_mode & S_IFMT) {
     case S_IFDIR:
         strcpy(type, "répertoire");
