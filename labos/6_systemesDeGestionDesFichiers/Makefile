@@ -61,12 +61,11 @@ mini_ls_couleursFIchiers: mini_ls_couleursFIchiers.c
 
 readlinkProcFile: readlinkProcFile.c
 	@$(CC) $(CFLAGS) $^ -o $@
-	@grep -xq "$@" .gitignore 2>> /dev/null || echo $@ >> .gitignore
 
 .PHONY: clean mrproper
 
 clean:
-	@rm -rf mini_ls_uid_gid mini_ls_plusieurFichiers mini_ls_fichierspointes mini_ls_couleursFIchiers readlinkProcFile 2> /dev/null
+	@rm -rf mini_ls_uid_gid mini_ls_plusieurFichiers mini_ls_fichierspointes mini_ls_couleursFIchiers 2> /dev/null
 
 mrproper: clean
 
