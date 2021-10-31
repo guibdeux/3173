@@ -1,7 +1,3 @@
-//
-// Created by guib on 21-10-30.
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -98,14 +94,23 @@ int main(int argc, char* argv[]) {
         st = lstat(filename, &file_stat);
         if (st != 0) {
             perror(NULL);
+            // C'est un répertoire ?
         } else if (S_ISDIR(file_stat.st_mode)) {
             DIR* dir = opendir(filename);
             if (dir == NULL) {
                 perror(filename);
             } else {
+                // man dirent.
+                // https://www.qnx.com/developers/docs/6.5.0SP1.update/com.qnx.doc.neutrino_lib_ref/d/dirent.html
+                // https://pubs.opengroup.org/onlinepubs/7908799/xsh/dirent.h.html
+                // https://pubs.opengroup.org/onlinepubs/7908799/xsh/systypes.h.html
+
+
                 struct dirent* entry;
                 do {
                     errno = 0;
+                    // man readdir.2
+                    // man readdir.3
                     entry = readdir(dir);
                     if (entry != NULL) {
                         char* fullname = malloc(strlen(filename) + strlen(entry->d_name) + 2);

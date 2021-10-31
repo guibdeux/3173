@@ -1,7 +1,3 @@
-//
-// Created by guib on 21-10-30.
-//
-
 #include <stdio.h>
 #include <unistd.h>
 #include <linux/limits.h>
@@ -26,6 +22,7 @@ int main(int argc, char* argv[]) {
     ino_t cur_inode = file_stat.st_ino;
     int cur_dir_fd = open(".", 0);
     do {
+        // man openat
         parent_dir_fd = openat(cur_dir_fd, "..", 0);
         olddir = dir;
         dir = fdopendir(parent_dir_fd);
