@@ -27,7 +27,7 @@
  *
  *  POUR VOIR LE STICKY BIT
  *  ls -ld mini_acl_FALSE_DIRECTORY_STICKYBIT
- ************************************************/
+ ********************q****************************/
 void mode_to_chars(mode_t mode, char* chars) {
     // changer le propriettaire du fichier: sudo chown root mini_ls_acl
     // set S_ISUID: sudo chmod 4744 mini_ls_acl_ROOTUID
@@ -47,7 +47,7 @@ void mode_to_chars(mode_t mode, char* chars) {
     **************************************/
     else if (S_ISGID & mode)
         chars[0] = 'g';
-
+    sudo chmod 1744 mini_ls_acl_ROOTGID
     else if (S_ISVTX & mode)
         chars[0] = 'd';
     else
