@@ -47,7 +47,7 @@ void mode_to_chars(mode_t mode, char* chars) {
     **************************************/
     else if (S_ISGID & mode)
         chars[0] = 'g';
-    sudo chmod 1744 mini_ls_acl_ROOTGID
+    // sudo chmod 1744 mini_ls_acl_ROOTGID
     else if (S_ISVTX & mode)
         chars[0] = 'd';
     else
