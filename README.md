@@ -1,3 +1,5 @@
+https://docs.google.com/presentation/d/1Tg3mxnLb8LRFmiCed9nhMzeX5SBHfh7PU9TttGeckg8/edit#slide=id.p
+
 # INF3173 -- ATELIER GUIB
 
 |Deroulement|Laboratoire 6|
