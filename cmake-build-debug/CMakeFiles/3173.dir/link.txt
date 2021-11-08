@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/3173.dir/labos/9_traitementDesFichiersOuverts/mini-tail-INOTIFY.c.o -o 3173 

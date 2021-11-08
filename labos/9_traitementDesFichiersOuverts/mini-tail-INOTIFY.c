@@ -57,7 +57,12 @@ int main(int argc, char* argv[]) {
     if (argc < 2) {
         return 1;
     }
-
+    // man inotify
+    // man inotify_init1.2
+    // man inotify_init2qq.2
+    /*****************************
+     *
+     *****************************/
     int inotif = inotify_init();
     if (inotif == -1) {
         perror(NULL);

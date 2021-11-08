@@ -4,7 +4,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
-
+// fuser -vu /home/guib
+// https://www.tecmint.com/10-lsof-command-examples-in-linux/
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         return 1;

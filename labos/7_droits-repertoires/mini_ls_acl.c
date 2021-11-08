@@ -86,6 +86,7 @@ int main(int argc, char* argv[]) {
         // https://www.ibm.com/docs/en/spectrum-scale/4.2.3?topic=STXKQY_4.2.3/com.ibm.spectrum.scale.v4r23.doc/bl1hlp_accessfilesystemacl.html
         // https://www.thegeekdiary.com/how-to-configure-aclaccess-control-lists-in-linux-filesystem/
         if (lgetxattr(filename, "system.posix_acl_access", NULL, 0) != -1)
+            // compile with option for acl files: -lacl
             has_acl = "+";
         if (st != 0) {
             perror(NULL);
