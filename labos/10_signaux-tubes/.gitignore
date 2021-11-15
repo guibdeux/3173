@@ -1,0 +1,9 @@
+gestionDirecte
+eviterSigInt-DurantTraitement
+ignoreSignal
+traiterDeuxFoisSignal-RevenirDefault
+traiterUneFois-RevenirTraitementDefault
+verifierReception-RetarderCrtl-C
+shellPipe
+shellFifo
+shellFifo-2

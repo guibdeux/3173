@@ -6,7 +6,7 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<signal.h>
-
+// man signal-safety
 void gere(int sig) {
     for(int i=0; i<5; i++) {
         printf("Itération %d pour la gestion du signal %d\n", i+1, sig);

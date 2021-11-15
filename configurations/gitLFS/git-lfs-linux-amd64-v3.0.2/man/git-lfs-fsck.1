@@ -1,0 +1,38 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "GIT\-LFS\-FSCK" "1" "October 2021" "" ""
+.
+.SH "NAME"
+\fBgit\-lfs\-fsck\fR \- Check GIT LFS files for consistency
+.
+.SH "SYNOPSIS"
+\fBgit lfs fsck\fR [options] [revisions]
+.
+.SH "DESCRIPTION"
+Checks all GIT LFS files in the current HEAD for consistency\.
+.
+.P
+Corrupted files are moved to "\.git/lfs/bad"\.
+.
+.P
+The revisions may be specified as either a single committish, in which case only that commit is inspected; specified as a range of the form \fBA\.\.B\fR (and only this form), in which case that range is inspected; or omitted entirely, in which case HEAD (and, for \-\-objects, the index) is examined\.
+.
+.P
+The default is to perform all checks\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-\-objects\fR
+Check that each object in HEAD matches its expected hash and that each object exists on disk\.
+.
+.TP
+\fB\-\-pointers\fR
+Check that each pointer is canonical and that each file which should be stored as a Git LFS file is so stored\.
+.
+.SH "SEE ALSO"
+git\-lfs\-ls\-files(1), git\-lfs\-status(1)\.
+.
+.P
+Part of the git\-lfs(1) suite\.

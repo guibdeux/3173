@@ -20,6 +20,10 @@ int main(int argc, char ** argv) {
         }
     }
     int p[2];
+    /***************************************************
+     * p[0] refers to the read end of the pipe.   *
+     * p[1] refers to the write end of  the pipe. *
+     ***************************************************/
     pipe(p);
     pid_t commande1 = fork();
     if (commande1 == 0) {
