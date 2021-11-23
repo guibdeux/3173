@@ -17,8 +17,8 @@ int main(int argc, char** argv){
         perror("bind");
         exit(1);
     }
-    listen(sock, SOMAXCONN);
-    //listen(sock, 0);
+//    listen(sock, SOMAXCONN);
+    listen(sock, 0);
 
     char buf[100];
     int cli, resRead, resWrite, compteur=0;

@@ -1,4 +1,1 @@
-/snap/clion/169/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - Unix Makefiles" /home/guib/3173
--- Configuring done
--- Generating done
--- Build files have been written to: /home/guib/3173/cmake-build-debug
+CMakeLists.txt not found in /home/guib/3173 Select CMakeLists.txt

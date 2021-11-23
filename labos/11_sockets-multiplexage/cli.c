@@ -5,19 +5,7 @@
 #include<sys/socket.h>
 #include<sys/un.h>
 #include<signal.h>
-
-/**************************************************************************************************************
- * La valeur du backlog de listen(2) mise à 0
- * En mettant backlog à 0, au maximum 2 clients arrivent à se connecter: un client en cours de traitement
- * et l’autre attend dans la file d’attente du serveur, les autres clients vont essayer de se connecter
- * (le code(côté client) bloque à l’appel système connect) jusqu’à ce qu’une place se libère. NB: lorsqu’un
- * client est accepté il ne compte plus dans le backlog. En écrivant une ligne dans le client n°2, le serveur
- * ne répond pas car il est en train de traiter avec le client n°1, lorsqu’on termine le client n°1 avec Ctrl-d,
- * le serveur commence à servir le client n°2 et le client n°3 se connecte au serveur. La valeur du backlog de
- * listen(2) mise à SOMAXCONN. En mettant backlog au max, plusieurs clients arrivent à se connecter et attendent
- * que le client 1 soit servi.
- * **************************************************************************************************************/
-
+// https://squidarth.com/networking/systems/rc/2018/05/28/using-raw-sockets.html
 void gere(int sig) {
     fprintf(stderr, "Connexion perdue\n");
     exit(1);
@@ -30,6 +18,8 @@ int main(int argc, char **argv)
     action.sa_flags = 0;
     action.sa_handler = gere;
     sigaction(SIGPIPE, &action, NULL);
+
+
 
     int sock = socket(AF_UNIX, SOCK_STREAM, 0);
 
@@ -45,6 +35,7 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "**Connecté**\n");
     int resWrite, resRead;
+
     char buf[100];
     while(fgets(buf, sizeof(buf)-1, stdin)!=NULL){
         fprintf(stderr, "**Envoi en cours**\n");
@@ -68,3 +59,4 @@ int main(int argc, char **argv)
     fprintf(stderr, "**Connexion teminée**\n");
     return 0;
 }
+
