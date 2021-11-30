@@ -2,7 +2,7 @@ https://docs.google.com/presentation/d/1Tg3mxnLb8LRFmiCed9nhMzeX5SBHfh7PU9TttGec
 
 # INF3173 -- ATELIER GUIB
 
-|Deroulement|Laboratoire 6|
+|Deroulement|Laboratoire 13|
 |:---|---:|
 |Communication et **capsules**|Mattermost blouin.guillaume|
 |Github|https://github.com/guibdeux/guib-3173|
