@@ -14,7 +14,7 @@ CC=gcc
 # OBJ=$(SRC:.c=.o)
 # all: $(EXEC)
 
-all: produc_conso produc_conso_int produc_conso_mutex 
+all: produc_conso produc_conso_int produc_conso_mutex
 
 # -Wall: Enable a set of warning, actually not all.
 # -W: Enable extra warning, it's advised to use -Wextra instead which has the same meaning
